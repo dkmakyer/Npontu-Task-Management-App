@@ -15,13 +15,14 @@ class SocialiteController extends Controller
     {
         $this->middleware('guest');
     }
-    public function redirectLogin(string $social)
+    public function providerLogin(string $social)
     {
         return Socialite::driver($social)->redirect();
     }
 
-    public function getSocialUser(string $social)
+    public function providerUser(string $social)
     {
+
         $user = Socialite::driver($social)->user();
         $user = User::updateOrCreate(
             [
