@@ -1,0 +1,134 @@
+<html lang="en">
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>
+   To-Do App
+  </title>
+  <script src="https://cdn.tailwindcss.com">
+  </script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+ </head>
+ <body class="bg-gray-100">
+  <div class="flex h-screen">
+   <!-- Sidebar -->
+   <div class="bg-black text-white w-1/4 p-4">
+    <div class="flex items-center mb-8">
+     <img alt="User profile picture" class="rounded-full w-12 h-12 mr-4" height="50" src="https://storage.googleapis.com/a1aa/image/7eKcfVw0o19c-PI_N3iXAjGUor2wauT7qj9bw60wPPM.jpg" width="50"/>
+     <div>
+      <h2 class="text-lg font-semibold">
+       Sundar Gurung
+      </h2>
+      <p class="text-sm">
+       sundargurung2019@gmail.com
+      </p>
+     </div>
+    </div>
+    <nav>
+     <ul>
+      <li class="mb-4">
+       <a class="flex items-center" href="#">
+        <i class="fas fa-tachometer-alt mr-2">
+        </i>
+        Dashboard
+       </a>
+      </li>
+      <li class="mb-4">
+       <a class="flex items-center" href="#">
+        <i class="fas fa-tasks mr-2">
+        </i>
+        Vital Task
+       </a>
+      </li>
+      <li class="mb-4 text-red-500">
+       <a class="flex items-center" href="#">
+        <i class="fas fa-list mr-2">
+        </i>
+        My Task
+       </a>
+      </li>
+      <li class="mb-4">
+       <a class="flex items-center" href="#">
+        <i class="fas fa-tags mr-2">
+        </i>
+        Task Categories
+       </a>
+      </li>
+      <li class="mb-4">
+       <a class="flex items-center" href="#">
+        <i class="fas fa-cog mr-2">
+        </i>
+        Settings
+       </a>
+      </li>
+      <li class="mb-4">
+       <a class="flex items-center" href="#">
+        <i class="fas fa-question-circle mr-2">
+        </i>
+        Help
+       </a>
+      </li>
+     </ul>
+    </nav>
+    <div class="mt-auto">
+     <a class="flex items-center text-red-500" href="#">
+      <i class="fas fa-sign-out-alt mr-2">
+      </i>
+      Logout
+     </a>
+    </div>
+   </div>
+   <!-- Main Content -->
+   <div class="flex-1 p-8">
+    <div class="flex justify-between items-center mb-8">
+     <h1 class="text-2xl font-bold text-red-500">
+      To-Do
+     </h1>
+     <div class="flex items-center">
+      <input class="border rounded p-2 mr-4" placeholder="Search your task here..." type="text"/>
+      <button class="text-red-500">
+       <i class="fas fa-search">
+       </i>
+      </button>
+     </div>
+     <div class="text-gray-500">
+      Tuesday
+      <br/>
+      20/09/2023
+     </div>
+    </div>
+    <div class="flex justify-center items-center h-full">
+     <div class="bg-white p-8 rounded-lg shadow-lg w-1/2">
+      <div class="flex justify-between items-center mb-4">
+       <h2 class="text-xl font-semibold">
+        Edit Task Status
+       </h2>
+       <a class="text-gray-500" href="#">
+        Go Back
+       </a>
+      </div>
+      <form>
+       <div class="mb-4">
+        <label class="block text-gray-700" for="task-status">
+         Task Status Name
+        </label>
+        <input class="border rounded w-full p-2" id="task-status" type="text"/>
+       </div>
+       <div class="flex justify-end">
+        <button class="bg-red-500 text-white px-4 py-2 rounded mr-2" type="submit">
+         Update
+        </button>
+        <button class="bg-gray-300 text-gray-700 px-4 py-2 rounded" type="button">
+         Cancel
+        </button>
+       </div>
+      </form>
+     </div>
+    </div>
+   </div>
+  </div>
+ </body>
+</html>
+<!-- Compare this snippet from task-manger/task-categories.html: -->
+<!--      </li>
+ -->

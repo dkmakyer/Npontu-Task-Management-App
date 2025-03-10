@@ -1,0 +1,247 @@
+<html>
+ <head>
+  <title>
+   To-Do
+  </title>
+  <script src="https://cdn.tailwindcss.com">
+  </script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+ </head>
+ <body class="bg-gray-100 font-sans">
+  <div class="flex h-screen">
+   <!-- Sidebar -->
+   <div class="w-1/4 bg-black text-white flex flex-col items-center py-8">
+    <img alt="User profile picture" class="rounded-full mb-4" height="100" src="https://storage.googleapis.com/a1aa/image/BH1UVbHCmFKganHlGwyfrZ1-yOrTMPAB7yljltV7mh4.jpg" width="100"/>
+    <div class="text-center mb-8">
+     <p class="text-lg font-semibold">
+      amanuel
+     </p>
+     <p class="text-sm">
+      amanuel@gmail.com
+     </p>
+    </div>
+    <nav class="flex flex-col w-full px-4">
+     <a class="flex items-center py-2 px-4 mb-2 text-gray-400 hover:text-white" href="#">
+      <i class="fas fa-tachometer-alt mr-2">
+      </i>
+      Dashboard
+     </a>
+     <a class="flex items-center py-2 px-4 mb-2 text-gray-400 hover:text-white" href="#">
+      <i class="fas fa-tasks mr-2">
+      </i>
+      Vital Task
+     </a>
+     <a class="flex items-center py-2 px-4 mb-2 text-gray-400 hover:text-white" href="#">
+      <i class="fas fa-list mr-2">
+      </i>
+      My Task
+     </a>
+     <a class="flex items-center py-2 px-4 mb-2 bg-red-500 text-white rounded" href="#">
+      <i class="fas fa-tags mr-2">
+      </i>
+      Task Categories
+     </a>
+     <a class="flex items-center py-2 px-4 mb-2 text-gray-400 hover:text-white" href="#">
+      <i class="fas fa-cog mr-2">
+      </i>
+      Settings
+     </a>
+     <a class="flex items-center py-2 px-4 mb-2 text-gray-400 hover:text-white" href="#">
+      <i class="fas fa-question-circle mr-2">
+      </i>
+      Help
+     </a>
+    </nav>
+    <a class="mt-auto py-2 px-4 text-gray-400 hover:text-white" href="#">
+     <i class="fas fa-sign-out-alt mr-2">
+     </i>
+     Logout
+    </a>
+   </div>
+   <!-- Main Content -->
+   <div class="w-3/4 bg-white p-8">
+    <!-- Header -->
+    <div class="flex justify-between items-center mb-8">
+     <div class="flex items-center">
+      <h1 class="text-2xl font-bold text-red-500">
+       To-Do
+      </h1>
+      <input class="ml-8 p-2 border rounded w-64" placeholder="Search your task here..." type="text"/>
+     </div>
+     <div class="flex items-center">
+      <i class="fas fa-bell text-red-500 text-xl mr-4">
+      </i>
+      <i class="fas fa-cog text-red-500 text-xl mr-4">
+      </i>
+      <p class="text-red-500">
+       Tuesday 20/06/2023
+      </p>
+     </div>
+    </div>
+    <!-- Task Categories -->
+    <div class="bg-gray-50 p-6 rounded-lg shadow">
+     <div class="flex justify-between items-center mb-4">
+      <h2 class="text-xl font-semibold">
+       Task Categories
+      </h2>
+      <button class="bg-red-500 text-white px-4 py-2 rounded">
+       Add Category
+      </button>
+     </div>
+     <!-- Task Status Table -->
+     <div class="mb-8">
+      <div class="flex justify-between items-center mb-2">
+       <h3 class="text-lg font-semibold">
+        Task Status
+       </h3>
+       <a class="text-red-500" href="#">
+        + Add Task Status
+       </a>
+      </div>
+      <table class="w-full bg-white rounded-lg shadow">
+       <thead>
+        <tr class="bg-gray-200">
+         <th class="py-2 px-4">
+          SN
+         </th>
+         <th class="py-2 px-4">
+          Task Status
+         </th>
+         <th class="py-2 px-4">
+          Action
+         </th>
+        </tr>
+       </thead>
+       <tbody>
+        <tr>
+         <td class="py-2 px-4 text-center">
+          1
+         </td>
+         <td class="py-2 px-4 text-center">
+          Completed
+         </td>
+         <td class="py-2 px-4 text-center">
+          <button class="bg-orange-500 text-white px-2 py-1 rounded mr-2">
+           Edit
+          </button>
+          <button class="bg-red-500 text-white px-2 py-1 rounded">
+           Delete
+          </button>
+         </td>
+        </tr>
+        <tr>
+         <td class="py-2 px-4 text-center">
+          2
+         </td>
+         <td class="py-2 px-4 text-center">
+          In Progress
+         </td>
+         <td class="py-2 px-4 text-center">
+          <button class="bg-orange-500 text-white px-2 py-1 rounded mr-2">
+           Edit
+          </button>
+          <button class="bg-red-500 text-white px-2 py-1 rounded">
+           Delete
+          </button>
+         </td>
+        </tr>
+        <tr>
+         <td class="py-2 px-4 text-center">
+          3
+         </td>
+         <td class="py-2 px-4 text-center">
+          Not Started
+         </td>
+         <td class="py-2 px-4 text-center">
+          <button class="bg-orange-500 text-white px-2 py-1 rounded mr-2">
+           Edit
+          </button>
+          <button class="bg-red-500 text-white px-2 py-1 rounded">
+           Delete
+          </button>
+         </td>
+        </tr>
+       </tbody>
+      </table>
+     </div>
+     <!-- Task Priority Table -->
+     <div>
+      <div class="flex justify-between items-center mb-2">
+       <h3 class="text-lg font-semibold">
+        Task Priority
+       </h3>
+       <a class="text-red-500" href="#">
+        + Add New Priority
+       </a>
+      </div>
+      <table class="w-full bg-white rounded-lg shadow">
+       <thead>
+        <tr class="bg-gray-200">
+         <th class="py-2 px-4">
+          SN
+         </th>
+         <th class="py-2 px-4">
+          Task Priority
+         </th>
+         <th class="py-2 px-4">
+          Action
+         </th>
+        </tr>
+       </thead>
+       <tbody>
+        <tr>
+         <td class="py-2 px-4 text-center">
+          1
+         </td>
+         <td class="py-2 px-4 text-center">
+          Extreme
+         </td>
+         <td class="py-2 px-4 text-center">
+          <button class="bg-orange-500 text-white px-2 py-1 rounded mr-2">
+           Edit
+          </button>
+          <button class="bg-red-500 text-white px-2 py-1 rounded">
+           Delete
+          </button>
+         </td>
+        </tr>
+        <tr>
+         <td class="py-2 px-4 text-center">
+          2
+         </td>
+         <td class="py-2 px-4 text-center">
+          Moderate
+         </td>
+         <td class="py-2 px-4 text-center">
+          <button class="bg-orange-500 text-white px-2 py-1 rounded mr-2">
+           Edit
+          </button>
+          <button class="bg-red-500 text-white px-2 py-1 rounded">
+           Delete
+          </button>
+         </td>
+        </tr>
+        <tr>
+         <td class="py-2 px-4 text-center">
+          3
+         </td>
+         <td class="py-2 px-4 text-center">
+          Low
+         </td>
+         <td class="py-2 px-4 text-center">
+          <button class="bg-orange-500 text-white px-2 py-1 rounded mr-2">
+           Edit
+          </button>
+          <button class="bg-red-500 text-white px-2 py-1 rounded">
+           Delete
+          </button>
+         </td>
+        </tr>
+       </tbody>
+      </table>
+     </div>
+    </div>
+   </div>
+  </div>
+ </body>
+</html>

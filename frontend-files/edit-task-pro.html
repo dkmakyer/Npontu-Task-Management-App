@@ -1,0 +1,133 @@
+<html>
+ <head>
+  <title>
+   To-Do App
+  </title>
+  <script src="https://cdn.tailwindcss.com">
+  </script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+ </head>
+ <body class="bg-gray-100">
+  <div class="min-h-screen flex flex-col">
+   <!-- Header -->
+   <header class="bg-white shadow-md py-4 px-6 flex justify-between items-center">
+    <div class="flex items-center">
+     <h1 class="text-2xl font-bold text-red-600">
+      To-Do
+     </h1>
+    </div>
+    <div class="flex items-center space-x-4">
+     <input class="border rounded px-4 py-2" placeholder="Search your task here..." type="text"/>
+     <i class="fas fa-search text-red-600">
+     </i>
+     <i class="fas fa-bell text-red-600">
+     </i>
+     <div class="text-gray-600">
+      Tuesday
+      <br/>
+      20/09/2023
+     </div>
+    </div>
+   </header>
+   <!-- Main Content -->
+   <div class="flex flex-1">
+    <!-- Sidebar -->
+    <aside class="bg-black text-white w-64 p-6">
+     <div class="flex items-center mb-6">
+      <img alt="User profile picture" class="rounded-full w-12 h-12" height="50" src="https://storage.googleapis.com/a1aa/image/nM2dm40bJDUxBQ0tK85elgV87aL5ks_osLpGCV8I6ys.jpg" width="50"/>
+      <div class="ml-4">
+       <h2 class="text-lg font-semibold">
+        Sundar Gurung
+       </h2>
+       <p class="text-sm">
+        sundargurung99@gmail.com
+       </p>
+      </div>
+     </div>
+     <nav>
+      <ul>
+       <li class="mb-4">
+        <a class="flex items-center text-gray-400 hover:text-white" href="#">
+         <i class="fas fa-tachometer-alt mr-2">
+         </i>
+         Dashboard
+        </a>
+       </li>
+       <li class="mb-4">
+        <a class="flex items-center text-gray-400 hover:text-white" href="#">
+         <i class="fas fa-tasks mr-2">
+         </i>
+         Vital Task
+        </a>
+       </li>
+       <li class="mb-4">
+        <a class="flex items-center text-red-600" href="#">
+         <i class="fas fa-tasks mr-2">
+         </i>
+         My Task
+        </a>
+       </li>
+       <li class="mb-4">
+        <a class="flex items-center text-gray-400 hover:text-white" href="#">
+         <i class="fas fa-list-alt mr-2">
+         </i>
+         Task Categories
+        </a>
+       </li>
+       <li class="mb-4">
+        <a class="flex items-center text-gray-400 hover:text-white" href="#">
+         <i class="fas fa-cog mr-2">
+         </i>
+         Settings
+        </a>
+       </li>
+       <li class="mb-4">
+        <a class="flex items-center text-gray-400 hover:text-white" href="#">
+         <i class="fas fa-question-circle mr-2">
+         </i>
+         Help
+        </a>
+       </li>
+      </ul>
+     </nav>
+     <div class="mt-auto">
+      <a class="flex items-center text-gray-400 hover:text-white" href="#">
+       <i class="fas fa-sign-out-alt mr-2">
+       </i>
+       Logout
+      </a>
+     </div>
+    </aside>
+    <!-- Main Section -->
+    <main class="flex-1 p-6">
+     <div class="bg-white shadow-md rounded-lg p-6 mx-auto w-full max-w-2xl">
+      <div class="flex justify-between items-center mb-4">
+       <h2 class="text-xl font-semibold">
+        Edit Task Priority
+       </h2>
+       <a class="text-gray-600" href="#">
+        Go Back
+       </a>
+      </div>
+      <form>
+       <div class="mb-4">
+        <label class="block text-gray-700" for="task-priority-title">
+         Task Priority Title
+        </label>
+        <input class="w-full border rounded px-4 py-2" id="task-priority-title" type="text"/>
+       </div>
+       <div class="flex space-x-4">
+        <button class="bg-red-600 text-white px-4 py-2 rounded" type="submit">
+         Update
+        </button>
+        <button class="bg-gray-300 text-gray-700 px-4 py-2 rounded" type="button">
+         Cancel
+        </button>
+       </div>
+      </form>
+     </div>
+    </main>
+   </div>
+  </div>
+ </body>
+</html>
