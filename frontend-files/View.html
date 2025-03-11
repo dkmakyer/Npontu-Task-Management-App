@@ -1,0 +1,192 @@
+<html lang="en">
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>
+   To-Do
+  </title>
+  <script src="https://cdn.tailwindcss.com">
+  </script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+ </head>
+ <body class="bg-gray-100 font-roboto">
+  <div class="flex h-screen">
+   <!-- Sidebar -->
+   <div class="bg-black text-white w-64 p-6 flex flex-col fixed h-full">
+    <div class="flex items-center mb-8">
+     <img alt="User profile picture" class="rounded-full w-12 h-12 mr-4" height="50" src="https://placehold.co/50x50" width="50"/>
+     <div>
+      <h2 class="text-lg font-bold">
+       amanuel
+      </h2>
+      <p class="text-sm">
+       amanuel@gmail.com
+      </p>
+     </div>
+    </div>
+    <nav class="flex-1">
+     <ul>
+      <li class="mb-4">
+       <a class="flex items-center" href="#">
+        <i class="fas fa-tachometer-alt mr-3">
+        </i>
+        Dashboard
+       </a>
+      </li>
+      <li class="mb-4">
+       <a class="flex items-center" href="#">
+        <i class="fas fa-exclamation-circle mr-3">
+        </i>
+        Vital Task
+       </a>
+      </li>
+      <li class="mb-4">
+       <a class="flex items-center" href="#">
+        <i class="fas fa-tasks mr-3">
+        </i>
+        My Task
+       </a>
+      </li>
+      <li class="mb-4">
+       <a class="flex items-center" href="#">
+        <i class="fas fa-list-alt mr-3">
+        </i>
+        Task Categories
+       </a>
+      </li>
+      <li class="mb-4">
+       <a class="flex items-center" href="#">
+        <i class="fas fa-cog mr-3">
+        </i>
+        Settings
+       </a>
+      </li>
+      <li class="mb-4">
+       <a class="flex items-center" href="#">
+        <i class="fas fa-question-circle mr-3">
+        </i>
+        Help
+       </a>
+      </li>
+     </ul>
+    </nav>
+    <a class="flex items-center text-red-500" href="#">
+     <i class="fas fa-sign-out-alt mr-3">
+     </i>
+     Logout
+    </a>
+   </div>
+   <!-- Main Content -->
+   <div class="flex-1 p-6 ml-64">
+    <!-- Header -->
+    <div class="flex justify-between items-center mb-6">
+     <h1 class="text-2xl font-bold text-red-500">
+      To-Do
+     </h1>
+     <div class="flex items-center">
+      <input class="border rounded-l px-4 py-2" placeholder="Search your task here..." type="text"/>
+      <button class="bg-red-500 text-white px-4 py-2 rounded-r">
+       <i class="fas fa-search">
+       </i>
+      </button>
+     </div>
+     <div class="flex items-center">
+      <button class="bg-red-500 text-white px-4 py-2 rounded mr-2">
+       <i class="fas fa-bell">
+       </i>
+      </button>
+      <button class="bg-red-500 text-white px-4 py-2 rounded">
+       <i class="fas fa-cog">
+       </i>
+      </button>
+     </div>
+     <div class="text-gray-500">
+      <p>
+       Tuesday
+      </p>
+      <p>
+       20/09/2023
+      </p>
+     </div>
+    </div>
+    <!-- Task Details -->
+    <div class="bg-white p-6 rounded shadow">
+     <div class="flex justify-between items-center mb-4">
+      <h2 class="text-xl font-bold">
+       Attend Nischal's Birthday Party
+      </h2>
+      <a class="text-red-500" href="#">
+       Go Back
+      </a>
+     </div>
+     <div class="flex items-center mb-4">
+      <img alt="Birthday party image" class="w-24 h-24 rounded mr-4" height="100" src="https://placehold.co/100x100" width="100"/>
+      <div>
+       <p>
+        <strong>
+         Priority:
+        </strong>
+        Moderate
+       </p>
+       <p>
+        <strong>
+         Status:
+        </strong>
+        Not Started
+       </p>
+       <p>
+        <strong>
+         Created on:
+        </strong>
+        20/09/2023
+       </p>
+      </div>
+     </div>
+     <p class="mb-4">
+      Buy gifts on the way and pick up cake from the bakery. (6 PM | Fresh Elements)
+     </p>
+     <ul class="list-decimal list-inside mb-4">
+      <li>
+       A cake, with candles to blow out. (Layer cake, cupcake, flat sheet cake)
+      </li>
+      <li>
+       The birthday song.
+      </li>
+      <li>
+       A place to collect gifts.
+      </li>
+     </ul>
+     <h3 class="font-bold mb-2">
+      Optional:
+     </h3>
+     <ul class="list-disc list-inside mb-4">
+      <li>
+       Paper cone-shaped party hats, paper whistles that unroll.
+      </li>
+      <li>
+       Games, activities (carry an object with your knees, then drop it into a milk bottle.)
+      </li>
+      <li>
+       Lunch: sandwich halves, or pizza slices, juice, pretzels, potato chips...THEN cake &amp; candles and the song.
+      </li>
+     </ul>
+     <div class="flex justify-end">
+      <button class="bg-red-500 text-white px-4 py-2 rounded mr-2">
+       <i class="fas fa-edit">
+       </i>
+      </button>
+      <button class="bg-red-500 text-white px-4 py-2 rounded mr-2">
+       <i class="fas fa-trash">
+       </i>
+      </button>
+      <button class="bg-red-500 text-white px-4 py-2 rounded">
+       <i class="fas fa-check">
+       </i>
+      </button>
+     </div>
+    </div>
+   </div>
+  </div>
+ </body>
+</html>

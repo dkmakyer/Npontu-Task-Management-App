@@ -12,7 +12,7 @@
 <body class="bg-gray-100">
 <div class="flex h-screen">
     <!-- Sidebar -->
-    <div class="bg-black text-white w-64 p-6 flex flex-col justify-between fixed h-full">
+    <div class="bg-black text-white w-64 p-6 flex flex-col justify-between fixed h-full ">
         <div>
             <div class="flex items-center mb-8">
                 <img alt="User profile picture" class="rounded-full w-12 h-12 mr-4" height="50" src="https://placehold.co/50x50" width="50"/>
@@ -150,13 +150,13 @@
                 </div>
                 <!-- Task Status and Completed Task Section -->
                 <div class="space-y-6">
-                    <div class="bg-white p-6 rounded-lg shadow">
+                    <div class="bg-white p-6 rounded-lg shadow hover:shadow-lg transform hover:-translate-y-2 transition-all duration-300 cursor-pointer">
                         <h3 class="text-xl font-semibold mb-4">Task Status</h3>
                         <div class="flex justify-between items-center mb-4">
                             <div class="text-center">
                                 <div class="relative">
                                     <div class="w-16 h-16 rounded-full border-4 border-green-500 flex items-center justify-center">
-                                        <span class="text-lg font-semibold">84%</span>
+                                        <span id="completedPercentage" class="text-lg font-semibold">0%</span>
                                     </div>
                                 </div>
                                 <p class="text-sm text-gray-500 mt-2">Completed</p>
@@ -164,7 +164,7 @@
                             <div class="text-center">
                                 <div class="relative">
                                     <div class="w-16 h-16 rounded-full border-4 border-yellow-500 flex items-center justify-center">
-                                        <span class="text-lg font-semibold">46%</span>
+                                        <span id="inProgressPercentage" class="text-lg font-semibold">0%</span>
                                     </div>
                                 </div>
                                 <p class="text-sm text-gray-500 mt-2">In Progress</p>
@@ -172,13 +172,14 @@
                             <div class="text-center">
                                 <div class="relative">
                                     <div class="w-16 h-16 rounded-full border-4 border-red-500 flex items-center justify-center">
-                                        <span class="text-lg font-semibold">13%</span>
+                                        <span id="notStartedPercentage" class="text-lg font-semibold">0%</span>
                                     </div>
                                 </div>
                                 <p class="text-sm text-gray-500 mt-2">Not Started</p>
                             </div>
                         </div>
                     </div>
+                    
                     <div class="bg-white p-6 rounded-lg shadow">
                         <h3 class="text-xl font-semibold mb-4">Completed Task</h3>
                         <div class="space-y-4">
