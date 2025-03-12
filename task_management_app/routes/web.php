@@ -3,11 +3,12 @@
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\SocialiteController;
-use App\Http\Controllers\LandingPageController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\LogoutController;
+use App\Http\Controllers\User\DashboardController;
+use App\Http\Controllers\User\TaskController;
 
-Route::get('/', [LandingPageController::class, 'index'])->name('home');
+Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
 Route::get('login', [LoginController::class, 'index'])->name('login');
 Route::post('login', [LoginController::class, 'store']);
@@ -28,3 +29,6 @@ Route::post('register', [RegisterController::class, 'store']);
  * Will later switch to post after its been created 
  */
 Route::get('logout', [LogoutController::class, 'logout'])->name('logout');
+
+
+Route::post('user/{id}/task/store', [TaskController::class, 'store'])->name('store.task');
