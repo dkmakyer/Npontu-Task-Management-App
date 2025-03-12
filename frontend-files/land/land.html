@@ -232,24 +232,22 @@
             <span class="close-modal" onclick="closeModal()">Go Back</span>
         </div>
 
-        <div class="content-container space-y-4">
-            <div class="form-group" >
+        <form class="content-container space-y-4" method="POST" action="/submit-task">
+            <div class="form-group">
                 <label class="block font-semibold mb-1">Title</label>
-                <input type="text" class="input-field w-full border rounded p-2">
+                <input type="text" class="input-field w-full border rounded p-2" name="title" required>
             </div>
 
             <div class="form-group">
                 <label class="block font-semibold mb-1">Date</label>
                 <div class="relative">
-                    <input type="date" class="input-field w-full border rounded p-2" id="taskDate">
+                    <input type="date" class="input-field w-full border rounded p-2" id="taskDate" name="date" required>
                     <img src="https://dashboard.codeparrot.ai/api/image/Z8wZ59G_8Dy7NbBA/cal-2.png" 
                          alt="Calendar" 
                          class="calendar-icon absolute right-2 top-2 w-6 h-6 cursor-pointer" 
                          onclick="document.getElementById('taskDate').showPicker()">
                 </div>
             </div>
-            
-            
 
             <div class="form-group">
                 <label class="block font-semibold mb-1">Priority</label>
@@ -257,17 +255,17 @@
                     <div class="priority-option flex items-center space-x-2">
                         <span class="dot extreme w-2 h-2 bg-red-500 rounded-full"></span>
                         <span>Extreme</span>
-                        <input type="checkbox">
+                        <input type="radio" name="priority" value="extreme" required>
                     </div>
                     <div class="priority-option flex items-center space-x-2">
                         <span class="dot moderate w-2 h-2 bg-blue-500 rounded-full"></span>
                         <span>Moderate</span>
-                        <input type="checkbox">
+                        <input type="radio" name="priority" value="moderate" required>
                     </div>
                     <div class="priority-option flex items-center space-x-2">
                         <span class="dot low w-2 h-2 bg-green-500 rounded-full"></span>
                         <span>Low</span>
-                        <input type="checkbox">
+                        <input type="radio" name="priority" value="low" required>
                     </div>
                 </div>
             </div>
@@ -275,7 +273,7 @@
             <div class="form-container flex space-x-4">
                 <div class="task-description flex-1">
                     <label class="block font-semibold mb-1">Task Description</label>
-                    <textarea class="w-full border rounded p-2 h-32" placeholder="Start writing here....."></textarea>
+                    <textarea class="w-full border rounded p-2 h-32" name="description" placeholder="Start writing here....." required></textarea>
                 </div>
 
                 <div class="upload-section flex-1">
@@ -285,16 +283,18 @@
                             <img src="https://dashboard.codeparrot.ai/api/image/Z8wZ59G_8Dy7NbBA/group-53.png" alt="Upload" class="upload-icon mx-auto mb-2">
                             <p>Drag&Drop files here</p>
                             <p>or</p>
-                            <button class="browse-btn border rounded px-4 py-1 mt-2">Browse</button>
+                            <input type="file" class="hidden" id="taskImage" name="image">
+                            <button type="button" class="browse-btn border rounded px-4 py-1 mt-2" onclick="document.getElementById('taskImage').click()">Browse</button>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
 
-        <button class="done-btn bg-red-500 text-white rounded px-6 py-2 mt-4 hover:bg-red-600">Done</button>
+            <button type="submit" class="done-btn bg-red-500 text-white rounded px-6 py-2 mt-4 hover:bg-red-600">Done</button>
+        </form>
     </div>
 </div>
+
 
 <script src="land.js"></script>
 </body>
