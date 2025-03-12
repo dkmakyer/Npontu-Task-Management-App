@@ -225,8 +225,8 @@
                                 </div>
                             </div>
 
-                            <div class="bg-white p-6 rounded-lg shadow">
-                                @if ($completedTasks)
+                            @if ($completedTasks->count())
+                                <div class="bg-white p-6 rounded-lg shadow">
                                     <h3 class="text-xl font-semibold mb-4">Completed
                                         {{ Str::plural('Task', $completedTasks->count()) }}</h3>
                                     <div class="space-y-4">
@@ -252,8 +252,8 @@
                                             </div>
                                         @endforeach
                                     </div>
-                                @endif
-                            </div>
+                                </div>
+                            @endif
                         </div>
                     </div>
             </div>
