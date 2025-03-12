@@ -10,7 +10,7 @@
         <p class="text-sm text-gray-400">{{ $user->email }}</p>
     </div>
     <nav class="mt-8 space-y-3">
-        <a href="../land/land.html" class="flex items-center text-gray-400 hover:text-red-400">
+        <a href="{{ route('dashboard') }}" class="flex items-center text-gray-400 hover:text-red-400">
             <i class="fas fa-tachometer-alt mr-3"></i> Dashboard
         </a>
         <a href="../Vital Task/vitals-tm.html" class="flex items-center text-gray-400 hover:text-red-400">

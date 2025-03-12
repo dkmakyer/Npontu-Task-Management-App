@@ -19,7 +19,7 @@ class DashboardController extends Controller
     {
         $id = Auth::user()->id;
         $user = User::find($id);
-        $tasks = $user->tasks()->where('status', '!=', 'completed')->get();
+        $tasks = $user->tasks()->latest()->where('status', '!=', 'completed')->get();
         $completedTasks = $user->tasks->where('status', 'completed');
         return view('user.dashboard', ['tasks' => $tasks, 'completedTasks' => $completedTasks]);
     }

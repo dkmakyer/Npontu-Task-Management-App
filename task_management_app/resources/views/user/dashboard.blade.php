@@ -164,7 +164,8 @@
                                             <div class="p-4 bg-gray-50 rounded-lg shadow">
                                                 <div class="flex justify-between items-center mb-2">
                                                     <h4 class="text-lg font-semibold">{{ $task->title }}</h4>
-                                                    <span class="text-sm text-gray-500">{{ $task->due_date }}</span>
+                                                    <span
+                                                        class="text-sm text-gray-500">{{ $task->due_date->toFormattedDateString() }}</span>
                                                 </div>
                                                 <p class="text-gray-600 mb-2">
                                                     {{ $task->description }}
@@ -175,11 +176,10 @@
                                                     <span class="text-sm text-green-500">Status:
                                                         {{ $task->status }}</span>
                                                     <span class="text-sm text-gray-500">Created on:
-                                                        {{ $task->created_at->diffForHumans() }}</span>
+                                                        {{ $task->created_at->toFormattedDateString() }}</span>
                                                 </div>
-                                                <img alt="Birthday party image" class="mt-2 rounded-lg"
-                                                    height="100" src="https://placehold.co/100x100"
-                                                    width="100" />
+                                                <img alt="{{ $task->title }}" class="mt-2 rounded-lg"
+                                                    height="100" src="{{ $task->getImgUrl() }}" width="100" />
                                             </div>
                                         @endforeach
                                     </div>
@@ -227,14 +227,15 @@
 
                             <div class="bg-white p-6 rounded-lg shadow">
                                 @if ($completedTasks)
-                                    <h3 class="text-xl font-semibold mb-4">Completed Task</h3>
+                                    <h3 class="text-xl font-semibold mb-4">Completed
+                                        {{ Str::plural('Task', $completedTasks->count()) }}</h3>
                                     <div class="space-y-4">
                                         @foreach ($completedTasks as $completedTask)
                                             <div class="p-4 bg-gray-50 rounded-lg shadow">
                                                 <div class="flex justify-between items-center mb-2">
                                                     <h4 class="text-lg font-semibold">{{ $completedTask->title }}</h4>
                                                     <span
-                                                        class="text-sm text-gray-500">{{ $completedTask->due_date->diffForHumans() }}</span>
+                                                        class="text-sm text-gray-500">{{ $completedTask->due_date->toFormattedDateString() }}</span>
                                                 </div>
                                                 <p class="text-gray-600 mb-2">
                                                     {{ $completedTask->description }}
@@ -243,10 +244,10 @@
                                                     <span class="text-sm text-blue-500">Priority:
                                                         {{ $completedTask->priority }}</span>
                                                     <span class="text-sm text-gray-500">Created on:
-                                                        {{ $completedTask->created_at->diffForHumans() }}</span>
+                                                        {{ $completedTask->created_at->toFormattedDateString() }}</span>
                                                 </div>
-                                                <img alt="Walking the dog image" class="mt-2 rounded-lg"
-                                                    height="100" src="https://placehold.co/100x100"
+                                                <img alt="{{ $completedTask->title }}" class="mt-2 rounded-lg"
+                                                    height="100" src="{{ $completedTask->getImgUrl() }}"
                                                     width="100" />
                                             </div>
                                         @endforeach
@@ -323,7 +324,7 @@
                             <div class="upload-content">
                                 <img src="https://dashboard.codeparrot.ai/api/image/Z8wZ59G_8Dy7NbBA/group-53.png"
                                     alt="Upload" class="upload-icon mx-auto mb-2">
-                                <p>Drag&Drop files here</p>
+                                <p>Drag & Drop files here</p>
                                 <p>or</p>
                                 <input type="file" class="hidden" id="taskImage" name="image">
                                 <button type="button" class="browse-btn border rounded px-4 py-1 mt-2"

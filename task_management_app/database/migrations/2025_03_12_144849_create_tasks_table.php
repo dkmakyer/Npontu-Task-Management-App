@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('title');
             $table->string('description')->nullable(false);
             $table->enum('category', ['educational', 'health']);
-            $table->enum('status', ['completed', 'deleted']);
+            $table->enum('status', ['completed', 'deleted', 'uncompleted'])->default('uncompleted');
             $table->enum('priority', ['low', 'high', 'medium'])->default('low');
             $table->string('image_url')->nullable();
             $table->timestamp('due_date');

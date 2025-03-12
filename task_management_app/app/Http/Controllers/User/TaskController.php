@@ -25,10 +25,8 @@ class TaskController extends Controller
             'description' => $request->description,
             'image_url' => $imagePath,
             'priority' => $request->priority,
-            'date' => $request->date,
+            'due_date' => $request->date,
         ]);
-
-
 
         return back();
     }
