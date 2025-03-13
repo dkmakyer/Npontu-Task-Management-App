@@ -30,6 +30,7 @@ Route::post('register', [RegisterController::class, 'store']);
  * Will later switch to post after its been created 
  */
 Route::get('logout', [LogoutController::class, 'logout'])->name('logout');
+Route::resource('tasks', TaskController::class);
 Route::resource('reminders', ReminderController::class);
 
 
