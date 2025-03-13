@@ -1,242 +1,232 @@
 <html lang="en">
- <head>
-  <meta charset="utf-8"/>
-  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-  <title>
-   To-Do
-  </title>
-  <script src="https://cdn.tailwindcss.com">
-  </script>
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
- </head>
- <body class="bg-gray-100 font-sans">
-  <div class="flex h-screen">
-   <!-- Sidebar -->
-   <div class="bg-black text-white w-64 p-6 flex flex-col justify-between fixed h-full">
-    <div>
-     <div class="flex items-center mb-6">
-      <img alt="User profile picture" class="rounded-full w-12 h-12 mr-4" height="50" src="https://placehold.co/50x50" width="50"/>
-      <div>
-       <h2 class="text-lg font-semibold">
-        amanuel
-       </h2>
-       <p class="text-sm">
-        amanuel@gmail.com
-       </p>
-      </div>
-     </div>
-     <nav>
-      <ul>
-       <li class="mb-4">
-        <a class="flex items-center" href="#">
-         <i class="fas fa-tachometer-alt mr-3">
-         </i>
-         Dashboard
-        </a>
-       </li>
-       <li class="mb-4">
-        <a class="flex items-center" href="#">
-         <i class="fas fa-tasks mr-3">
-         </i>
-         Vital Task
-        </a>
-       </li>
-       <li class="mb-4">
-        <a class="flex items-center bg-white text-black p-2 rounded" href="#">
-         <i class="fas fa-tasks mr-3">
-         </i>
-         My Task
-        </a>
-       </li>
-       <li class="mb-4">
-        <a class="flex items-center" href="#">
-         <i class="fas fa-list mr-3">
-         </i>
-         Task Categories
-        </a>
-       </li>
-       <li class="mb-4">
-        <a class="flex items-center" href="#">
-         <i class="fas fa-cog mr-3">
-         </i>
-         Settings
-        </a>
-       </li>
-       <li class="mb-4">
-        <a class="flex items-center" href="#">
-         <i class="fas fa-question-circle mr-3">
-         </i>
-         Help
-        </a>
-       </li>
-      </ul>
-     </nav>
-    </div>
-    <div>
-     <a class="flex items-center" href="#">
-      <i class="fas fa-sign-out-alt mr-3">
-      </i>
-      Logout
-     </a>
-    </div>
-   </div>
-   <!-- Main Content -->
-   <div class="flex-1 flex flex-col ml-64">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>My Task</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+</head>
+<body class="bg-gray-100 font-sans">
     <!-- Header -->
-    <header class="bg-white p-4 flex justify-between items-center shadow">
-     <h1 class="text-2xl font-bold text-red-500">
-      To-
-      <span class="text-black">
-       Do
-      </span>
-     </h1>
-     <div class="flex items-center">
-      <input class="border rounded p-2 w-64 mr-4" placeholder="Search your task here..." type="text"/>
-      <div class="flex items-center space-x-4">
-       <i class="fas fa-search text-xl text-red-500">
-       </i>
-       <i class="fas fa-bell text-xl text-red-500">
-       </i>
-       <i class="fas fa-calendar-alt text-xl text-red-500">
-       </i>
-      </div>
-      <div class="ml-4 text-right">
-       <p class="text-lg">
-        Tuesday
-       </p>
-       <p class="text-sm text-green-500">
-        20/06/2023
-       </p>
-      </div>
-     </div>
+    <header class="flex justify-between items-center shadow-md bg-gray-50 mb-8 fixed w-full p-4 z-10">
+        <div class="flex items-center">
+            <h1 class="text-2xl font-bold text-red-500">
+                My <span class="text-black">Task</span>
+            </h1>
+        </div>
+        <div class="flex-1 flex justify-center">
+            <div class="relative w-[35rem]">
+                <input class="p-2 border rounded w-full h-[2rem] text-[12px] shadow-md bg-gray-50"
+                    placeholder="Search your task here..." type="text" />
+                <div class="absolute right-0 top-0 bg-red-400 p-2 rounded h-[2rem] flex items-center justify-center">
+                    <i class="fas fa-search text-white"></i>
+                </div>
+            </div>
+        </div>
+        <div class="flex items-center">
+            <div class="bg-red-400 p-2 rounded h-[2rem] flex items-center justify-center mr-4 cursor-pointer" id="notificationButton">
+                <i class="fas fa-bell text-white text-xl"></i>
+            </div>
+            <a href="../Settings/Settings.html"><div class="bg-red-400 p-2 rounded h-[2rem] flex items-center justify-center mr-4">
+                <i class="fas fa-cog text-white text-xl"></i>
+            </div>
+            </a>
+            <p class="text-black flex flex-col items-center">
+                Tuesday <span class="text-[12px] text-blue-400">20/06/2023</span>
+            </p>
+        </div>
     </header>
-    <!-- Content -->
-    <div class="flex-1 p-6 flex space-x-6">
-     <!-- Task List -->
-     <div class="w-1/2 bg-white p-4 rounded shadow">
-      <h2 class="text-xl font-semibold mb-4">
-       My Tasks
-      </h2>
-      <div class="mb-4 p-4 border rounded flex items-start">
-       <i class="fas fa-circle text-red-500 mr-4 mt-1">
-       </i>
-       <div>
-        <h3 class="text-lg font-semibold">
-         Submit Documents
-        </h3>
-        <p class="text-sm text-gray-600">
-         Make sure to submit all the necessary docum....
-        </p>
-        <div class="flex items-center text-sm text-gray-500 mt-2">
-         <span class="mr-4">
-          Priority:
-          <span class="text-red-500">
-           Extreme
-          </span>
-         </span>
-         <span>
-          Status:
-          <span class="text-red-500">
-           Not Started
-          </span>
-         </span>
-         <span class="ml-auto">
-          Created on: 20/06/2023
-         </span>
+    <!-- Notification Pop-up -->
+    <div class="hidden fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center z-20" id="notificationPopup">
+        <div class="bg-white rounded-lg shadow-lg w-full max-w-md relative">
+            <div class="p-4 border-b border-gray-200 flex justify-between items-center">
+                <h2 class="text-xl font-semibold">Notifications</h2>
+                <button class="text-gray-500 hover:text-gray-700" id="closePopup">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="p-4 space-y-4">
+                <div class="flex items-center space-x-4">
+                    <div class="flex-shrink-0">
+                        <img alt="Thumbnail of Juice Slider" class="w-12 h-12 rounded" height="50" src="https://storage.googleapis.com/a1aa/image/t0n560aaRmjPTxTzIw1sTLi0mcmTR9T18TaeGowluao.jpg" width="50"/>
+                    </div>
+                    <div class="flex-1">
+                        <p class="text-gray-700">
+                            Complete the entire design for
+                            <span class="font-semibold">Juice Slider</span>.
+                        </p>
+                        <p class="text-red-500">
+                            Priority: <span class="font-semibold">High</span>
+                        </p>
+                        <p class="text-gray-400">2h</p>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <div class="flex-shrink-0">
+                        <img alt="Thumbnail of Pet Warden" class="w-12 h-12 rounded" height="50" src="https://storage.googleapis.com/a1aa/image/nbXuoql5zJtaLlZye-1e7pT0L7H47lqcUrr9oFkmElk.jpg" width="50"/>
+                    </div>
+                    <div class="flex-1">
+                        <p class="text-gray-700">
+                            Complete the entire design for
+                            <span class="font-semibold">Pet Warden</span>.
+                        </p>
+                        <p class="text-red-500">
+                            Priority: <span class="font-semibold">Extremely High</span>
+                        </p>
+                        <p class="text-gray-400">2h</p>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <div class="flex-shrink-0">
+                        <img alt="Thumbnail of Mobile app design" class="w-12 h-12 rounded" height="50" src="https://storage.googleapis.com/a1aa/image/lfz-gc2qOiibF5x3rCRjcrTvoajKPaxF96OY2WSx9FM.jpg" width="50"/>
+                    </div>
+                    <div class="flex-1">
+                        <p class="text-gray-700">
+                            Complete the <span class="font-semibold">Mobile app design</span>.
+                        </p>
+                        <p class="text-red-500">
+                            Priority: <span class="font-semibold">High</span>
+                        </p>
+                        <p class="text-gray-400">2h</p>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <div class="flex-shrink-0">
+                        <img alt="Thumbnail of Travel Days" class="w-12 h-12 rounded" height="50" src="https://storage.googleapis.com/a1aa/image/DRM2UekJL7f-qDedAHqCg0o4Zc_nU3Br8x6Tm4PTGd0.jpg" width="50"/>
+                    </div>
+                    <div class="flex-1">
+                        <p class="text-gray-700">
+                            Complete the UI design of Landing Page for
+                            <span class="font-semibold">Travel Days</span>.
+                        </p>
+                        <p class="text-red-500">
+                            Priority: <span class="font-semibold">High</span>
+                        </p>
+                        <p class="text-gray-400">2h</p>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <div class="flex-shrink-0">
+                        <img alt="Thumbnail of FoodVentures" class="w-12 h-12 rounded" height="50" src="https://storage.googleapis.com/a1aa/image/6zeIM8h32RPi0c0ul6mB7VF971N5iVlC5egWgC6xKfM.jpg" width="50"/>
+                    </div>
+                    <div class="flex-1">
+                        <p class="text-gray-700">
+                            Complete the UI design of Landing Page for
+                            <span class="font-semibold">FoodVentures</span>.
+                        </p>
+                        <p class="text-red-500">
+                            Priority: <span class="font-semibold">High</span>
+                        </p>
+                        <p class="text-gray-400">2h</p>
+                    </div>
+                </div>
+            </div>
         </div>
-       </div>
-       <img alt="Document image" class="w-12 h-12 rounded ml-4" height="50" src="https://placehold.co/50x50" width="50"/>
-      </div>
-      <div class="p-4 border rounded flex items-start">
-       <i class="fas fa-circle text-blue-500 mr-4 mt-1">
-       </i>
-       <div>
-        <h3 class="text-lg font-semibold">
-         Complete assignments
-        </h3>
-        <p class="text-sm text-gray-600">
-         The assignments must be completed to pass final year....
-        </p>
-        <div class="flex items-center text-sm text-gray-500 mt-2">
-         <span class="mr-4">
-          Priority:
-          <span class="text-blue-500">
-           Moderate
-          </span>
-         </span>
-         <span>
-          Status:
-          <span class="text-blue-500">
-           In Progress
-          </span>
-         </span>
-         <span class="ml-auto">
-          Created on: 20/06/2023
-         </span>
-        </div>
-       </div>
-       <img alt="Assignment image" class="w-12 h-12 rounded ml-4" height="50" src="https://placehold.co/50x50" width="50"/>
-      </div>
-     </div>
-     <!-- Task Details -->
-     <div class="w-1/2 bg-white p-4 rounded shadow">
-      <h2 class="text-xl font-semibold mb-4">
-       Submit Documents
-      </h2>
-      <img alt="Document image" class="w-24 h-24 rounded mb-4" height="100" src="https://placehold.co/100x100" width="100"/>
-      <p>
-       <strong>
-        Task Title:
-       </strong>
-       Document Submission.
-      </p>
-      <p>
-       <strong>
-        Objective:
-       </strong>
-       To submit required documents for something important
-      </p>
-      <p>
-       <strong>
-        Task Description:
-       </strong>
-       Review the list of documents required for submission and ensure all necessary documents are ready. Organize the documents accordingly and scan them if physical copies need to be submitted digitally. Rename the scanned files appropriately for easy identification and verify the accepted file formats. Upload the documents securely to the designated platform, double-check for accuracy, and obtain confirmation of successful submission. Follow up if necessary to ensure proper processing.
-      </p>
-      <p>
-       <strong>
-        Additional Notes:
-       </strong>
-      </p>
-      <ul class="list-disc list-inside">
-       <li>
-        Ensure that the documents are authentic and up-to-date.
-       </li>
-       <li>
-        Maintain confidentiality and security of sensitive information during the submission process.
-       </li>
-       <li>
-        If there are specific guidelines or deadlines for submission, adhere to them diligently.
-       </li>
-      </ul>
-      <p>
-       <strong>
-        Deadline for Submission:
-       </strong>
-       End of Day
-      </p>
-      <div class="flex space-x-4 mt-4">
-       <button class="bg-red-500 text-white p-2 rounded">
-        <i class="fas fa-edit">
-        </i>
-       </button>
-       <button class="bg-red-500 text-white p-2 rounded ">
-        <i class="fas fa-trash">
-        </i>
-       </button>
-      </div>
-     </div>
     </div>
-   </div>
-  </div>
- </body>
+    <div class="flex h-screen pt-16">
+        <!-- Sidebar -->
+        <aside class="w-72 bg-black text-white fixed h-full top-12 left-0 py-8 px-6">
+            <div class="flex flex-col items-center">
+                <div class="relative w-24 h-24 mb-4">
+                    <img src="https://storage.googleapis.com/a1aa/image/rUXZDbcIOfUN6UNKIx9JV_yYtjGio_UQcHrU_9LlOOg.jpg"
+                         alt="User Profile" class="rounded-full border-4 border-gray-200 w-full h-full">
+                </div>
+                <p class="text-lg font-semibold">Amanuel</p>
+                <p class="text-sm text-gray-400">amanuel@gmail.com</p>
+            </div>
+
+            <!-- Navigation -->
+            <nav class="mt-8 space-y-3">
+                <a href="../land/land.html" class="flex items-center text-gray-400 hover:text-red-400">
+                    <i class="fas fa-tachometer-alt mr-3"></i> Dashboard
+                </a>
+                <a href="../Vital Task/vitals-tm.html" class="flex items-center text-gray-400 hover:text-red-400">
+                    <i class="fas fa-tasks mr-3"></i> Vital Task
+                </a>
+                <a href="../My Task/My Task.html" class="flex items-center text-gray-400 hover:text-red-400">
+                    <i class="fas fa-list mr-3"></i> My Task
+                </a>
+                <a href="../Category/task-categories.html" class="flex items-center text-gray-400 hover:text-red-400">
+                    <i class="fas fa-tags mr-3"></i> Task Categories
+                </a>
+                <a href="../Settings/Settings.html" class="flex items-center text-gray-400 hover:text-red-400">
+                    <i class="fas fa-cog mr-3"></i> Settings
+                </a>
+                <a href="#" class="flex items-center text-gray-400 hover:text-red-400">
+                    <i class="fas fa-question-circle mr-3"></i> Help
+                </a>
+            </nav>
+
+            <!-- Logout -->
+            <div class="mt-8">
+                <a href="#" class="flex items-center text-gray-400 hover:text-red-400">
+                    <i class="fas fa-sign-out-alt mr-3"></i> Logout
+                </a>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <div class="flex-1 flex flex-col ml-72">
+            <!-- Content -->
+            <div class="flex-1 p-6 flex space-x-6">
+                <!-- Task List -->
+                <div class="w-1/2 bg-white p-4 rounded shadow">
+                    <h2 class="text-xl font-semibold mb-4">My Tasks</h2>
+                    <div class="mb-4 p-4 border rounded flex items-start">
+                        <i class="fas fa-circle text-red-500 mr-4 mt-1"></i>
+                        <div>
+                            <h3 class="text-lg font-semibold">Submit Documents</h3>
+                            <p class="text-sm text-gray-600">Make sure to submit all the necessary docum....</p>
+                            <div class="flex items-center text-sm text-gray-500 mt-2">
+                                <span class="mr-4">Priority: <span class="text-red-500">Extreme</span></span>
+                                <span>Status: <span class="text-red-500">Not Started</span></span>
+                                <span class="ml-auto">Created on: 20/06/2023</span>
+                            </div>
+                        </div>
+                        <img alt="Document image" class="w-12 h-12 rounded ml-4" height="50" src="https://placehold.co/50x50" width="50"/>
+                    </div>
+                    <div class="p-4 border rounded flex items-start">
+                        <i class="fas fa-circle text-blue-500 mr-4 mt-1"></i>
+                        <div>
+                            <h3 class="text-lg font-semibold">Complete assignments</h3>
+                            <p class="text-sm text-gray-600">The assignments must be completed to pass final year....</p>
+                            <div class="flex items-center text-sm text-gray-500 mt-2">
+                                <span class="mr-4">Priority: <span class="text-blue-500">Moderate</span></span>
+                                <span>Status: <span class="text-blue-500">In Progress</span></span>
+                                <span class="ml-auto">Created on: 20/06/2023</span>
+                            </div>
+                        </div>
+                        <img alt="Assignment image" class="w-12 h-12 rounded ml-4" height="50" src="https://placehold.co/50x50" width="50"/>
+                    </div>
+                </div>
+
+                <!-- Task Details -->
+                <div class="w-1/2 bg-white p-4 rounded shadow">
+                    <h2 class="text-xl font-semibold mb-4">Submit Documents</h2>
+                    <img alt="Document image" class="w-24 h-24 rounded mb-4" height="100" src="https://placehold.co/100x100" width="100"/>
+                    <p><strong>Task Title:</strong> Document Submission.</p>
+                    <p><strong>Objective:</strong> To submit required documents for something important</p>
+                    <p><strong>Task Description:</strong> Review the list of documents required for submission and ensure all necessary documents are ready. Organize the documents accordingly and scan them if physical copies need to be submitted digitally. Rename the scanned files appropriately for easy identification and verify the accepted file formats. Upload the documents securely to the designated platform, double-check for accuracy, and obtain confirmation of successful submission. Follow up if necessary to ensure proper processing.</p>
+                    <p><strong>Additional Notes:</strong></p>
+                    <ul class="list-disc list-inside">
+                        <li>Ensure that the documents are authentic and up-to-date.</li>
+                        <li>Maintain confidentiality and security of sensitive information during the submission process.</li>
+                        <li>If there are specific guidelines or deadlines for submission, adhere to them diligently.</li>
+                    </ul>
+                    <p><strong>Deadline for Submission:</strong> End of Day</p>
+                    <div class="flex space-x-4 mt-4">
+                        <a href="../Category/edit-task.html"><button class="bg-red-500 text-white p-2 rounded">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        </a>
+                        <button class="bg-red-500 text-white p-2 rounded">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="My Task.js"></script>
+</body>
 </html>

@@ -13,77 +13,148 @@
     <header class="flex z-[100] justify-between items-center shadow-md bg-gray-50 mb-8 fixed w-screen p-4">
         <div class="flex items-center">
             <h1 class="text-2xl font-bold text-red-500 translate-x-[2rem]">
-                To<span class="text-black">-Do</span>
+               Category
             </h1>
-            <div class="relative ml-8 translate-x-[15rem] w-[35rem]">
-                <input class="p-2 border rounded w-64 w-[35rem] h-[2rem] text-[12px] shadow-md bg-gray-50"
-                    placeholder="Search your task here..." type="text" />
-                <div
-                    class="absolute w-[30px] translate-x-[-3rem] right-[-3rem] bg-red-400 p-4 top-0 rounded bg-gray-200 h-[20px]">
-                    <i class="fas fa-search text-white translate-y-[-0.5rem] translate-x-[-0.5rem]"></i>
-                </div>
-            </div>
         </div>
         <div class="flex items-center translate-x-[-3rem]">
-            <div class="w-[30px] translate-x-[-3rem] right-[-3rem] bg-red-400 p-4 top-0 rounded bg-gray-200 h-[20px]"><i
-                    class="fas fa-bell text-white translate-y-[-0.8rem] translate-x-[-0.5rem] text-xl mr-4"></i></div>
+            <div class="bg-red-400 p-2 rounded h-[2rem] flex items-center justify-center mr-4 cursor-pointer" id="notificationButton">
+                <i class="fas fa-bell text-white text-xl"></i>
+            </div>
             <div class="w-[30px] translate-x-[-1.4rem] right-[-3rem] bg-red-400 p-4 top-0 rounded bg-gray-200 h-[20px]">
-                <i class="fas fa-cog text-white translate-y-[-0.8rem] translate-x-[-0.6rem] text-xl mr-4"></i>
+                <a href="../Settings/Settings.html"><i class="fas fa-cog text-white translate-y-[-0.8rem] translate-x-[-0.6rem] text-xl mr-4"></i></a>
             </div>
             <p class="text-black flex flex-col">Tuesday <span class="text-[12px] text-blue-400">20/06/2023</span></p>
         </div>
     </header>
-    <!-- Sidebar -->
-    <div
-        class="w-[18rem] pl-[1.5rem] fixed rounded-lg top-[8rem] translate-x-[-1rem] bg-black text-white flex flex-col items-center py-8 fixed h-[90vh]">
-        <div
-            class="border-white rounded-full bg-gray-200 flex items-center mb-4 w-[6.5rem] h-[6.5rem] translate-y-[-5rem]">
-            <img alt="User  profile picture" class="rounded-full translate-x-[2px]" height="100"
-                src="https://storage.googleapis.com/a1aa/image/rUXZDbcIOfUN6UNKIx9JV_yYtjGio_UQcHrU_9LlOOg.jpg"
-                width="100" />
+    <div class="flex min-h-screen">
+        <!-- Notification Pop-up -->
+    <div class="hidden fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center z-20" id="notificationPopup">
+        <div class="bg-white rounded-lg shadow-lg w-full max-w-md relative">
+            <div class="p-4 border-b border-gray-200 flex justify-between items-center">
+                <h2 class="text-xl font-semibold">Notifications</h2>
+                <button class="text-gray-500 hover:text-gray-700" id="closePopup">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="p-4 space-y-4">
+                <div class="flex items-center space-x-4">
+                    <div class="flex-shrink-0">
+                        <img alt="Thumbnail of Juice Slider" class="w-12 h-12 rounded" height="50" src="https://storage.googleapis.com/a1aa/image/t0n560aaRmjPTxTzIw1sTLi0mcmTR9T18TaeGowluao.jpg" width="50"/>
+                    </div>
+                    <div class="flex-1">
+                        <p class="text-gray-700">
+                            Complete the entire design for
+                            <span class="font-semibold">Juice Slider</span>.
+                        </p>
+                        <p class="text-red-500">
+                            Priority: <span class="font-semibold">High</span>
+                        </p>
+                        <p class="text-gray-400">2h</p>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <div class="flex-shrink-0">
+                        <img alt="Thumbnail of Pet Warden" class="w-12 h-12 rounded" height="50" src="https://storage.googleapis.com/a1aa/image/nbXuoql5zJtaLlZye-1e7pT0L7H47lqcUrr9oFkmElk.jpg" width="50"/>
+                    </div>
+                    <div class="flex-1">
+                        <p class="text-gray-700">
+                            Complete the entire design for
+                            <span class="font-semibold">Pet Warden</span>.
+                        </p>
+                        <p class="text-red-500">
+                            Priority: <span class="font-semibold">Extremely High</span>
+                        </p>
+                        <p class="text-gray-400">2h</p>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <div class="flex-shrink-0">
+                        <img alt="Thumbnail of Mobile app design" class="w-12 h-12 rounded" height="50" src="https://storage.googleapis.com/a1aa/image/lfz-gc2qOiibF5x3rCRjcrTvoajKPaxF96OY2WSx9FM.jpg" width="50"/>
+                    </div>
+                    <div class="flex-1">
+                        <p class="text-gray-700">
+                            Complete the <span class="font-semibold">Mobile app design</span>.
+                        </p>
+                        <p class="text-red-500">
+                            Priority: <span class="font-semibold">High</span>
+                        </p>
+                        <p class="text-gray-400">2h</p>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <div class="flex-shrink-0">
+                        <img alt="Thumbnail of Travel Days" class="w-12 h-12 rounded" height="50" src="https://storage.googleapis.com/a1aa/image/DRM2UekJL7f-qDedAHqCg0o4Zc_nU3Br8x6Tm4PTGd0.jpg" width="50"/>
+                    </div>
+                    <div class="flex-1">
+                        <p class="text-gray-700">
+                            Complete the UI design of Landing Page for
+                            <span class="font-semibold">Travel Days</span>.
+                        </p>
+                        <p class="text-red-500">
+                            Priority: <span class="font-semibold">High</span>
+                        </p>
+                        <p class="text-gray-400">2h</p>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <div class="flex-shrink-0">
+                        <img alt="Thumbnail of FoodVentures" class="w-12 h-12 rounded" height="50" src="https://storage.googleapis.com/a1aa/image/6zeIM8h32RPi0c0ul6mB7VF971N5iVlC5egWgC6xKfM.jpg" width="50"/>
+                    </div>
+                    <div class="flex-1">
+                        <p class="text-gray-700">
+                            Complete the UI design of Landing Page for
+                            <span class="font-semibold">FoodVentures</span>.
+                        </p>
+                        <p class="text-red-500">
+                            Priority: <span class="font-semibold">High</span>
+                        </p>
+                        <p class="text-gray-400">2h</p>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="text-center translate-y-[-5rem]">
-            <p class="text-lg font-semibold">amanuel</p>
-            <p class="text-sm">amanuel@gmail.com</p>
-        </div>
-        <nav class="flex flex-col w-full px-4 translate-y-[-4rem]">
-            <a class="flex items-center py-2 px-4 mb-2 text-gray-400 hover:bg-white hover:rounded hover:text-red-400"
-                href="../land/land.html">
-                <i class="fas fa-tachometer-alt mr-2"></i>
-                Dashboard
-            </a>
-            <a class="flex items-center py-2 px-4 mb-2 text-gray-400 hover:bg-white hover:rounded hover:text-red-400"
-                href="../Vital Task/vitals-tm.html">
-                <i class="fas fa-tasks mr-2"></i>
-                Vital Task
-            </a>
-            <a class="flex items-center py-2 px-4 mb-2 text-gray-400 hover:bg-white hover:rounded hover:text-red-400"
-                href="../My Task/My Task.html">
-                <i class="fas fa-list mr-2"></i>
-                My Task
-            </a>
-            <a class="flex items-center py-2 px-4 mb-2 text-gray-400 hover:bg-white hover:rounded hover:text-red-400"
-                href="../Category/task-categories.html">
-                <i class="fas fa-tags mr-2"></i>
-                Task Categories
-            </a>
-            <a class="flex items-center py-2 px-4 mb-2 text-gray-400 hover:bg-white hover:rounded hover:text-red-400"
-                href="../Settings/view-info.html">
-                <i class="fas fa-cog mr-2"></i>
-                Settings
-            </a>
-            <a class="flex items-center py-2 px-4 mb-2 text-gray-400 hover:bg-white hover:rounded hover:text-red-400"
-                href="#">
-                <i class="fas fa-question-circle mr-2"></i>
-                Help
-            </a>
-        </nav>
-        <a class="text-white translate-x-[-3.9rem] translate-y-[-2rem] hover:bg-white hover:rounded hover:text-red-400"
-            href="#">
-            <i class="fas fa-sign-out-alt"></i>
-            Logout
-        </a>
     </div>
+    <div class="flex h-screen pt-16">
+        <!-- Sidebar -->
+        <aside class="w-72 bg-black text-white fixed h-full top-12 left-0 py-8 px-6">
+            <div class="flex flex-col items-center">
+                <div class="relative w-24 h-24 mb-4">
+                    <img src="https://storage.googleapis.com/a1aa/image/rUXZDbcIOfUN6UNKIx9JV_yYtjGio_UQcHrU_9LlOOg.jpg"
+                         alt="User Profile" class="rounded-full border-4 border-gray-200 w-full h-full">
+                </div>
+                <p class="text-lg font-semibold">Amanuel</p>
+                <p class="text-sm text-gray-400">amanuel@gmail.com</p>
+            </div>
+    
+            <!-- Navigation -->
+            <nav class="mt-8 space-y-3">
+                <a href="../land/land.html" class="flex items-center text-gray-400 hover:text-red-400">
+                    <i class="fas fa-tachometer-alt mr-3"></i> Dashboard
+                </a>
+                <a href="../Vital Task/vitals-tm.html" class="flex items-center text-gray-400 hover:text-red-400">
+                    <i class="fas fa-tasks mr-3"></i> Vital Task
+                </a>
+                <a href="../My Task/My Task.html" class="flex items-center text-gray-400 hover:text-red-400">
+                    <i class="fas fa-list mr-3"></i> My Task
+                </a>
+                <a href="../Category/task-categories.html" class="flex items-center text-gray-400 hover:text-red-400">
+                    <i class="fas fa-tags mr-3"></i> Task Categories
+                </a>
+                <a href="../Settings/Settings.html" class="flex items-center text-gray-400 hover:text-red-400">
+                    <i class="fas fa-cog mr-3"></i> Settings
+                </a>
+                <a href="#" class="flex items-center text-gray-400 hover:text-red-400">
+                    <i class="fas fa-question-circle mr-3"></i> Help
+                </a>
+            </nav>
+    
+            <!-- Logout -->
+            <div class="mt-8">
+                <a href="#" class="flex items-center text-gray-400 hover:text-red-400">
+                    <i class="fas fa-sign-out-alt mr-3"></i> Logout
+                </a>
+            </div>
+        </aside>
     <div class="flex flex-col items-center z-[1] absolute left-[22rem] top-[8rem]">
         <!-- Task Categories -->
         <div class="bg-gray-50 p-6 rounded-lg w-[70vw]">
@@ -335,6 +406,7 @@
             </form>
         </div>
     </div>
+    <script src="task-categories.js"></script>
 </body>
 
 </html>
