@@ -17,39 +17,7 @@
         <!-- Header -->
         <x-header :pageName="'My Tasks'"></x-header>
         <!-- Notification Pop-up -->
-        <div class="hidden fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center z-20"
-            id="notificationPopup">
-            <div class="bg-white rounded-lg shadow-lg w-full max-w-md relative">
-                <div class="p-4 border-b border-gray-200 flex justify-between items-center">
-                    <h2 class="text-xl font-semibold">Notifications</h2>
-                    <button class="text-gray-500 hover:text-gray-700" id="closePopup">
-                        <i class="fas fa-times"></i>
-                    </button>
-                </div>
-                <div class="p-4 space-y-4">
-                    <!-- Notification Items -->
-                    <!-- Repeat this block for each notification -->
-                    <div class="flex items-center space-x-4">
-                        <div class="flex-shrink-0">
-                            <img alt="Thumbnail of Juice Slider" class="w-12 h-12 rounded" height="50"
-                                src="https://storage.googleapis.com/a1aa/image/t0n560aaRmjPTxTzIw1sTLi0mcmTR9T18TaeGowluao.jpg"
-                                width="50" />
-                        </div>
-                        <div class="flex-1">
-                            <p class="text-gray-700">
-                                Complete the entire design for
-                                <span class="font-semibold">Juice Slider</span>.
-                            </p>
-                            <p class="text-red-500">
-                                Priority: <span class="font-semibold">High</span>
-                            </p>
-                            <p class="text-gray-400">2h</p>
-                        </div>
-                    </div>
-                    <!-- End of Notification Item -->
-                </div>
-            </div>
-        </div>
+        <x-notifications-popup></x-notifications-popup>
         <div class="flex h-screen pt-16">
             <!-- Sidebar -->
             <x-sidebar :user="auth()->user()"></x-sidebar>
@@ -83,30 +51,38 @@
                         <div class="flex justify-between items-center mb-4">
                             <h2 class="text-xl font-semibold">My Tasks</h2>
                             <button class="bg-blue-500 text-white px-4 py-2 rounded" onclick="openAddTaskModal()">
-                                Add Task
+                                + Add Task
                             </button>
                         </div>
                         @if ($tasks->count())
                             @foreach ($tasks as $task)
-                                <div class="mb-4 p-4 border rounded flex items-start">
-                                    <i class="fas fa-circle text-red-500 mr-4 mt-1"></i>
-                                    <div>
-                                        <h3 class="text-lg font-semibold"><a
-                                                href="{{ route('show.task.details', $task->id) }}">{{ $task->title }}</a>
-                                        </h3>
-                                        <p class="text-sm text-gray-600">
-                                            {{ substr($task->description, 0, strlen($task->description) - 5) }}...</p>
-                                        <div class="flex items-center text-sm text-gray-500 mt-2">
-                                            <span class="mr-4">Priority: <span
-                                                    class="text-red-500">{{ "  $task->priority" }}</span></span>
-                                            <span>Status: <span
-                                                    class="text-red-500">{{ "  $task->status   " }}</span></span>
-                                            <span class="ml-auto ps-4">Created on:
-                                                {{ '  ' . $task->created_at->toFormattedDateString() }}</span>
+                                <div id="task-list" class="space-y-4">
+                                    <div class="p-4 border rounded-lg flex items-center justify-between" data-task-id="1">
+                                        <div>
+                                            <h3
+                                                class="text-lg font-bold {{ $task->priority == 'high' ? ' text-red-500' : 'text-blue-500' }}">
+                                                {{ $task->title }}</h3>
+                                            <p class="text-gray-500">
+                                                {{ substr($task->description, 0, strlen($task->description) - 10) }}...</p>
+                                            <div class="text-sm text-gray-400">Priority: {{ " $task->priority" }} | Status:
+                                                <span class="task-status">{{ $task->status }}</span>
+                                            </div>
+                                        </div>
+                                        {{-- <img alt="Document submission illustration" class="rounded-lg" height="50"
+                                            src="{{ $task->getImgUrl() }}" width="50" /> --}}
+                                        <div class="flex mt-2">
+                                            <a href="{{ route('update.task', $task->id) }}">
+                                                <button class="bg-red-500 text-white px-4 py-2 rounded mr-2 edit-task">
+                                                    <i class="fas fa-edit"></i>
+                                                </button>
+                                            </a>
+                                            <a href="{{ route('delete.task', $task->id) }}">
+                                                <button class="bg-red-500 text-white px-4 py-2 rounded delete-task">
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
+                                            </a>
                                         </div>
                                     </div>
-                                    <img alt="Document image" class="w-12 h-12 rounded ml-4" height="50"
-                                        src="{{ $task->getImgUrl() }}" width="50" />
                                 </div>
                             @endforeach
                         @else
@@ -137,11 +113,13 @@
                                     Submission:</strong>{{ '  ' . session('selectedTask')->due_date->toFormattedDateString() }}
                             </p>
                             <div class="flex space-x-4 mt-4">
-                                <a href="../Category/edit-task.html"><button class="bg-red-500 text-white p-2 rounded">
+                                <a href="{{ route('update.task', session('selectedTask')->id) }}"><button
+                                        class="bg-red-500 text-white p-2 rounded">
                                         <i class="fas fa-edit"></i>
                                     </button>
                                 </a>
-                                <a href="#"><button class="bg-red-500 text-white p-2 rounded">
+                                <a href="{{ route('delete.task', session('selectedTask')->id) }}"><button
+                                        class="bg-red-500 text-white p-2 rounded">
                                         <i class="fas fa-trash"></i>
                                     </button></a>
                             </div>
@@ -168,11 +146,13 @@
                                         Submission:</strong>{{ '  ' . $tasks[0]->due_date->toFormattedDateString() }}
                                 </p>
                                 <div class="flex space-x-4 mt-4">
-                                    <a href="../Category/edit-task.html"><button class="bg-red-500 text-white p-2 rounded">
+                                    <a href="{{ route('update.task', $tasks[0]->id) }}"><button
+                                            class="bg-red-500 text-white p-2 rounded">
                                             <i class="fas fa-edit"></i>
                                         </button>
                                     </a>
-                                    <a href="#"><button class="bg-red-500 text-white p-2 rounded">
+                                    <a href="{{ route('delete.task', $tasks[0]->id) }}"><button
+                                            class="bg-red-500 text-white p-2 rounded">
                                             <i class="fas fa-trash"></i>
                                         </button></a>
                                 </div>
@@ -201,8 +181,8 @@
                     <div>
                         <div class="mb-4">
                             <label class="block text-gray-700" for="task-title">Title</label>
-                            <input class="w-full p-2 border rounded" id="task-title" type="text"
-                                placeholder="Task Title" required name="title" />
+                            <input class="w-full p-2 border rounded" id="task-title" type="text" placeholder="Task Title"
+                                required name="title" />
                         </div>
                         <div class="mb-4">
                             <label class="block text-gray-700" for="task-category">Category</label>

@@ -8,6 +8,7 @@ use App\Models\Task;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class TaskController extends Controller
 {
@@ -35,8 +36,6 @@ class TaskController extends Controller
             'category' => 'required|in:Educational, Health and Fitness'
         ]);
 
-
-        // dd('validation has no errors');
         $imagePath = $request->hasFile('image') ? $request->file('image')->store('profile', 'public') : '';
         $user = User::where('id', $id)->with('tasks')->first();
         try {
@@ -65,6 +64,7 @@ class TaskController extends Controller
         } catch (Exception $e) {
             return back()->with(['error' => 'Please fill in this field']);
         }
+
         $user = User::find(Auth::user()->id);
         $result = $user->tasks()->latest()->where(column: 'title', operator: 'LIKE', value: "%$request->search%")->get();
         $response = $result->count() ? $result : "Task not found";
@@ -75,5 +75,73 @@ class TaskController extends Controller
     {
         $task = Task::find($id);
         return back()->with(['selectedTask' => $task]);
+    }
+
+    public function destroy(int $id)
+    {
+        Task::destroy($id);
+        return back();
+    }
+
+    public function updateTask(int $id)
+    {
+        return view('user.update-task', ['id' => $id]);
+    }
+
+    public function storeUpdatedTask(Request $request, int $id)
+    {
+        $task = Task::find($id);
+        $message = null;
+        switch ($request) {
+            case $request->title != null:
+                try {
+                    $task->update($request->only('title'));
+                } catch (Exception $e) {
+                    $message = "Failed to update task and unexpected error occured";
+                }
+            case $request->priority != null:
+                try {
+                    $task->update($request->only('priority'));
+                } catch (Exception $e) {
+                    $message = "Failed to update task and unexpected error occured";
+                }
+            case $request->description != null:
+                try {
+                    $task->update($request->only('description'));
+                } catch (Exception $e) {
+                    $message = "Failed to update task and unexpected error occured";
+                }
+            case $request->category != null:
+                $request->validate([
+                    'category' => 'in:Educational, Health and Fitness'
+                ]);
+                try {
+                    $task->update($request->only('category'));
+                } catch (Exception $e) {
+                    $message = "Failed to update task and unexpected error occured";
+                }
+            case $request->date != null:
+                $request->validate([
+                    'date' => 'date'
+                ]);
+                try {
+                    $task->update($request->only('date'));
+                } catch (Exception $e) {
+                    $message = "Failed to update task and unexpected error occured";
+                }
+            case $request->image != null:
+                $request->validate([
+                    'image' => 'image'
+                ]);
+                try {
+                    $imagePath = $request->hasFile('image') ? $request->file('image')->store('profile', 'public') : '';
+                    $task->image_url ? Storage::disk('public')->delete($task->image_url) : '';
+                    $task->update(['image_url' => $imagePath]);
+                } catch (Exception $e) {
+                    $message = "Failed to update task and unexpected error occured";
+                }
+        }
+        $message ?? "Task updated successfully";
+        return redirect(route('tasks'))->with(['message' => $message]);
     }
 }

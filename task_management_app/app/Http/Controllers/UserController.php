@@ -40,16 +40,29 @@ class UserController extends Controller
         $user = Auth::user();
 
         $currentUser = User::where('email', $user->email);
-
+        $message = null;
         switch ($request) {
             case $request->first_name != null:
-                $currentUser->update($request->only('first_name'));
+                try {
+                    $currentUser->update($request->only('first_name'));
+                } catch (Exception $e) {
+                    $message = "Failed to update profile and unexpected error occured";
+                }
             case $request->last_name != null:
-                $currentUser->update($request->only('last_name'));
+                try {
+                    $currentUser->update($request->only('last_name'));
+                } catch (Exception $e) {
+                    $message = "Failed to update profile and unexpected error occured";
+                }
             case $request->email != null:
-                $currentUser->update($request->only('email'));
+                try {
+                    $currentUser->update($request->only('email'));
+                } catch (Exception $e) {
+                    $message = "Failed to update profile and unexpected error occured";
+                }
         }
-        return back();
+        $message ?? "Profile updated successfully";
+        return back()->with(['message' => $message]);
     }
     public function cancel()
     {

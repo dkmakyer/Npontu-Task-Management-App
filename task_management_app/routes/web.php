@@ -42,6 +42,9 @@ Route::get('tasks', [TaskController::class, 'index'])->name('tasks');
 Route::post('{id}/task/store', [TaskController::class, 'store'])->name('store.task');
 Route::get('search', [TaskController::class, 'search'])->name('search.task');
 Route::get('task/{id}', [TaskController::class, 'showTaskDetails'])->name('show.task.details');
+Route::get('task/{id}/delete', [TaskController::class, 'destroy'])->name('delete.task');
+Route::get('task/{id}/update', [TaskController::class, 'updateTask'])->name('update.task');
+Route::post('task/{id}/update', [TaskController::class, 'storeUpdatedTask']);
 
 
 Route::get('settings', [SettingsController::class, 'index'])->name('settings');
