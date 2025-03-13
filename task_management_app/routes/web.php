@@ -6,6 +6,7 @@ use App\Http\Controllers\Auth\SocialiteController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\User\DashboardController;
+use App\Http\Controllers\User\ReminderController;
 use App\Http\Controllers\User\TaskController;
 
 Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
@@ -29,6 +30,7 @@ Route::post('register', [RegisterController::class, 'store']);
  * Will later switch to post after its been created 
  */
 Route::get('logout', [LogoutController::class, 'logout'])->name('logout');
+Route::resource('reminders', ReminderController::class);
 
 
-Route::post('user/{id}/task/store', [TaskController::class, 'store'])->name('store.task');
+

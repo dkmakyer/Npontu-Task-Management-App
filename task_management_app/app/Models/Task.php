@@ -13,7 +13,6 @@ class Task extends Model
         'image_url',
         'due_date',
         'status',
-        'category',
         'priority',
         'category',
     ];
