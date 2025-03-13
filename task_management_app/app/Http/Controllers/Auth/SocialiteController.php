@@ -25,21 +25,23 @@ class SocialiteController extends Controller
 
         $providerUser = Socialite::driver($social)->user();
         $user = User::where('social_id', $providerUser->id)->first();
-        if ($user) {
+        if ($user->count()) {
+            // dd('user exists');
             Auth::login($user);
-            return redirect(route('dashboard'));
+            return redirect(route('tasks'));
+        } else {
+            $user = User::create(
+                [
+                    'first_name' => $providerUser->user['given_name'],
+                    'last_name' => $providerUser->user['family_name'],
+                    'username' => $providerUser->name,
+                    'email' => $providerUser->email,
+                    'social_id' => $providerUser->id,
+                    'password' => Hash::make('WelcomeNewUser123'),
+                ]
+            );
+            Auth::login($user);
+            return redirect(route('tasks'));
         }
-        $user = User::create(
-            [
-                'first_name' => $providerUser->user['given_name'],
-                'last_name' => $providerUser->user['family_name'],
-                'username' => $providerUser->name,
-                'email' => $providerUser->email,
-                'social_id' => $providerUser->id,
-                'password' => Hash::make('WelcomeNewUser123'),
-            ]
-        );
-        Auth::login($user);
-        return redirect(route('dashboard'));
     }
 }

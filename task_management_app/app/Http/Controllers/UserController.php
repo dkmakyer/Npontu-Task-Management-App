@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Rules\PasswordComplexity;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Date;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -17,37 +19,64 @@ class UserController extends Controller
     }
     public function index()
     {
-        $date = Date::hasFormat(Date::now(), 'Y-m-d');
-        return view('user.my_profile');
+        $user = Auth::user();
+        return view('user.profile', ['user' => $user]);
     }
 
-    public function updateProfile()
+    public function showUpdateProfileView()
     {
-        return view('settings.update_info');
+        $user = Auth::user();
+        return view('settings.update-profile', ['user' => $user]);
     }
 
-    public function changePassword()
+    public function showChangePasswordView()
     {
-        return view('settings.change_password');
+        $user = Auth::user();
+        return view('settings.change-password', ['user' => $user]);
     }
 
-    public function store(Request $request)
+    public function storeUpdatedProfile(Request $request)
     {
-        $request->validate([
-            'first_name' => 'required',
-            'last_name' => 'required',
-            'email' => 'required|email',
-        ]);
+        $user = Auth::user();
 
-        try {
-            User::where('email', '=', Auth::user()->email)->update($request->only('email', 'first_name', 'last_name'));
-            return back()->with(['status' => 'Profile updated successfully']);
-        } catch (Exception $e) {
-            return back()->with(['error' => 'Failed to update to profile']);
+        $currentUser = User::where('email', $user->email);
+
+        switch ($request) {
+            case $request->first_name != null:
+                $currentUser->update($request->only('first_name'));
+            case $request->last_name != null:
+                $currentUser->update($request->only('last_name'));
+            case $request->email != null:
+                $currentUser->update($request->only('email'));
         }
+        return back();
     }
     public function cancel()
     {
         return back();
+    }
+
+    public function storeChangedPassword(Request $request)
+    {
+        $user = Auth::user();
+
+        $request->validate([
+            'old_password' => 'required',
+            'password' => ['required', 'confirmed', new PasswordComplexity()],
+        ]);
+
+        $user = User::find($user->id);
+        try {
+            if (Hash::check($request->old_password, $user->password)) {
+                $user->update(['password' => Hash::make($request->password)]);
+                Auth::logut();
+                $request->session()->invalidate();
+                $request->session()->regenerateToken();
+            } else {
+                return back()->with(['status' => 'Incorrect password']);
+            }
+        } catch (Exception $e) {
+            return back()->with(['status' => 'Error occurred while changing password']);
+        }
     }
 }

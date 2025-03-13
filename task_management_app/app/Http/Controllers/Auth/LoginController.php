@@ -30,6 +30,6 @@ class LoginController extends Controller
         if (!Auth::attempt($request->only('username', 'password'), (bool)$request->remember)) {
             return back()->with(['error' => 'Invalid Credentials']);
         }
-        return redirect(route('dashboard'));
+        return redirect(route('tasks'));
     }
 }

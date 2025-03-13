@@ -17,12 +17,13 @@ return new class extends Migration
             $table->foreignIdFor(User::class);
             $table->string('title');
             $table->string('description')->nullable(false);
-            $table->enum('category', ['educational', 'health']);
+            $table->enum('category', ['Educational', 'Health and Fitness']);
             $table->enum('status', ['completed', 'deleted', 'uncompleted'])->default('uncompleted');
             $table->enum('priority', ['low', 'high', 'medium'])->default('low');
             $table->string('image_url')->nullable();
             $table->timestamp('due_date');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
