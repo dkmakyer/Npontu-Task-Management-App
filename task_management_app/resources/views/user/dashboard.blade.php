@@ -273,7 +273,7 @@
             </div>
 
             <form class="content-container space-y-4" method="POST"
-                action="{{ route('tasks.store', auth()->user()->id) }}" enctype="multipart/form-data">
+                action="{{ route('users.tasks.store', auth()->user()->id) }}" enctype="multipart/form-data">
                 @csrf
                 <div class="form-group">
                     <label class="block font-semibold mb-1">Title</label>

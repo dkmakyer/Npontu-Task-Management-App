@@ -1,0 +1,412 @@
+<html>
+
+<head>
+    <title>
+        To-Do
+    </title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
+</head>
+
+<body class="bg-gray-100 font-sans relative h-[80vh] overflow-x-hidden">
+    <!-- Header -->
+    <header class="flex z-[100] justify-between items-center shadow-md bg-gray-50 mb-8 fixed w-screen p-4">
+        <div class="flex items-center">
+            <h1 class="text-2xl font-bold text-red-500 translate-x-[2rem]">
+               Category
+            </h1>
+        </div>
+        <div class="flex items-center translate-x-[-3rem]">
+            <div class="bg-red-400 p-2 rounded h-[2rem] flex items-center justify-center mr-4 cursor-pointer" id="notificationButton">
+                <i class="fas fa-bell text-white text-xl"></i>
+            </div>
+            <div class="w-[30px] translate-x-[-1.4rem] right-[-3rem] bg-red-400 p-4 top-0 rounded bg-gray-200 h-[20px]">
+                <a href="../Settings/Settings.html"><i class="fas fa-cog text-white translate-y-[-0.8rem] translate-x-[-0.6rem] text-xl mr-4"></i></a>
+            </div>
+            <p class="text-black flex flex-col">Tuesday <span class="text-[12px] text-blue-400">20/06/2023</span></p>
+        </div>
+    </header>
+    <div class="flex min-h-screen">
+        <!-- Notification Pop-up -->
+    <div class="hidden fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center z-20" id="notificationPopup">
+        <div class="bg-white rounded-lg shadow-lg w-full max-w-md relative">
+            <div class="p-4 border-b border-gray-200 flex justify-between items-center">
+                <h2 class="text-xl font-semibold">Notifications</h2>
+                <button class="text-gray-500 hover:text-gray-700" id="closePopup">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="p-4 space-y-4">
+                <div class="flex items-center space-x-4">
+                    <div class="flex-shrink-0">
+                        <img alt="Thumbnail of Juice Slider" class="w-12 h-12 rounded" height="50" src="https://storage.googleapis.com/a1aa/image/t0n560aaRmjPTxTzIw1sTLi0mcmTR9T18TaeGowluao.jpg" width="50"/>
+                    </div>
+                    <div class="flex-1">
+                        <p class="text-gray-700">
+                            Complete the entire design for
+                            <span class="font-semibold">Juice Slider</span>.
+                        </p>
+                        <p class="text-red-500">
+                            Priority: <span class="font-semibold">High</span>
+                        </p>
+                        <p class="text-gray-400">2h</p>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <div class="flex-shrink-0">
+                        <img alt="Thumbnail of Pet Warden" class="w-12 h-12 rounded" height="50" src="https://storage.googleapis.com/a1aa/image/nbXuoql5zJtaLlZye-1e7pT0L7H47lqcUrr9oFkmElk.jpg" width="50"/>
+                    </div>
+                    <div class="flex-1">
+                        <p class="text-gray-700">
+                            Complete the entire design for
+                            <span class="font-semibold">Pet Warden</span>.
+                        </p>
+                        <p class="text-red-500">
+                            Priority: <span class="font-semibold">Extremely High</span>
+                        </p>
+                        <p class="text-gray-400">2h</p>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <div class="flex-shrink-0">
+                        <img alt="Thumbnail of Mobile app design" class="w-12 h-12 rounded" height="50" src="https://storage.googleapis.com/a1aa/image/lfz-gc2qOiibF5x3rCRjcrTvoajKPaxF96OY2WSx9FM.jpg" width="50"/>
+                    </div>
+                    <div class="flex-1">
+                        <p class="text-gray-700">
+                            Complete the <span class="font-semibold">Mobile app design</span>.
+                        </p>
+                        <p class="text-red-500">
+                            Priority: <span class="font-semibold">High</span>
+                        </p>
+                        <p class="text-gray-400">2h</p>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <div class="flex-shrink-0">
+                        <img alt="Thumbnail of Travel Days" class="w-12 h-12 rounded" height="50" src="https://storage.googleapis.com/a1aa/image/DRM2UekJL7f-qDedAHqCg0o4Zc_nU3Br8x6Tm4PTGd0.jpg" width="50"/>
+                    </div>
+                    <div class="flex-1">
+                        <p class="text-gray-700">
+                            Complete the UI design of Landing Page for
+                            <span class="font-semibold">Travel Days</span>.
+                        </p>
+                        <p class="text-red-500">
+                            Priority: <span class="font-semibold">High</span>
+                        </p>
+                        <p class="text-gray-400">2h</p>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <div class="flex-shrink-0">
+                        <img alt="Thumbnail of FoodVentures" class="w-12 h-12 rounded" height="50" src="https://storage.googleapis.com/a1aa/image/6zeIM8h32RPi0c0ul6mB7VF971N5iVlC5egWgC6xKfM.jpg" width="50"/>
+                    </div>
+                    <div class="flex-1">
+                        <p class="text-gray-700">
+                            Complete the UI design of Landing Page for
+                            <span class="font-semibold">FoodVentures</span>.
+                        </p>
+                        <p class="text-red-500">
+                            Priority: <span class="font-semibold">High</span>
+                        </p>
+                        <p class="text-gray-400">2h</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="flex h-screen pt-16">
+        <!-- Sidebar -->
+        <aside class="w-72 bg-black text-white fixed h-full top-12 left-0 py-8 px-6">
+            <div class="flex flex-col items-center">
+                <div class="relative w-24 h-24 mb-4">
+                    <img src="https://storage.googleapis.com/a1aa/image/rUXZDbcIOfUN6UNKIx9JV_yYtjGio_UQcHrU_9LlOOg.jpg"
+                         alt="User Profile" class="rounded-full border-4 border-gray-200 w-full h-full">
+                </div>
+                <p class="text-lg font-semibold">Amanuel</p>
+                <p class="text-sm text-gray-400">amanuel@gmail.com</p>
+            </div>
+    
+            <!-- Navigation -->
+            <nav class="mt-8 space-y-3">
+                <a href="../land/land.html" class="flex items-center text-gray-400 hover:text-red-400">
+                    <i class="fas fa-tachometer-alt mr-3"></i> Dashboard
+                </a>
+                <a href="../Vital Task/vitals-tm.html" class="flex items-center text-gray-400 hover:text-red-400">
+                    <i class="fas fa-tasks mr-3"></i> Vital Task
+                </a>
+                <a href="../My Task/My Task.html" class="flex items-center text-gray-400 hover:text-red-400">
+                    <i class="fas fa-list mr-3"></i> My Task
+                </a>
+                <a href="../Category/task-categories.html" class="flex items-center text-gray-400 hover:text-red-400">
+                    <i class="fas fa-tags mr-3"></i> Task Categories
+                </a>
+                <a href="../Settings/Settings.html" class="flex items-center text-gray-400 hover:text-red-400">
+                    <i class="fas fa-cog mr-3"></i> Settings
+                </a>
+                <a href="#" class="flex items-center text-gray-400 hover:text-red-400">
+                    <i class="fas fa-question-circle mr-3"></i> Help
+                </a>
+            </nav>
+    
+            <!-- Logout -->
+            <div class="mt-8">
+                <a href="#" class="flex items-center text-gray-400 hover:text-red-400">
+                    <i class="fas fa-sign-out-alt mr-3"></i> Logout
+                </a>
+            </div>
+        </aside>
+    <div class="flex flex-col items-center z-[1] absolute left-[22rem] top-[8rem]">
+        <!-- Task Categories -->
+        <div class="bg-gray-50 p-6 rounded-lg w-[70vw]">
+            <div class="flex flex-row justify-between items-center mb-4">
+                <div class="flex flex-col gap-4">
+                    <h2 class="text-xl font-semibold"><span class="border-orange-500 border-b-[2px]">Task</span>
+                        Categories
+                    </h2>
+                    <a href="C:\Users\afway\Desktop\Npontu-Task-Management-App\frontend-files\create-categories.html">
+                        <button class="bg-orange-500 text-white px-4 py-2 rounded">Add Category</button>
+                    </a>
+                </div>
+                <button class="translate-y-[-2rem] underline hover:text-gray-700">Go Back</button>
+            </div>
+            <!-- Task Status Table -->
+            <div class="mb-8">
+                <div class="flex justify-between items-center mb-2">
+                    <h3 class="text-lg font-semibold"><span class="border-orange-500 border-b-[2px]">Task</span> Status
+                    </h3>
+                    <a class="text-red-500" href="#">+ <span class="text-gray-500 text-[12px]">Add Task
+                            Status</span></a>
+                </div>
+                <table class="w-full bg-white rounded-lg shadow">
+                    <thead>
+                        <tr class="bg-gray-200">
+                            <th class="py-2 px-4">SN</th>
+                            <th class="py-2 px-4">Task Status</th>
+                            <th class="py-2 px-4">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="py-2 px-4 text-center">1</td>
+                            <td class="py-2 px-4 text-center">Completed</td>
+                            <td class="py-2 text-center translate-x-[9rem] flex flex-row gap-4">
+                                <button
+                                    class="bg-orange-500 text-white px-2 py-1 rounded flex flex-row justify-between items-center gap-[2px] hover:bg-orange-300 hover:text-gray-900"><i
+                                        class="fa fa-edit"></i> Edit</button>
+                                <button
+                                    class="bg-orange-500 text-white px-2 py-1 rounded flex flex-row justify-between items-center gap-[2px] hover:bg-orange-300 hover:text-gray-900"><i
+                                        class="fa fa-trash"></i>Delete</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="py-2 px-4 text-center">2</td>
+                            <td class="py-2 px-4 text-center">In Progress</td>
+                            <td class="py-2 text-center translate-x-[9rem] flex flex-row gap-4">
+                                <button
+                                    class="bg-orange-500 text-white px-2 py-1 rounded flex flex-row justify-between items-center gap-[2px] hover:bg-orange-300 hover:text-gray-900"><i
+                                        class="fa fa-edit"></i> Edit</button>
+                                <button
+                                    class="bg-orange-500 text-white px-2 py-1 rounded flex flex-row justify-between items-center gap-[2px] hover:bg-orange-300 hover:text-gray-900"><i
+                                        class="fa fa-trash"></i>Delete</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="py-2 px-4 text-center">3</td>
+                            <td class="py-2 px-4 text-center">Not Started</td>
+                            <td class="py-2 text-center translate-x-[9rem] flex flex-row gap-4">
+                                <button
+                                    class="bg-orange-500 text-white px-2 py-1 rounded flex flex-row justify-between items-center gap-[2px] hover:bg-orange-300 hover:text-gray-900"><i
+                                        class="fa fa-edit"></i> Edit</button>
+                                <button
+                                    class="bg-orange-500 text-white px-2 py-1 rounded flex flex-row justify-between items-center gap-[2px] hover:bg-orange-300 hover:text-gray-900"><i
+                                        class="fa fa-trash"></i>Delete</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <!-- Task Priority Table -->
+            <div>
+                <div class="flex justify-between items-center mb-2">
+                    <h3 class="text-lg font-semibold"><span class="border-orange-500 border-b-[2px]">Task</span>
+                        Priority
+                    </h3>
+                    <a class="text-red-500" href="#">+ <span class="text-gray-500 text-[12px]">Add New
+                            Priority</span></a>
+                </div>
+                <table class="w-full bg-white rounded-lg shadow">
+                    <thead>
+                        <tr class="bg-gray-200">
+                            <th class="py-2 px-4">SN</th>
+                            <th class="py-2 px-4">Task Priority</th>
+                            <th class="py-2 px-4">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="py-2 px-4 text-center">1</td>
+                            <td class="py-2 px-4 text-center">Extreme</td>
+                            <td class="py-2 text-center translate-x-[8rem] flex flex-row gap-4">
+                                <button
+                                    class="bg-orange-500 text-white px-2 py-1 rounded flex flex-row justify-between items-center gap-[2px] hover:bg-orange-300 hover:text-gray-900"><i
+                                        class="fa fa-edit"></i> Edit</button>
+                                <button
+                                    class="bg-orange-500 text-white px-2 py-1 rounded flex flex-row justify-between items-center gap-[2px] hover:bg-orange-300 hover:text-gray-900"><i
+                                        class="fa fa-trash"></i>Delete</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="py-2 px-4 text-center">2</td>
+                            <td class="py-2 px-4 text-center">Moderate</td>
+                            <td class="py-2 text-center translate-x-[8rem] flex flex-row gap-4">
+                                <button
+                                    class="bg-orange-500 text-white px-2 py-1 rounded flex flex-row justify-between items-center gap-[2px] hover:bg-orange-300 hover:text-gray-900"><i
+                                        class="fa fa-edit"></i> Edit</button>
+                                <button
+                                    class="bg-orange-500 text-white px-2 py-1 rounded flex flex-row justify-between items-center gap-[2px] hover:bg-orange-300 hover:text-gray-900"><i
+                                        class="fa fa-trash"></i>Delete</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="py-2 px-4 text-center">3</td>
+                            <td class="py-2 px-4 text-center">Low</td>
+                            <td class="py-2 text-center translate-x-[8rem] flex flex-row gap-4">
+                                <button
+                                    class="bg-orange-500 text-white px-2 py-1 rounded flex flex-row justify-between items-center gap-[2px] hover:bg-orange-300 hover:text-gray-900"><i
+                                        class="fa fa-edit"></i> Edit</button>
+                                <button
+                                    class="bg-orange-500 text-white px-2 py-1 rounded flex flex-row justify-between items-center gap-[2px] hover:bg-orange-300 hover:text-gray-900"><i
+                                        class="fa fa-trash"></i>Delete</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <!-- Add Task Priority -->
+        <div class="bg-white p-8 z-[20] rounded shadow-md translate-y-[-34rem] translate-x-[-10rem] w-2/3 hidden">
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="text-xl font-semibold">
+                    <span class="border-b-[2px] border-orange-500">Add</span> Task Priority
+                </h2>
+                <a class="text-gray-500 translate-y-[2rem]" href="#">
+                    <button class="translate-y-[-2rem] underline hover:text-gray-700">Go Back</button>
+                </a>
+            </div>
+            <form class="border w-[36rem] h-[20rem] p-8">
+                <div class="mb-4">
+                    <label class="block text-gray-700" for="task-priority-title">
+                        Task Priority Title
+                    </label>
+                    <input class="border rounded w-full p-2 mt-2" id="task-priority-title" type="text" />
+                </div>
+                <div class="flex flex-row gap-4">
+                    <button
+                        class="bg-orange-500 text-white px-4 py-2 w-[8rem] rounded mr-2 hover:bg-orange-300 hover:text-gray-900"
+                        type="submit">
+                        Create
+                    </button>
+                    <button
+                        class="bg-orange-500 text-white px-4 py-2 w-[8rem] rounded mr-2 hover:bg-orange-300 hover:text-gray-900"
+                        type="submit">
+                        Cancel
+                    </button>
+                </div>
+            </form>
+        </div>
+        <!-- Edit Task Priority -->
+        <div class="bg-white p-8 z-[20] rounded shadow-md translate-y-[-34rem] translate-x-[-10rem] w-2/3 hidden">
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="text-xl font-semibold">
+                    <span class="border-b-[2px] border-orange-500">Edit</span> Task Priority
+                </h2>
+                <a class="text-gray-500 translate-y-[2rem]" href="#">
+                    <button class="translate-y-[-2rem] underline hover:text-gray-700">Go Back</button>
+                </a>
+            </div>
+            <form class="border w-[36rem] h-[20rem] p-8">
+                <div class="mb-4">
+                    <label class="block text-gray-700" for="task-priority-title">
+                        Task Priority Title
+                    </label>
+                    <input class="border rounded w-full p-2 mt-2" id="task-priority-title" type="text" />
+                </div>
+                <div class="flex flex-row gap-4">
+                    <button
+                        class="bg-orange-500 text-white px-4 py-2 w-[8rem] rounded mr-2 hover:bg-orange-300 hover:text-gray-900"
+                        type="submit">
+                        Create
+                    </button>
+                    <button
+                        class="bg-orange-500 text-white px-4 py-2 w-[8rem] rounded mr-2 hover:bg-orange-300 hover:text-gray-900"
+                        type="submit">
+                        Cancel
+                    </button>
+                </div>
+            </form>
+        </div>
+        <!-- Edit Task Status -->
+        <div class="bg-white p-8 z-[20] rounded shadow-md translate-y-[-34rem] translate-x-[-10rem] w-2/3 hidden">
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="text-xl font-semibold">
+                    <span class="border-b-[2px] border-orange-500">Edit</span> Task Status
+                </h2>
+                <a class="text-gray-500 translate-y-[2rem]" href="#">
+                    <button class="translate-y-[-2rem] underline hover:text-gray-700">Go Back</button>
+                </a>
+            </div>
+            <form class="border w-[36rem] h-[20rem] p-8">
+                <div class="mb-4">
+                    <label class="block text-gray-700" for="task-priority-title">
+                        Task Status Name
+                    </label>
+                    <input class="border rounded w-full p-2 mt-2" id="task-priority-title" type="text" />
+                </div>
+                <div class="flex flex-row gap-4">
+                    <button
+                        class="bg-orange-500 text-white px-4 py-2 w-[8rem] rounded mr-2 hover:bg-orange-300 hover:text-gray-900"
+                        type="submit">
+                        Create
+                    </button>
+                    <button
+                        class="bg-orange-500 text-white px-4 py-2 w-[8rem] rounded mr-2 hover:bg-orange-300 hover:text-gray-900"
+                        type="submit">
+                        Cancel
+                    </button>
+                </div>
+            </form>
+        </div>
+        <!-- Create Categories Form -->
+        <div class="z-[20] bg-gray-50 p-6 rounded-lg w-[70vw] h-[70vh] border border-gray-500 hidden">
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="text-xl font-bold">
+                    Create Categories
+                </h2>
+                <a class="text-gray-500" href="#">
+                    <button class="translate-y-[-2rem] underline hover:text-gray-700">Go Back</button>
+                </a>
+            </div>
+            <form>
+                <div class="mb-4">
+                    <label class="block text-gray-700" for="category-name">
+                        Category Name
+                    </label>
+                    <input class="border rounded w-full p-2" id="category-name" type="text" />
+                </div>
+                <div class="flex space-x-4">
+                    <button class="bg-orange-500 text-white hover:bg-orange-300 hover:text-gray-900 px-4 py-2 rounded"
+                        type="submit">
+                        Create
+                    </button>
+                    <button class="bg-orange-500 text-white hover:bg-orange-300 hover:text-gray-900 px-4 py-2 rounded"
+                        type="button">
+                        Cancel
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <script src="task-categories.js"></script>
+</body>
+
+</html>

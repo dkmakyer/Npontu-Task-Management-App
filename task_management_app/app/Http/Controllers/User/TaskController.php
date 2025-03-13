@@ -6,36 +6,40 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Models\Task;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class TaskController extends Controller
 {
-    public function index(int $id)
+    public function index()
     {
-        $user = User::findOrFail($id);
-        $tasks = $user->tasks()->get();
+        // Fetch the authenticated user
+        $user = Auth::user();
 
-        return view('tasks.index', compact('user', 'tasks'));
+        // Fetch tasks for the authenticated user
+        $tasks = $user->tasks; // Assuming you have a relationship defined in the User model
+        return view("tasks.all", compact("tasks"));
     }
 
-    public function create(int $id)
+    public function create()
     {
-        $user = User::findOrFail($id);
-        return view('tasks.create', compact('user'));
+        return view('tasks.create');
     }
 
-    public function store(Request $request, int $id)
+    public function store(Request $request, User $user)
     {
         $request->validate([
             'title' => 'required',
             'date' => 'required|date',
             'priority' => 'required',
             'description' => 'required',
-            'image' => 'image'
+            'image' => 'image|nullable'
         ]);
 
-        $imagePath = $request->hasFile('image') ? $request->file('image')->store('profile', 'public') : '';
-        $user = User::findOrFail($id);
+        $imagePath = $request->hasFile('image') ? $request->file('image')->store('profile', 'public') : null;
+
+        // Create the task associated with the user
         $user->tasks()->create([
+            'user_id' => Auth::id(), // This line can be removed if you are using the $user instance
             'title' => $request->title,
             'description' => $request->description,
             'image_url' => $imagePath,
@@ -43,35 +47,48 @@ class TaskController extends Controller
             'due_date' => $request->date,
         ]);
 
-        return redirect()->route('tasks.index', $id)->with('success', 'Task created successfully.');
+        return back()->with('success', 'Task created successfully.');
     }
 
-    public function show(int $userId, int $taskId)
+    public function show(Task $task)
     {
-        $task = Task::where('id', $taskId)->where('user_id', $userId)->firstOrFail();
+        // Check if the authenticated user is authorized to view the task
+        if ($task->user_id !== Auth::id()) {
+            return redirect()->route('tasks.index')->with('error', 'Unauthorized access.');
+        }
+
         return view('tasks.show', compact('task'));
     }
 
-    public function edit(int $userId, int $taskId)
+    public function edit(Task $task)
     {
-        $task = Task::where('id', $taskId)->where('user_id', $userId)->firstOrFail();
+        // Check if the authenticated user is authorized to edit the task
+        if ($task->user_id !== Auth::id()) {
+            return redirect()->route('tasks.index')->with('error', 'Unauthorized access.');
+        }
+
         return view('tasks.edit', compact('task'));
     }
 
-    public function update(Request $request, int $userId, int $taskId)
+    public function update(Request $request, Task $task)
     {
         $request->validate([
             'title' => 'required',
-            'date' => 'required|date',
-            'priority' => 'required',
-            'description' => 'required',
-            'image' => 'image'
+            'description' => 'nullable',
+            'image' => 'image|nullable',
+            'priority' => 'required|in:low,medium,high',
+            'due_date' => 'nullable|date',
         ]);
 
-        $task = Task::where('id', $taskId)->where('user_id', $userId)->firstOrFail();
+        // Check if the authenticated user is authorized to update the task
+        if ($task->user_id !== Auth::id()) {
+            return redirect()->route('tasks.index')->with('error', 'Unauthorized access.');
+        }
 
+        // Handle the image upload
         $imagePath = $request->hasFile('image') ? $request->file('image')->store('profile', 'public') : $task->image_url;
 
+        // Update the task with the request data
         $task->update([
             'title' => $request->title,
             'description' => $request->description,
@@ -80,14 +97,17 @@ class TaskController extends Controller
             'due_date' => $request->date,
         ]);
 
-        return redirect()->route('tasks.index', $userId)->with('success', 'Task updated successfully.');
+        return redirect()->route('tasks.index')->with('success', 'Task updated successfully.');
     }
 
-    public function destroy(int $userId, int $taskId)
+    public function destroy(Task $task)
     {
-        $task = Task::where('id', $taskId)->where('user_id', $userId)->firstOrFail();
-        $task->delete();
+        // Check if the authenticated user is authorized to delete the task
+        if ($task->user_id !== Auth::id()) {
+            return redirect()->route('tasks.index')->with('error', 'Unauthorized access.');
+        }
 
-        return redirect()->route('tasks.index', $userId)->with('success', 'Task deleted successfully.');
+        $task->delete();
+        return redirect()->route('tasks.index')->with('success', 'Task deleted successfully.');
     }
 }

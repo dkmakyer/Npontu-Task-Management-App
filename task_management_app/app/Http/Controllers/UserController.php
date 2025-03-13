@@ -23,12 +23,12 @@ class UserController extends Controller
 
     public function updateProfile()
     {
-        return view('settings.update_info');
+        return view('settings.update-info');
     }
 
     public function changePassword()
     {
-        return view('settings.change_password');
+        return view('settings.change-password');
     }
 
     public function store(Request $request)
