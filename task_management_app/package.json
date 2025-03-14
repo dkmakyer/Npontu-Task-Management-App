@@ -1,16 +1,3 @@
-{
-    "private": true,
-    "type": "module",
-    "scripts": {
-        "build": "vite build",
-        "dev": "vite"
-    },
-    "devDependencies": {
-        "@tailwindcss/vite": "^4.0.0",
-        "axios": "^1.7.4",
-        "concurrently": "^9.0.1",
-        "laravel-vite-plugin": "^1.2.0",
-        "tailwindcss": "^4.0.0",
-        "vite": "^6.0.11"
-    }
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:f468a85e1fc5e344ff9505f0aaa407b3307fdc2af2f4ad9891a31c6c5d0a2845
+size 355
