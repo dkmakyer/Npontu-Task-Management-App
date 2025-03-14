@@ -8,9 +8,15 @@ document.addEventListener("DOMContentLoaded", function () {
         tasks.forEach(task => {
             if (selectedFilter === "" || selectedFilter === "task") {
                 task.style.display = "flex"; // Show all tasks
+                task.addEventListener("click", function(){
+
+                })
             } else {
                 if (task.classList.contains(selectedFilter)) {
                     task.style.display = "flex"; // Show matched tasks
+                    task.addEventListener("click", function(){
+                    
+                    })
                 } else {
                     task.style.display = "none"; // Hide unmatched tasks
                 }
