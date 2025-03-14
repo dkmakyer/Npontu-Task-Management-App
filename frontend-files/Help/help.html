@@ -1,29 +1,30 @@
 <html lang="en">
 <head>
-  <meta charset="utf-8"/>
-  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-  <title>Settings</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-Do App</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 </head>
 <body class="bg-gray-100 font-sans">
-  <!-- Header -->
-  <header class="flex justify-between items-center shadow-md bg-gray-50 fixed w-full p-4 z-10">
-    <div class="flex items-center">
-        <h1 class="text-2xl font-bold text-red-500">
-            Settings
-        </h1>
-    </div>
-    <div class="flex items-center">
-        <div class="bg-red-400 p-2 rounded h-[2rem] flex items-center justify-center mr-4 cursor-pointer" id="notificationButton">
-            <i class="fas fa-bell text-white text-xl"></i>
-        </div>
-        <p class="text-black flex flex-col items-center">
-            Tuesday <span class="text-[12px] text-blue-400">20/06/2023</span>
-        </p>
-    </div>
-  </header>
-  <!-- Notification Pop-up -->
+    <div class="flex h-screen">
+        <!-- Header -->
+        <header class="flex justify-between items-center shadow-md bg-gray-50 fixed w-full p-4 z-10">
+            <div class="flex items-center">
+                <h1 class="text-2xl font-bold text-red-500">
+                    Help
+                </h1>
+            </div>
+            <div class="flex items-center">
+                <div class="bg-red-400 p-2 rounded h-[2rem] flex items-center justify-center mr-4 cursor-pointer" id="notificationButton">
+                    <i class="fas fa-bell text-white text-xl"></i>
+                </div>
+                <p class="text-black flex flex-col items-center">
+                    Tuesday <span class="text-[12px] text-blue-400">20/06/2023</span>
+                </p>
+            </div>
+        </header>
+        <!-- Notification Pop-up -->
   <div class="hidden fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center z-20" id="notificationPopup">
     <div class="bg-white rounded-lg shadow-lg w-full max-w-md relative">
         <div class="p-4 border-b border-gray-200 flex justify-between items-center">
@@ -110,69 +111,54 @@
         </div>
     </div>
 </div>
-  <!-- Sidebar -->
-  <aside class="w-72 bg-black text-white fixed h-full top-16 left-0 py-8 px-6">
-    <div class="flex flex-col items-center">
-        <div class="relative w-24 h-24 mb-4">
-            <img src="https://storage.googleapis.com/a1aa/image/rUXZDbcIOfUN6UNKIx9JV_yYtjGio_UQcHrU_9LlOOg.jpg"
-                 alt="User Profile" class="rounded-full border-4 border-gray-200 w-full h-full">
-        </div>
-        <p class="text-lg font-semibold">Amanuel</p>
-        <p class="text-sm text-gray-400">amanuel@gmail.com</p>
-    </div>
+        <!-- Sidebar -->
+        <aside class="w-72 bg-black text-white fixed h-full top-16 left-0 py-8 px-6">
+            <div class="flex flex-col items-center">
+                <div class="relative w-24 h-24 mb-4">
+                    <img src="https://storage.googleapis.com/a1aa/image/rUXZDbcIOfUN6UNKIx9JV_yYtjGio_UQcHrU_9LlOOg.jpg"
+                         alt="User Profile" class="rounded-full border-4 border-gray-200 w-full h-full">
+                </div>
+                <p class="text-lg font-semibold">Amanuel</p>
+                <p class="text-sm text-gray-400">amanuel@gmail.com</p>
+            </div>
 
-    <!-- Navigation -->
-    <nav class="mt-8 space-y-3">
-        <a href="../My Task/My Task.html" class="flex items-center text-gray-400 hover:text-red-400">
-            <i class="fas fa-list mr-3"></i> My Task
-        </a>
-        <a href="#" class="flex items-center text-gray-400 hover:text-red-400">
-            <span style="font-size: 24px; margin-right: 10px;">&#33;</span> All Tasks
-        </a>
-        <a href="../Settings/Settings.html" class="flex items-center text-gray-400 hover:text-red-400">
-            <i class="fas fa-cog mr-3"></i> Settings
-        </a>
-        <a href="../Help/help.html" class="flex items-center text-gray-400 hover:text-red-400">
-            <i class="fas fa-question-circle mr-3"></i> Help
-        </a>
-    </nav>
+            <!-- Navigation -->
+            <nav class="mt-8 space-y-3">
+                <a href="../My Task/My Task.html" class="flex items-center text-gray-400 hover:text-red-400">
+                    <i class="fas fa-list mr-3"></i> My Task
+                </a>
+                <a href="#" class="flex items-center text-gray-400 hover:text-red-400">
+                    <span style="font-size: 24px; margin-right: 10px;">&#33;</span> All Tasks
+                </a>
+                <a href="../Settings/Settings.html" class="flex items-center text-gray-400 hover:text-red-400">
+                    <i class="fas fa-cog mr-3"></i> Settings
+                </a>
+                <a href="../Help/help.html" class="flex items-center text-gray-400 hover:text-red-400">
+                    <i class="fas fa-question-circle mr-3"></i> Help
+                </a>
+            </nav>
 
-    <!-- Logout -->
-    <div class="mt-8">
-        <a href="#" class="flex items-center text-gray-400 hover:text-red-400">
-            <i class="fas fa-sign-out-alt mr-3"></i> Logout
-        </a>
-    </div>
-  </aside>
+            <!-- Logout -->
+            <div class="mt-8">
+                <a href="#" class="flex items-center text-gray-400 hover:text-red-400">
+                    <i class="fas fa-sign-out-alt mr-3"></i> Logout
+                </a>
+            </div>
+        </aside>
 
-  <!-- Main Content -->
-  <div class="flex-1 p-6 ml-72 pt-20">
-    <!-- Account Information -->
-    <div class="bg-white p-6 rounded-lg shadow-lg">
-      <div class="flex justify-between items-center mb-6">
-        <h2 class="text-xl font-semibold">Account Information</h2>
-        <a class="text-gray-500" href="../Settings/Settings.html">Go Back</a>
-      </div>
-      <div class="flex items-center mb-6">
-        <img alt="User profile picture" class="rounded-full w-12 h-12 mr-4" height="50" src="https://placehold.co/50x50" width="50"/>
-        <div>
-          <h3 class="text-lg font-semibold">amanuel</h3>
-          <p class="text-sm text-gray-500">amanuel@gmail.com</p>
+        <!-- Main Content -->
+        <div class="flex-1 p-6 ml-72 pt-20">
+            <!-- Help Section -->
+            <div class="bg-white p-6 rounded shadow">
+                <div class="space-y-4">
+                    <a href="https://help.clickup.com/hc/en-us/articles/360004451812-Getting-Started-with-ClickUp" class="block bg-red-400 text-white p-4 rounded text-center cursor-pointer">Getting Started</a>
+                    <a href="https://community.atlassian.com/t5/Jira/ct-p/jira" class="block bg-red-400 text-white p-4 rounded text-center cursor-pointer">Community Support And Resources</a>
+                    <a href="https://help.clickup.com/hc/en-us/categories/360001977091-FAQs-Troubleshooting" class="block bg-red-400 text-white p-4 rounded text-center cursor-pointer">Troubleshooting & FAQs</a>
+                    <a href="https://community.atlassian.com/t5/Trello-questions/How-do-I-submit-a-feature-request/qaq-p/1367937" class="block bg-red-400 text-white p-4 rounded text-center cursor-pointer">User Feedback</a>
+                </div>
+            </div>
         </div>
-      </div>
-      <form method="Post">
-        <div class="grid grid-cols-1 gap-4 mb-4">
-          <input class="border rounded-lg px-4 py-2" placeholder="First Name" type="text"/>
-          <input class="border rounded-lg px-4 py-2" placeholder="Last Name" type="text"/>
-          <input class="border rounded-lg px-4 py-2" placeholder="Email Address" type="email"/>
-          <input class="border rounded-lg px-4 py-2" placeholder="Contact Number" type="text"/>
-        </div>
-        <div class="flex space-x-4">
-          <a href="../Settings/update-info.html"><button class="bg-red-500 text-white px-4 py-2 rounded-lg" type="button">Update Info</button></a>
-        </div>
-      </form>
     </div>
-  </div>
-  <script src="Settings.js"></script>
+    <script src="help.js"></script>
 </body>
 </html>
