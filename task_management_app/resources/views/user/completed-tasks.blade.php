@@ -15,7 +15,7 @@
         <!-- Header -->
         <x-header :pageName="'Completed Tasks'"></x-header>
         <!-- Notification Pop-up -->
-        <x-notifications-popup></x-notifications-popup>
+        <x-notification-component :id="auth()->user()->id"></x-notification-component>
         <div class="flex h-screen pt-16">
             <!-- Sidebar -->
             <x-sidebar :user="auth()->user()"></x-sidebar>

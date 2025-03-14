@@ -17,7 +17,7 @@
             <!-- Header -->
             <x-header :pageName="'Update Task'"></x-header>
             <!-- Notification Pop-up -->
-            <x-notifications-popup></x-notifications-popup>
+            <x-notification-component :id="auth()->user()->id"></x-notification-component>
             <!-- Sidebar -->
             <x-sidebar :user="auth()->user()"></x-sidebar>
             <!-- Main Content -->

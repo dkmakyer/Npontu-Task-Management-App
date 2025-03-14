@@ -16,7 +16,7 @@
             <!-- Header -->
             <x-header :pageName="'Settings'"></x-header>
             <!-- Notification Pop-up -->
-            <x-notifications-popup></x-notifications-popup>
+            <x-notification-component :id="auth()->user()->id"></x-notification-component>
             <div class="flex h-screen pt-16">
                 <!-- Sidebar -->
                 <x-sidebar :user="auth()->user()"></x-sidebar>
@@ -44,13 +44,6 @@
                                 </a>
                                 <a href="../Notifications/notifications.html" class="block">
                                     <button class="w-full text-left bg-gray-200 p-2 text-sm rounded">Notifications</button>
-                                </a>
-                                <a href="../Theme/theme.html" class="block">
-                                    <button class="w-full text-left bg-gray-200 p-2 text-sm rounded">Theme</button>
-                                </a>
-                                <a href="../Advanced/advanced.html" class="block">
-                                    <button class="w-full text-left bg-gray-200 p-2 text-sm rounded">Advanced
-                                        options</button>
                                 </a>
                                 <a href="{{ route('help') }}" class="block">
                                     <button class="w-full text-left bg-gray-200 p-2 text-sm rounded">Help</button>

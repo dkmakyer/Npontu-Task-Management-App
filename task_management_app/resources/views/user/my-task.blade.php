@@ -17,7 +17,7 @@
         <!-- Header -->
         <x-header :pageName="'My Tasks'"></x-header>
         <!-- Notification Pop-up -->
-        <x-notifications-popup></x-notifications-popup>
+        <x-notification-component :id="auth()->user()->id"></x-notification-component>
         <div class="flex h-screen pt-16">
             <!-- Sidebar -->
             <x-sidebar :user="auth()->user()"></x-sidebar>
@@ -28,7 +28,7 @@
                 <!-- Content -->
                 <div class="flex-1 p-6 flex space-x-6">
                     <!-- Task List -->
-                    <div class="w-1/2 bg-white p-4 rounded shadow">
+                    <div class="w-1/2 bg-white p-4 rounded shadow w-[80%]">
                         <!-- This section is for the search results -->
                         @session('result')
                             @foreach (session('result') as $result)
@@ -57,10 +57,13 @@
                         @if ($tasks->count())
                             @foreach ($tasks as $task)
                                 <div id="task-list" class="space-y-4">
-                                    <div class="p-4 border rounded-lg flex items-center justify-between" data-task-id="1">
+                                    <div class="p-4 border rounded-lg flex justify-between">
                                         <div>
                                             <h3
                                                 class="text-lg font-bold {{ $task->priority == 'high' ? ' text-red-500' : 'text-blue-500' }}">
+                                                <input type="checkbox" name="completed" class="mr-3" class="checked"
+                                                    onchange="changed(this)"
+                                                    data-url="{{ route('task.completed', $task->id) }}">
                                                 <a
                                                     href="{{ route('show.task.details', $task->id) }}">{{ $task->title }}</a>
                                             </h3>
@@ -70,9 +73,7 @@
                                                 <span class="task-status">Uncompleted</span>
                                             </div>
                                         </div>
-                                        {{-- <img alt="Document submission illustration" class="rounded-lg" height="50"
-                                            src="{{ $task->getImgUrl() }}" width="50" /> --}}
-                                        <div class="flex mt-2">
+                                        <div class="flex">
                                             <a href="{{ route('update.task', $task->id) }}">
                                                 <button class="bg-red-500 text-white px-4 py-2 rounded mr-2 edit-task">
                                                     <i class="fas fa-edit"></i>
@@ -90,8 +91,6 @@
                         @else
                             <h2 class="text-xl font-semibold">You currently have no tasks that need to be completed</h2>
                         @endif
-
-
                     </div>
 
                     <!-- Task Details -->
@@ -245,6 +244,15 @@
             </div>
         </div>
 
+        <script>
+            function changed(element) {
+                if (element.checked) {
+                    const url = element.dataset.url;
+                    window.location.href = url;
+                }
+            }
+        </script>
         <script src="{{ asset('assets/js/task.js') }}"></script>
     </body>
+
 @endsection

@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers\User;
 
+use App\Events\TaskEvent;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Models\Task;
+use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -39,7 +41,7 @@ class TaskController extends Controller
         $imagePath = $request->hasFile('image') ? $request->file('image')->store('profile', 'public') : '';
         $user = User::where('id', $id)->with('tasks')->first();
         try {
-            $user->tasks()->create([
+            $task = $user->tasks()->create([
                 'title' => $request->title,
                 'description' => $request->description,
                 'image_url' => $imagePath,
@@ -47,8 +49,9 @@ class TaskController extends Controller
                 'due_date' => $request->date,
                 'category' => $request->category
             ]);
+            event(new TaskEvent($task, ['message' => "$task->title added successfully."]));
         } catch (Exception $e) {
-            dd($e->getMessage());
+            return back()->with(['error' => 'Unexpected error occurred']);
         }
 
         return back();
@@ -172,5 +175,13 @@ class TaskController extends Controller
         }
 
         if ($tasks) return back()->with(['filtered' => $tasks]);
+    }
+
+    public function taskCompleted(int $id)
+    {
+        $task = Task::find($id);
+        $task->update(['completed' => true, 'date_completed' => Carbon::now()]);
+        event(new TaskEvent($task, ['message' => "Good job on completing your task."]));
+        return back();
     }
 }

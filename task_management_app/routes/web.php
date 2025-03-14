@@ -48,11 +48,14 @@ Route::get('task/{id}', [TaskController::class, 'showTaskDetails'])->name('show.
 
 Route::get('task/{id}/delete', [TaskController::class, 'destroy'])->name('delete.task');
 Route::get('task/{id}/update', [TaskController::class, 'updateTask'])->name('update.task');
+Route::post('task/{id}/update', [TaskController::class, 'storeUpdatedTask']);
+
 
 Route::get('tasks/completed', [TaskController::class, 'showRecentlyCompletedTasks'])->name('completed.tasks');
 Route::get('task/completed/{filter}', [TaskController::class, 'filterTasks'])->name('filtered.tasks');
 
-Route::post('task/{id}/update', [TaskController::class, 'storeUpdatedTask']);
+Route::get('task/{id}/completed', [TaskController::class, 'taskCompleted'])->name('task.completed');
+
 Route::get('settings', [SettingsController::class, 'index'])->name('settings');
 
 

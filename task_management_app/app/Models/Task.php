@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Notification;
 
 class Task extends Model
 {
@@ -32,7 +33,12 @@ class Task extends Model
         if ($this->image_url) {
             return url("storage/$this->image_url");
         } else {
-            return url("https://api.dicebear.com/6.x/fun-emoji/svg?seed=$this->name");
+            return url("https://api.dicebear.com/9.x/adventurer/svg?seed=Chase");
         }
+    }
+
+    public function notifications()
+    {
+        return $this->hasMany(Notification::class);
     }
 }
