@@ -25,7 +25,7 @@ class SocialiteController extends Controller
 
         $providerUser = Socialite::driver($social)->user();
         $user = User::where('social_id', $providerUser->id)->first();
-        if ($user->count()) {
+        if ($user) {
             // dd('user exists');
             Auth::login($user);
             return redirect(route('tasks'));

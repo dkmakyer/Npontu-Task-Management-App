@@ -26,8 +26,10 @@ Route::post('register', [RegisterController::class, 'store']);
 
 Route::get('profile', [UserController::class, 'index'])->name('profile');
 Route::get('cancel-update', [UserController::class, 'cancel'])->name('cancel.update');
+
 Route::get('profile-update', [UserController::class, 'showUpdateProfileView'])->name('update.profile');
 Route::post('profile-update', [UserController::class, 'storeUpdatedProfile'])->name('store.update');
+
 Route::get('change-password', [UserController::class, 'showChangePasswordView'])->name('change.password');
 Route::post('change-password', [UserController::class, 'storeChangedPassword']);
 
@@ -40,13 +42,17 @@ Route::get('logout', [LogoutController::class, 'logout'])->name('logout');
 // Routes to show the task page and also store a task in the database
 Route::get('tasks', [TaskController::class, 'index'])->name('tasks');
 Route::post('{id}/task/store', [TaskController::class, 'store'])->name('store.task');
+
 Route::get('search', [TaskController::class, 'search'])->name('search.task');
 Route::get('task/{id}', [TaskController::class, 'showTaskDetails'])->name('show.task.details');
+
 Route::get('task/{id}/delete', [TaskController::class, 'destroy'])->name('delete.task');
 Route::get('task/{id}/update', [TaskController::class, 'updateTask'])->name('update.task');
+
+Route::get('tasks/completed', [TaskController::class, 'showRecentlyCompletedTasks'])->name('completed.tasks');
+Route::get('task/completed/{filter}', [TaskController::class, 'filterTasks'])->name('filtered.tasks');
+
 Route::post('task/{id}/update', [TaskController::class, 'storeUpdatedTask']);
-
-
 Route::get('settings', [SettingsController::class, 'index'])->name('settings');
 
 

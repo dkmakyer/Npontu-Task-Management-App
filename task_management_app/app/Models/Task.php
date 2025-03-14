@@ -2,23 +2,25 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Task extends Model
 {
+    use HasFactory;
     protected $fillable = [
         'title',
         'user_id',
         'description',
         'image_url',
         'due_date',
-        'status',
+        'date_completed',
         'category',
         'priority',
-        'category',
+        'completed',
     ];
 
-    protected $casts = ['due_date' => 'datetime'];
+    protected $casts = ['due_date' => 'datetime', 'date_completed' => 'datetime'];
 
     public function user()
     {

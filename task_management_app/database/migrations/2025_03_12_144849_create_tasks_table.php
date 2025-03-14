@@ -15,13 +15,14 @@ return new class extends Migration
         Schema::create('tasks', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(User::class);
-            $table->string('title');
-            $table->string('description')->nullable(false);
+            $table->string('title')->nullable(false);
+            $table->text('description')->nullable(false);
             $table->enum('category', ['Educational', 'Health and Fitness']);
-            $table->enum('status', ['completed', 'deleted', 'uncompleted'])->default('uncompleted');
+            $table->boolean('completed')->default(false);
             $table->enum('priority', ['low', 'high', 'medium'])->default('low');
             $table->string('image_url')->nullable();
-            $table->timestamp('due_date');
+            $table->timestamp('due_date')->nullable(false);
+            $table->timestamp('date_completed')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

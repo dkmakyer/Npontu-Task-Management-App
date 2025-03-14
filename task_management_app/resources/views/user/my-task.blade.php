@@ -61,11 +61,13 @@
                                         <div>
                                             <h3
                                                 class="text-lg font-bold {{ $task->priority == 'high' ? ' text-red-500' : 'text-blue-500' }}">
-                                                {{ $task->title }}</h3>
+                                                <a
+                                                    href="{{ route('show.task.details', $task->id) }}">{{ $task->title }}</a>
+                                            </h3>
                                             <p class="text-gray-500">
                                                 {{ substr($task->description, 0, strlen($task->description) - 10) }}...</p>
                                             <div class="text-sm text-gray-400">Priority: {{ " $task->priority" }} | Status:
-                                                <span class="task-status">{{ $task->status }}</span>
+                                                <span class="task-status">Uncompleted</span>
                                             </div>
                                         </div>
                                         {{-- <img alt="Document submission illustration" class="rounded-lg" height="50"
