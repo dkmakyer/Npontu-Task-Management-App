@@ -24,7 +24,7 @@
         </div>
     </div>
     <div class="flex items-center">
-        @if ($pageName == 'Settings' || $pageName == 'My Tasks' || $pageName == 'Update Task')
+        @if ($pageName == 'Settings' || $pageName == 'My Tasks' || $pageName == 'Update Task' || $pageName == 'Completed Tasks')
             <div class="bg-red-400 p-2 rounded h-[2rem] flex items-center justify-center mr-4 cursor-pointer"
                 id="notificationButton">
                 <i class="fas fa-bell text-white text-xl"></i>

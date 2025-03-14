@@ -150,7 +150,7 @@ class TaskController extends Controller
         // to get the currently authenticated user
         $user = User::find(Auth::user()->id);
         // getting tasks that belongs to the authenticated user and have the status completed from the database
-        $tasks = $user->tasks()->where('completed', true)->with('user')->get();
+        $tasks = $user->completedTasks()->where('completed', true)->with('user')->get();
         return view('user.completed-tasks', ['tasks' => $tasks]);
     }
 
@@ -159,13 +159,13 @@ class TaskController extends Controller
         $user = User::find(Auth::user()->id);
         switch ($filter) {
             case 'educational':
-                $tasks = $user->tasks()->where('completed', true)->where('category', 'Educational')->get();
+                $tasks = $user->completedTasks()->where('completed', true)->where('category', 'Educational')->get();
                 break;
             case 'health':
-                $tasks = $user->tasks()->where('completed', true)->where('category', 'Health and Fitness')->get();
+                $tasks = $user->completedTasks()->where('completed', true)->where('category', 'Health and Fitness')->get();
                 break;
             case 'all':
-                $tasks = $user->tasks()->where('completed', true)->get();
+                $tasks = $user->completedTasks()->where('completed', true)->get();
                 break;
             default:
                 $tasks = null;

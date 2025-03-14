@@ -13,7 +13,7 @@
 
     <body class="bg-gray-100 font-sans">
         <!-- Header -->
-        <x-header :pageName="'Recently Completed Tasks'"></x-header>
+        <x-header :pageName="'Completed Tasks'"></x-header>
         <!-- Notification Pop-up -->
         <x-notifications-popup></x-notifications-popup>
         <div class="flex h-screen pt-16">

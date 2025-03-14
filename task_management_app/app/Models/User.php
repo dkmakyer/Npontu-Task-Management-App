@@ -53,4 +53,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(Task::class);
     }
+
+    public function completedTasks()
+    {
+        return $this->hasMany(Task::class)->orderBy('date_completed', 'asc');
+    }
 }
