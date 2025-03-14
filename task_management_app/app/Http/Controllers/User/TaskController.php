@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Storage;
 
 class TaskController extends Controller
 {
+
     public function __construct()
     {
         $this->middleware('auth');
@@ -24,6 +25,11 @@ class TaskController extends Controller
         $id = Auth::user()->id;
         $user = User::find($id);
         $tasks = $user->tasks()->latest()->where('completed', false)->get();
+
+        // logic for calling the remindUser method once to reduce latency
+        if (date('H') == 21) {
+            $this->remindUser($id);
+        }
         return view('user.my-task', ['tasks' => $tasks]);
     }
 
@@ -38,6 +44,7 @@ class TaskController extends Controller
             'category' => 'required|in:Educational, Health and Fitness'
         ]);
 
+        // if the request has a file property, then we store the file in the path storage/app/public/profile
         $imagePath = $request->hasFile('image') ? $request->file('image')->store('profile', 'public') : '';
         $user = User::where('id', $id)->with('tasks')->first();
         try {
@@ -49,14 +56,13 @@ class TaskController extends Controller
                 'due_date' => $request->date,
                 'category' => $request->category
             ]);
-            event(new TaskEvent($task, ['message' => "$task->title added successfully."]));
+            event(new TaskEvent($task, null));
         } catch (Exception $e) {
             return back()->with(['error' => 'Unexpected error occurred']);
         }
 
         return back();
     }
-
 
     public function search(Request $request)
     {
@@ -69,9 +75,14 @@ class TaskController extends Controller
         }
 
         $user = User::find(Auth::user()->id);
+
+        // search through the users tasks to find the one that matches the search field's value
         $result = $user->tasks()->latest()->where(column: 'title', operator: 'LIKE', value: "%$request->search%")->get();
-        $response = $result->count() ? $result : "Task not found";
-        return back()->with(['result' => $result]);
+        $response = $result->count() ? true : false;
+
+        if ($response) {
+            return back()->with(['result' => $result]);
+        }
     }
 
     public function showTaskDetails(int $id)
@@ -181,7 +192,26 @@ class TaskController extends Controller
     {
         $task = Task::find($id);
         $task->update(['completed' => true, 'date_completed' => Carbon::now()]);
-        event(new TaskEvent($task, ['message' => "Good job on completing your task."]));
         return back();
+    }
+
+    public function remindUser(int $id)
+    {
+        // go through the uncompleted tasks and dispatch a task event to each for a listener to add to the notifications table 
+        $tasks = $this->getUncompletedTasks($id);;
+        if ($tasks->count()) {
+            foreach ($tasks as $task) {
+                event(new TaskEvent($task, ['message' => "$task->title uncompleted. Try your best to complete it."]));
+            }
+        }
+    }
+
+    public function getUncompletedTasks(int $id)
+    {
+        // first get all the tasks that the authenticated user has created
+        $user = User::find($id);
+        $tasks = $user->tasks()->with(['user', 'notifications'])->latest()
+            ->where('completed', false)->where('due_date', '<', Carbon::now())->get();
+        return $tasks;
     }
 }

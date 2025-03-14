@@ -20,7 +20,7 @@ class TaskEvent
      */
     public $task;
     public $data;
-    public function __construct($task, array $data)
+    public function __construct($task, ?array $data)
     {
         $this->task = $task;
         $this->data = $data;

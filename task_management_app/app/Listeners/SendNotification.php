@@ -3,6 +3,7 @@
 namespace App\Listeners;
 
 use App\Events\TaskEvent;
+use App\Models\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 
@@ -21,8 +22,14 @@ class SendNotification
      */
     public function handle(TaskEvent $event): void
     {
-        $event->task->notifications()->create([
-            'title' => $event->data['message'],
-        ]);
+        if ($event->data) {
+            // to check if the task that is being passed is already in the notifications table 
+            $notifications = Notification::where('task_id', $event->task->id)->get();
+            if (!$notifications->count()) {
+                $event->task->notifications()->create([
+                    'title' => $event->data['message'],
+                ]);
+            }
+        }
     }
 }
