@@ -10,6 +10,12 @@
     body {
       font-family: 'Roboto', sans-serif;
     }
+    .modal {
+      display: none;
+    }
+    .modal.show {
+      display: flex;
+    }
   </style>
 </head>
 <body class="bg-gray-100">
@@ -70,34 +76,41 @@
       </div>
       <!-- Add Task Button -->
       <div class="mb-6">
-        <button class="bg-red-500 text-white px-4 py-2 rounded-md">
+        <button class="bg-red-500 text-white px-4 py-2 rounded-md" onclick="openModal()">
           + Add Task
         </button>
       </div>
       <!-- Task Status -->
-      <div class="mb-6">
-        <h2 class="text-xl font-bold mb-4">Task Status</h2>
-        <div class="flex space-x-4">
-          <div class="text-center">
-            <div class="w-16 h-16 rounded-full border-4 border-green-500 flex items-center justify-center text-xl font-bold">
-              84%
+      <div class="space-y-6">
+        <div class="bg-white p-6 rounded-lg shadow hover:shadow-lg transform hover:-translate-y-2 transition-all duration-300 cursor-pointer w-3/6">
+            <h3 class="text-xl font-semibold mb-4">Task Status</h3>
+            <div class="flex justify-between items-center mb-4">
+                <div class="text-center">
+                    <div class="relative">
+                        <div class="w-16 h-16 rounded-full border-4 border-green-500 flex items-center justify-center">
+                            <span id="completedPercentage" class="text-lg font-semibold">0%</span>
+                        </div>
+                    </div>
+                    <p class="text-sm text-gray-500 mt-2">Completed</p>
+                </div>
+                <div class="text-center">
+                    <div class="relative">
+                        <div class="w-16 h-16 rounded-full border-4 border-yellow-500 flex items-center justify-center">
+                            <span id="inProgressPercentage" class="text-lg font-semibold">0%</span>
+                        </div>
+                    </div>
+                    <p class="text-sm text-gray-500 mt-2">In Progress</p>
+                </div>
+                <div class="text-center">
+                    <div class="relative">
+                        <div class="w-16 h-16 rounded-full border-4 border-red-500 flex items-center justify-center">
+                            <span id="notStartedPercentage" class="text-lg font-semibold">0%</span>
+                        </div>
+                    </div>
+                    <p class="text-sm text-gray-500 mt-2">Not Started</p>
+                </div>
             </div>
-            <p class="mt-2">Completed</p>
-          </div>
-          <div class="text-center">
-            <div class="w-16 h-16 rounded-full border-4 border-blue-500 flex items-center justify-center text-xl font-bold">
-              46%
-            </div>
-            <p class="mt-2">In Progress</p>
-          </div>
-          <div class="text-center">
-            <div class="w-16 h-16 rounded-full border-4 border-red-500 flex items-center justify-center text-xl font-bold">
-              13%
-            </div>
-            <p class="mt-2">Not Started</p>
-          </div>
         </div>
-      </div>
       <!-- To-Do List -->
       <div class="flex flex-col md:flex-row space-y-6 md:space-y-0 md:space-x-6">
         <div class="bg-white p-6 rounded-lg shadow-md w-full md:w-1/2">
@@ -217,55 +230,81 @@
     </div>
   </div>
 
-  <script>
-    document.addEventListener('DOMContentLoaded', function () {
-      const editButtons = document.querySelectorAll('.edit-task');
-      const deleteButtons = document.querySelectorAll('.delete-task');
-      const editModal = document.getElementById('edit-task-modal');
-      const deleteModal = document.getElementById('delete-task-modal');
-      const saveButton = document.getElementById('save-task-status');
-      const cancelButton = document.getElementById('cancel-edit');
-      const confirmDeleteButton = document.getElementById('confirm-delete');
-      const cancelDeleteButton = document.getElementById('cancel-delete');
-      let currentTaskElement = null;
+  <!-- Add Task Modal -->
+  <div class="modal fixed inset-0 bg-gray-800 bg-opacity-50 items-center justify-center display: none" id="addTaskModal">
+    <div class="bg-white p-6 rounded shadow-lg w-1/3">
+      <div class="header flex justify-between items-center mb-4">
+        <div class="title-container">
+          <h1 class="text-xl font-semibold">Add New Task</h1>
+          <div class="underline w-24 h-1 bg-red-500 mt-1"></div>
+        </div>
+        <span class="close-modal cursor-pointer" onclick="closeModal()">Go Back</span>
+      </div>
 
-      editButtons.forEach(button => {
-        button.addEventListener('click', function () {
-          currentTaskElement = this.closest('[data-task-id]');
-          editModal.classList.remove('hidden');
-        });
-      });
+      <form class="content-container space-y-4" method="POST" action="/submit-task">
+        <div class="form-group">
+          <label class="block font-semibold mb-1">Title</label>
+          <input type="text" class="input-field w-full border rounded p-2" name="title" required>
+        </div>
 
-      deleteButtons.forEach(button => {
-        button.addEventListener('click', function () {
-          currentTaskElement = this.closest('[data-task-id]');
-          deleteModal.classList.remove('hidden');
-        });
-      });
+        <div class="form-group">
+          <label class="block font-semibold mb-1">Date</label>
+          <div class="relative">
+            <input type="date" class="input-field w-full border rounded p-2" id="taskDate" name="date" required>
+            <img src="https://dashboard.codeparrot.ai/api/image/Z8wZ59G_8Dy7NbBA/cal-2.png" 
+                 alt="Calendar" 
+                 class="calendar-icon absolute right-2 top-2 w-6 h-6 cursor-pointer" 
+                 onclick="document.getElementById('taskDate').showPicker()">
+          </div>
+        </div>
 
-      saveButton.addEventListener('click', function () {
-        const newStatus = document.getElementById('task-status').value;
-        if (currentTaskElement) {
-          currentTaskElement.querySelector('.task-status').textContent = newStatus;
-        }
-        editModal.classList.add('hidden');
-      });
+        <div class="form-group">
+          <label class="block font-semibold mb-1">Priority</label>
+          <div class="priority-options flex space-x-4">
+            <div class="priority-option flex items-center space-x-2">
+              <span class="dot extreme w-2 h-2 bg-red-500 rounded-full"></span>
+              <span>Extreme</span>
+              <input type="radio" name="priority" value="extreme" required>
+            </div>
+            <div class="priority-option flex items-center space-x-2">
+              <span class="dot moderate w-2 h-2 bg-blue-500 rounded-full"></span>
+              <span>Moderate</span>
+              <input type="radio" name="priority" value="moderate" required>
+            </div>
+            <div class="priority-option flex items-center space-x-2">
+              <span class="dot low w-2 h-2 bg-green-500 rounded-full"></span>
+              <span>Low</span>
+              <input type="radio" name="priority" value="low" required>
+            </div>
+          </div>
+        </div>
 
-      cancelButton.addEventListener('click', function () {
-        editModal.classList.add('hidden');
-      });
+        <div class="form-container flex space-x-4">
+          <div class="task-description flex-1">
+            <label class="block font-semibold mb-1">Task Description</label>
+            <textarea class="w-full border rounded p-2 h-32" name="description" placeholder="Start writing here....." required></textarea>
+          </div>
 
-      confirmDeleteButton.addEventListener('click', function () {
-        if (currentTaskElement) {
-          currentTaskElement.remove();
-        }
-        deleteModal.classList.add('hidden');
-      });
+          <div class="upload-section flex-1">
+            <label class="block font-semibold mb-1">Upload Image</label>
+            <div class="upload-container border rounded p-4 text-center">
+              <div class="upload-content">
+                <img src="https://dashboard.codeparrot.ai/api/image/Z8wZ59G_8Dy7NbBA/group-53.png" alt="Upload" class="upload-icon mx-auto mb-2">
+                <p>Drag&Drop files here</p>
+                <p>or</p>
+                <input type="file" class="hidden" id="taskImage" name="image">
+                <button type="button" class="browse-btn border rounded px-4 py-1 mt-2" onclick="document.getElementById('taskImage').click()">Browse</button>
+              </div>
+            </div>
+          </div>
+        </div>
 
-      cancelDeleteButton.addEventListener('click', function () {
-        deleteModal.classList.add('hidden');
-      });
-    });
-  </script>
+        <button type="submit" class="done-btn bg-red-500 text-white rounded px-6 py-2 mt-4 hover:bg-red-600">Done</button>
+      </form>
+    </div>
+  </div>
+
+  <script src="My Task.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </body>
 </html>
