@@ -16,16 +16,15 @@
                     @foreach ($notifications as $notification)
                         <div class="flex items-center space-x-4">
                             <div class="flex-shrink-0">
-                                <img alt="Thumbnail of Juice Slider" class="w-12 h-12 rounded" height="50"
-                                    src="https://storage.googleapis.com/a1aa/image/t0n560aaRmjPTxTzIw1sTLi0mcmTR9T18TaeGowluao.jpg"
-                                    width="50" />
+                                <img class="w-12 h-12 rounded" height="50"
+                                    src="{{ $notification->task->getImgUrl() }}" width="50" />
                             </div>
                             <div class="flex-1">
                                 <p class="text-gray-700">
                                     <span class="font-semibold">{{ $notification->title }}</span>.
                                 </p>
                                 <p class="text-red-500">
-                                    Priority: <span class="font-semibold"><?php echo App\Models\Task::find($notification->task_id)->priority; ?></span>
+                                    Priority: <span class="font-semibold">{{ $notification->task->priority }}</span>
                                 </p>
                                 <p class="text-gray-400">{{ $notification->created_at->diffForHumans() }}</p>
                             </div>
