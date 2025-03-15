@@ -25,13 +25,11 @@ class TaskController extends Controller
     {
         $id = Auth::user()->id;
         $user = User::find($id);
+        // send a reminder to the user about tasks that are to be completed
+        $this->sendReminder();
+        // get the authenticated user's tasks that are not completed 
         $tasks = $user->tasks()->latest()->where('completed', false)->get();
-
-        // logic for calling the remindUser method once to reduce latency
-        // for now, we are sending notifications when it is 9pm 
-        if (date('H') == 21) {
-            $this->remindUser($id);
-        }
+        // return them to the view
         return view('user.my-task', ['tasks' => $tasks]);
     }
 
@@ -201,23 +199,21 @@ class TaskController extends Controller
         return back();
     }
 
-    public function remindUser(int $id)
+    public function sendReminder()
     {
-        // go through the uncompleted tasks and dispatch a task event to each for a listener to add to the notifications table 
-        $tasks = $this->getUncompletedTasks($id);;
-        if ($tasks->count()) {
+        if (Auth::user()) {
+            $user = User::find(Auth::user()->id);
+            $tasks = $user->tasks()->with(['user', 'notifications'])->latest()->where('completed', false)->get();
             foreach ($tasks as $task) {
-                event(new TaskEvent($task, ['message' => "$task->title uncompleted. Try your best to complete it."]));
+                // the reminders will be sent based on the priority level set by the user
+                if ($task->priority === 'high' && $task->due_date->toDateString() === Carbon::now()->addDays(2)->toDateString()) {
+                    event(new TaskEvent($task, ['message' => "$task->title is due to be completed on " . $task->due_date->toFormattedDateString()]));
+                } else if ($task->priority === 'medium' && $task->due_date->toDateString() === Carbon::now()->addDays(1)->toDateString()) {
+                    event(new TaskEvent($task, ['message' => "$task->title is due to be completed on " . $task->due_date->toFormattedDateString()]));
+                } else if ($task->priority === 'low' && $task->due_date->toDateString() == Carbon::now()->toDateString()) {
+                    event(new TaskEvent($task, ['message' => "$task->title is due today. \nTry your best to complete it.  "]));
+                }
             }
         }
-    }
-
-    public function getUncompletedTasks(int $id)
-    {
-        // get all the tasks that the authenticated user has created
-        $user = User::find($id);
-        $tasks = $user->tasks()->with(['user', 'notifications'])->latest()
-            ->where('completed', false)->where('due_date', '<', Carbon::now())->get();
-        return $tasks;
     }
 }
