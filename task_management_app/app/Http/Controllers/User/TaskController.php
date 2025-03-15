@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\User;
 
+use App\Events\CalendarEvent;
 use App\Events\TaskEvent;
 use App\Http\Controllers\Controller;
 use App\Models\User;
@@ -56,7 +57,7 @@ class TaskController extends Controller
                 'due_date' => $request->date,
                 'category' => $request->category
             ]);
-            event(new TaskEvent($task, null));
+            event(new CalendarEvent($task));
         } catch (Exception $e) {
             return back()->with(['error' => 'Unexpected error occurred']);
         }

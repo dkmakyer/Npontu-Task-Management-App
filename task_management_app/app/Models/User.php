@@ -25,6 +25,11 @@ class User extends Authenticatable
         'email',
         'password',
         'social_id',
+        'json_token',
+    ];
+
+    protected $casts = [
+        'token_json' => 'array'
     ];
 
     /**

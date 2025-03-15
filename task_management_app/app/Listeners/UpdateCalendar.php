@@ -2,10 +2,11 @@
 
 namespace App\Listeners;
 
-use App\Events\TaskEvent;
+use App\Events\CalendarEvent;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Spatie\GoogleCalendar\Event;
+use Exception;
 
 class UpdateCalendar
 {
@@ -20,15 +21,17 @@ class UpdateCalendar
     /**
      * Handle the event.
      */
-    public function handle(TaskEvent $event): void
+    public function handle(CalendarEvent $event): void
     {
-        if (!$event->data) {
+
+        try {
             $calendarEvent = new Event;
             $calendarEvent->name = $event->task->title;
             $calendarEvent->startDateTime = $event->task->created_at;
             $calendarEvent->endDateTime = $event->task->due_date;
             $calendarEvent->save();
-            $e = Event::get();
+        } catch (Exception $e) {
+            dd($e->getMessage());
         }
     }
 }

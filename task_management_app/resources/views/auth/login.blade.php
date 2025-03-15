@@ -63,7 +63,7 @@
                                 {{-- <a href="{{ route('social.login', 'facebook') }}">
                                     <img src="https://static.xx.fbcdn.net/rsrc.php/v3/yG/r/pENh3y_2Pnw.png" alt="Facebook">
                                 </a> --}}
-                                <a href="{{ route('social.login', 'google') }}">
+                                <a href="{{ route('google.login') }}">
                                     <img src="https://banner2.cleanpng.com/20190228/qby/kisspng-google-logo-google-account-g-suite-google-images-g-icon-archives-search-png-1713904157115.webp"
                                         alt="Google">
                                 </a>

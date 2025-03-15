@@ -13,13 +13,9 @@ use App\Http\Controllers\UserController;
 Route::get('login', [LoginController::class, 'index'])->name('login');
 Route::post('login', [LoginController::class, 'store']);
 
-/**
- * routes to serve the request to login to the app using any provider
- * provider parameter refers to the name of the login provider
- * to make the route dynamic
- */
-Route::get('auth/redirect/{provider}', [SocialiteController::class, 'providerLogin'])->name('social.login');
-Route::get('auth/callback/{provider}', [SocialiteController::class, 'providerUser']);
+
+Route::get('auth/google/login', [SocialiteController::class, 'login'])->name('google.login');
+Route::get('auth/google/callback', [SocialiteController::class, 'callback'])->name('google.callback');
 
 Route::get('register', [RegisterController::class, 'index'])->name('register');
 Route::post('register', [RegisterController::class, 'store']);
@@ -33,11 +29,7 @@ Route::post('profile-update', [UserController::class, 'storeUpdatedProfile'])->n
 Route::get('change-password', [UserController::class, 'showChangePasswordView'])->name('change.password');
 Route::post('change-password', [UserController::class, 'storeChangedPassword']);
 
-/**
- * used a get method for testing because logout button wasnt created
- * Will later switch to post after its been created 
- */
-Route::get('logout', [LogoutController::class, 'logout'])->name('logout');
+
 
 // Routes to show the task page and also store a task in the database
 Route::get('tasks', [TaskController::class, 'index'])->name('tasks');
@@ -60,3 +52,4 @@ Route::get('settings', [SettingsController::class, 'index'])->name('settings');
 
 
 Route::get('help', [HelpController::class, 'index'])->name('help');
+Route::get('logout', [LogoutController::class, 'logout'])->name('logout');

@@ -22,6 +22,7 @@ class SendNotification
      */
     public function handle(TaskEvent $event): void
     {
+        dd('handling sending notifications');
         if ($event->data) {
             // to check if the task that is being passed is already in the notifications table 
             $notifications = Notification::where('task_id', $event->task->id)->get();
