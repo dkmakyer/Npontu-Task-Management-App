@@ -26,6 +26,8 @@ class TaskController extends Controller
         $id = Auth::user()->id;
         $user = User::find($id);
         // send a reminder to the user about tasks that are to be completed
+        // calling the send reminder function here for testing purposes
+        // in production, it will be called by the scheduler
         $this->sendReminder();
         // get the authenticated user's tasks that are not completed 
         $tasks = $user->tasks()->latest()->where('completed', false)->get();
