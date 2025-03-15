@@ -71,17 +71,26 @@ class UserController extends Controller
 
     public function storeChangedPassword(Request $request)
     {
+        // get the authenticated user
         $user = Auth::user();
 
+        // make sure the user fills in these specified fields and follows the convention
         $request->validate([
             'old_password' => 'required',
             'password' => ['required', 'confirmed', new PasswordComplexity()],
         ]);
 
+        // go through the users table and get the user with an id of the authenticated users id
         $user = User::find($user->id);
+
         try {
+            // check to see if the old password the user input is valid
+            // if it is, then the user can continue with changing his or her password
             if (Hash::check($request->old_password, $user->password)) {
                 $user->update(['password' => Hash::make($request->password)]);
+
+                // logout the user after changing password to protect the account
+                // and also invalidate his session to log him or her out of every device connected to
                 Auth::logut();
                 $request->session()->invalidate();
                 $request->session()->regenerateToken();

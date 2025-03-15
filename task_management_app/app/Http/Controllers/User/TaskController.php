@@ -28,6 +28,7 @@ class TaskController extends Controller
         $tasks = $user->tasks()->latest()->where('completed', false)->get();
 
         // logic for calling the remindUser method once to reduce latency
+        // for now, we are sending notifications when it is 9pm 
         if (date('H') == 21) {
             $this->remindUser($id);
         }
@@ -57,6 +58,7 @@ class TaskController extends Controller
                 'due_date' => $request->date,
                 'category' => $request->category
             ]);
+            // dispatch a calendar event once a user creates a new task for the reminders to be able to work
             event(new CalendarEvent($task));
         } catch (Exception $e) {
             return back()->with(['error' => 'Unexpected error occurred']);
@@ -77,11 +79,12 @@ class TaskController extends Controller
 
         $user = User::find(Auth::user()->id);
 
-        // search through the users tasks to find the one that matches the search field's value
+        // search through the users tasks to find the one that looks like the search field's value
         $result = $user->tasks()->latest()->where(column: 'title', operator: 'LIKE', value: "%$request->search%")->get();
         $response = $result->count() ? true : false;
 
         if ($response) {
+            // return back with result which will be a session key
             return back()->with(['result' => $result]);
         }
     }
@@ -191,6 +194,8 @@ class TaskController extends Controller
 
     public function taskCompleted(int $id)
     {
+        // when the task is marked as completed, 
+        // we update it by marking the completed column for the particular task as true
         $task = Task::find($id);
         $task->update(['completed' => true, 'date_completed' => Carbon::now()]);
         return back();
@@ -209,7 +214,7 @@ class TaskController extends Controller
 
     public function getUncompletedTasks(int $id)
     {
-        // first get all the tasks that the authenticated user has created
+        // get all the tasks that the authenticated user has created
         $user = User::find($id);
         $tasks = $user->tasks()->with(['user', 'notifications'])->latest()
             ->where('completed', false)->where('due_date', '<', Carbon::now())->get();

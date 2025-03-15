@@ -14,6 +14,7 @@ class Notification extends Model
 
     public function task()
     {
+        // a notification is for a task event
         return $this->belongsTo(Task::class);
     }
 }

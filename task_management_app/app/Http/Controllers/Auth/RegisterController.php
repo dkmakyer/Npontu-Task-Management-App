@@ -21,6 +21,8 @@ class RegisterController extends Controller
     }
     public function store(Request $request)
     {
+        // password complexity rule makes sure, the user provides a mixture of capital and small letters
+        // numbers and symbols and a length of at least 8 characters
         $request->validate([
             'firstName' => 'required',
             'lastName' => 'required',

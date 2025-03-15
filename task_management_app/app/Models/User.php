@@ -28,6 +28,7 @@ class User extends Authenticatable
         'json_token',
     ];
 
+    // casting the token_json field to an array format when its being fetched
     protected $casts = [
         'token_json' => 'array'
     ];
@@ -57,16 +58,24 @@ class User extends Authenticatable
 
     public function tasks()
     {
+        // a particular has many tasks 
+        // for example a health task and an educational task belongs to one user model
         return $this->hasMany(Task::class);
     }
 
     public function completedTasks()
     {
+        // we are getting the tasks that are completed by the user in an orderly manner
         return $this->hasMany(Task::class)->orderBy('date_completed', 'desc');
     }
 
     public function notifications()
     {
+        // a user has many notifications through a task model 
+        // that is we are trying to access all the notifications a user has recieved 
+        // but a user is not directly related to a notification
+        // he or she receives a notification because he or she has either created a task
+        // or missed a due task for a task completion.
         return $this->hasManyThrough(Notification::class, Task::class);
     }
 }
