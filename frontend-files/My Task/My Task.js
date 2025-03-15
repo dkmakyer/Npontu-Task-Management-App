@@ -1,78 +1,106 @@
 // Modal Functions
 function openModal() {
-  document.getElementById('addTaskModal').classList.add('show');
+  document.getElementById("addTaskModal").classList.add("show");
 }
 
 function closeModal() {
-  document.getElementById('addTaskModal').classList.remove('show');
+  document.getElementById("addTaskModal").classList.remove("show");
 }
 
 // Close modal when clicking outside
-document.addEventListener('click', function (event) {
-  const modal = document.getElementById('addTaskModal');
-  if (modal && modal.classList.contains('show') && !event.target.closest('.modal') && !event.target.closest('button')) {
-      closeModal();
+document.addEventListener("click", function (event) {
+  const modal = document.getElementById("addTaskModal");
+  if (
+    modal &&
+    modal.classList.contains("show") &&
+    !event.target.closest(".modal") &&
+    !event.target.closest("button")
+  ) {
+    closeModal();
   }
 });
 
+// Toggle Notification Popup
+document.getElementById("notificationButton").addEventListener("click", function () {
+  const notificationPopup = document.getElementById("notificationPopup");
+  notificationPopup.classList.toggle("hidden");
+});
+
+// Close notification popup when clicking outside
+document.addEventListener("click", function (event) {
+  const notificationPopup = document.getElementById("notificationPopup");
+  if (
+    notificationPopup &&
+    !event.target.closest("#notificationButton") &&
+    !event.target.closest("#notificationPopup")
+  ) {
+    notificationPopup.classList.add("hidden");
+  }
+});
+
+// Close Notification Popup
+document.getElementById("closePopup").addEventListener("click", function () {
+  const notificationPopup = document.getElementById("notificationPopup");
+  notificationPopup.classList.add("hidden");
+});
+
 // DOM Content Loaded
-document.addEventListener('DOMContentLoaded', function () {
-  const editButtons = document.querySelectorAll('.edit-task');
-  const deleteButtons = document.querySelectorAll('.delete-task');
-  const editModal = document.getElementById('edit-task-modal');
-  const saveButton = document.getElementById('save-task-status');
-  const cancelButton = document.getElementById('cancel-edit');
+document.addEventListener("DOMContentLoaded", function () {
+  const editModal = document.getElementById("edit-task-modal");
+  const saveButton = document.getElementById("save-task-status");
+  const cancelButton = document.getElementById("cancel-edit");
   let currentTaskElement = null;
 
   // Edit Task
-  editButtons.forEach(button => {
-      button.addEventListener('click', function () {
-          currentTaskElement = this.closest('[data-task-id]');
-          editModal.classList.remove('hidden');
-      });
-  });
+  function editTask(taskElement) {
+    currentTaskElement = taskElement;
+    const taskStatus = taskElement.querySelector(".task-status").textContent;
+    document.getElementById("task-status").value = taskStatus;
+    editModal.classList.remove("hidden");
+  }
 
   // Delete Task
-  deleteButtons.forEach(button => {
-      button.addEventListener('click', function () {
-          const taskElement = this.closest('[data-task-id]');
-          taskElement.remove();
-          updateTaskStatus(); // Update task status percentages
-      });
-  });
+  function deleteTask(taskElement) {
+    taskElement.remove();
+    updateTaskStatus(); // Update task status percentages
+  }
 
   // Save Task Status
-  saveButton.addEventListener('click', function () {
-      const newStatus = document.getElementById('task-status').value;
-      if (currentTaskElement) {
-          currentTaskElement.querySelector('.task-status').textContent = newStatus;
-          updateTaskStatus(); // Update task status percentages
-      }
-      editModal.classList.add('hidden');
+  saveButton.addEventListener("click", function () {
+    const newStatus = document.getElementById("task-status").value;
+    if (currentTaskElement) {
+      currentTaskElement.querySelector(".task-status").textContent = newStatus;
+      updateTaskStatus(); // Update task status percentages
+      displayTaskDetails(currentTaskElement); // Update task details display
+    }
+    editModal.classList.add("hidden");
   });
 
   // Cancel Edit
-  cancelButton.addEventListener('click', function () {
-      editModal.classList.add('hidden');
+  cancelButton.addEventListener("click", function () {
+    editModal.classList.add("hidden");
   });
 
   // Add Task Form Submission
-  const addTaskForm = document.querySelector('#addTaskModal form');
-  addTaskForm.addEventListener('submit', function (event) {
-      event.preventDefault();
+  const addTaskForm = document.querySelector("#addTaskModal form");
+  addTaskForm.addEventListener("submit", function (event) {
+    event.preventDefault();
 
-      // Get form values
-      const title = this.title.value;
-      const description = this.description.value;
-      const priority = this.priority.value;
-      const status = 'Not Started'; // Default status
-      const image = this.image.files[0] ? URL.createObjectURL(this.image.files[0]) : 'https://storage.googleapis.com/a1aa/image/t5yut9X4TtbC7SWBkiVsyxlbuWEwr9awoTNlapc04rc.jpg';
+    // Get form values
+    const title = this.title.value;
+    const description = this.description.value;
+    const priority = this.priority.value;
+    const status = "Not Started"; // Default status
+    const image = this.image.files[0]
+      ? URL.createObjectURL(this.image.files[0])
+      : "https://storage.googleapis.com/a1aa/image/t5yut9X4TtbC7SWBkiVsyxlbuWEwr9awoTNlapc04rc.jpg";
 
-      // Create new task element
-      const newTask = document.createElement('div');
-      newTask.className = 'dynamicTask p-4 border rounded-lg flex items-center justify-between cursor-pointer';
-      newTask.setAttribute('data-task-id', Date.now()); // Unique ID
-      newTask.innerHTML = `
+    // Create new task element
+    const newTask = document.createElement("div");
+    newTask.className =
+      "dynamicTask p-4 border rounded-lg flex items-center justify-between cursor-pointer";
+    newTask.setAttribute("data-task-id", Date.now()); // Unique ID
+    newTask.innerHTML = `
           <div>
               <h3 class="text-lg font-bold text-red-500">${title}</h3>
               <p class="text-gray-500">${description}</p>
@@ -91,103 +119,138 @@ document.addEventListener('DOMContentLoaded', function () {
           </div>
       `;
 
-      // Append new task to the task list
-      document.getElementById('task-list').appendChild(newTask);
+    // Append new task to the task list
+    document.getElementById("task-list").appendChild(newTask);
 
-      // Add click event to the new task to display its details
-      newTask.addEventListener('click', function () {
-          displayTaskDetails(this);
+    // Add click event to the new task to display its details
+    newTask.addEventListener("click", function (event) {
+      // Check if the click target is not a button
+      if (
+        !event.target.closest(".edit-task") &&
+        !event.target.closest(".delete-task")
+      ) {
+        displayTaskDetails(this);
+      }
+    });
+
+    // Add edit and delete functionality to the new task buttons
+    newTask
+      .querySelector(".edit-task")
+      .addEventListener("click", function (event) {
+        event.stopPropagation(); // Prevent triggering the task detail display
+        editTask(newTask);
+      });
+    newTask
+      .querySelector(".delete-task")
+      .addEventListener("click", function (event) {
+        event.stopPropagation(); // Prevent triggering the task detail display
+        deleteTask(newTask);
       });
 
-      // Close modal and reset form
-      closeModal();
-      this.reset();
-      updateTaskStatus(); // Update task status percentages
+    // Close modal and reset form
+    closeModal();
+    this.reset();
+    updateTaskStatus(); // Update task status percentages
   });
 
   // Function to display task details
   function displayTaskDetails(taskElement) {
-      const taskDetails = document.querySelector('.bg-white.p-6.rounded-lg.shadow-md.w-full.md\\:w-1\\/2');
-      const taskTitle = taskElement.querySelector('h3').textContent;
-      const taskDescription = taskElement.querySelector('p').textContent;
-      const taskPriority = taskElement.querySelector('.text-sm.text-gray-400').textContent.split('|')[0].trim();
-      const taskStatus = taskElement.querySelector('.task-status').textContent;
-      const taskImage = taskElement.querySelector('img').src;
+    const taskDetails = document.querySelector(".task-details");
+    const taskTitle = taskElement.querySelector("h3").textContent;
+    const taskDescription = taskElement.querySelector("p").textContent;
+    const taskPriority = taskElement
+      .querySelector(".text-sm.text-gray-400")
+      .textContent.split("|")[0]
+      .trim();
+    const taskStatus = taskElement.querySelector(".task-status").textContent;
+    const taskImage = taskElement.querySelector("img").src;
 
-      taskDetails.innerHTML = `
-          <div class="flex items-center space-x-4 mb-4">
-              <img alt="Task illustration" class="rounded-lg" height="100" src="${taskImage}" width="100" />
-              <div>
-                  <h2 class="text-xl font-bold">${taskTitle}</h2>
-                  <div class="flex space-x-2 text-sm text-gray-400">
-                      <span>${taskPriority}</span>
-                      <span>Status: ${taskStatus}</span>
-                  </div>
-              </div>
-          </div>
-          <div>
-              <h3 class="font-bold">Task Title:</h3>
-              <p>${taskTitle}</p>
-          </div>
-          <div>
-              <h3 class="font-bold">Objective:</h3>
-              <p>${taskDescription}</p>
-          </div>
-          <div>
-              <h3 class="font-bold">Task Description:</h3>
-              <p>${taskDescription}</p>
-          </div>
-          <div>
-              <h3 class="font-bold">Additional Notes:</h3>
-              <ul class="list-disc list-inside">
-                  <li>Ensure that documents are authentic and up-to-date.</li>
-                  <li>Maintain confidentiality and security of sensitive information.</li>
-                  <li>If there are specific guidelines or deadlines for submission, adhere to them diligently.</li>
-              </ul>
-          </div>
-          <div>
-              <h3 class="font-bold">Deadline for Submission:</h3>
-              <p>End of Day</p>
-          </div>
-          <div class="flex">
-              <button class="bg-red-500 text-white px-4 py-2 rounded mr-2 edit-task">
-                  <i class="fas fa-edit"></i>
-              </button>
-              <button class="bg-red-500 text-white px-4 py-2 rounded delete-task">
-                  <i class="fas fa-trash"></i>
-              </button>
-          </div>
-      `;
+    taskDetails.innerHTML = `
+        <div class="flex items-center space-x-4 mb-4">
+            <img alt="Task illustration" class="rounded-lg" height="100" src="${taskImage}" width="100" />
+            <div>
+                <h2 class="text-xl font-bold">${taskTitle}</h2>
+                <div class="flex space-x-2 text-sm text-gray-400">
+                    <span>${taskPriority}</span>
+                    <span>Status: ${taskStatus}</span>
+                </div>
+            </div>
+        </div>
+        <div>
+            <h3 class="font-bold">Task Title:</h3>
+            <p>${taskTitle}</p>
+        </div>
+        <div>
+            <h3 class="font-bold">Objective:</h3>
+            <p>${taskDescription}</p>
+        </div>
+        <div>
+            <h3 class="font-bold">Task Description:</h3>
+            <p>${taskDescription}</p>
+        </div>
+    `;
   }
 
   // Add click event to existing tasks to display their details
-  const existingTasks = document.querySelectorAll('.dynamicTask');
-  existingTasks.forEach(task => {
-      task.addEventListener('click', function () {
-          displayTaskDetails(this);
+  const existingTasks = document.querySelectorAll(".dynamicTask");
+  existingTasks.forEach((task) => {
+    task.addEventListener("click", function (event) {
+      // Check if the click target is not a button
+      if (
+        !event.target.closest(".edit-task") &&
+        !event.target.closest(".delete-task")
+      ) {
+        displayTaskDetails(this);
+      }
+    });
+
+    // Add edit and delete functionality to existing task buttons
+    task
+      .querySelector(".edit-task")
+      .addEventListener("click", function (event) {
+        event.stopPropagation(); // Prevent triggering the task detail display
+        editTask(task);
+      });
+
+    task
+      .querySelector(".delete-task")
+      .addEventListener("click", function (event) {
+        event.stopPropagation(); // Prevent triggering the task detail display
+        deleteTask(task);
       });
   });
 
   // Function to update task status percentages
   function updateTaskStatus() {
-      const tasks = document.querySelectorAll('[data-task-id]');
-      let completed = 0, inProgress = 0, notStarted = 0;
+    const tasks = document.querySelectorAll("[data-task-id]");
+    let completed = 0,
+      inProgress = 0,
+      notStarted = 0;
 
-      tasks.forEach(task => {
-          const status = task.querySelector('.task-status').textContent;
-          if (status === 'Completed') completed++;
-          else if (status === 'In Progress') inProgress++;
-          else notStarted++;
-      });
+    tasks.forEach((task) => {
+      const status = task.querySelector(".task-status").textContent;
+      if (status === "Completed") completed++;
+      else if (status === "In Progress") inProgress++;
+      else notStarted++;
+    });
 
-      const totalTasks = tasks.length;
-      const completedPercentage = totalTasks > 0 ? Math.round((completed / totalTasks) * 100) : 0;
-      const inProgressPercentage = totalTasks > 0 ? Math.round((inProgress / totalTasks) * 100) : 0;
-      const notStartedPercentage = totalTasks > 0 ? Math.round((notStarted / totalTasks) * 100) : 0;
+    const totalTasks = tasks.length;
+    const completedPercentage =
+      totalTasks > 0 ? Math.round((completed / totalTasks) * 100) : 0;
+    const inProgressPercentage =
+      totalTasks > 0 ? Math.round((inProgress / totalTasks) * 100) : 0;
+    const notStartedPercentage =
+      totalTasks > 0 ? Math.round((notStarted / totalTasks) * 100) : 0;
 
-      document.getElementById('completedPercentage').textContent = `${completedPercentage}%`;
-      document.getElementById('inProgressPercentage').textContent = `${inProgressPercentage}%`;
-      document.getElementById('notStartedPercentage').textContent = `${notStartedPercentage}%`;
+    document.getElementById(
+      "completedPercentage"
+    ).textContent = `${completedPercentage}%`;
+    document.getElementById(
+      "inProgressPercentage"
+    ).textContent = `${inProgressPercentage}%`;
+    document.getElementById(
+      "notStartedPercentage"
+    ).textContent = `${notStartedPercentage}%`;
   }
 
   // Initial task status update
