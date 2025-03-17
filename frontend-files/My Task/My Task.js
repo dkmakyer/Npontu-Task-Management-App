@@ -44,6 +44,17 @@ document.getElementById("closePopup").addEventListener("click", function () {
   notificationPopup.classList.add("hidden");
 });
 
+// Collaboration Modal Functions
+function openCollaboration() {
+  const collaborationModal = document.getElementById("addCollaboration");
+  collaborationModal.style.display = "flex"; // Show the modal
+}
+
+function closeCollaboration() {
+  const collaborationModal = document.getElementById("addCollaboration");
+  collaborationModal.style.display = "none"; // Hide the modal
+}
+
 // DOM Content Loaded
 document.addEventListener("DOMContentLoaded", function () {
   const editModal = document.getElementById("edit-task-modal");
@@ -255,4 +266,61 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Initial task status update
   updateTaskStatus();
+
+  // Add Collaboration Invite Functionality
+  const sendInviteButton = document.querySelector('#sendInviteButton');
+  const emailInput = document.querySelector('#email');
+  const goBackButton = document.querySelector('#collaboBackButton');
+  const collaborationModal = document.getElementById("addCollaboration");
+
+  // Open collaboration modal when "Invite" button is clicked
+  document.querySelector('#mainInviteButton').addEventListener('click', openCollaboration);
+
+  // Close collaboration modal when "Go Back" button is clicked
+  goBackButton.addEventListener('click', function (event) {
+    event.preventDefault(); // Prevent default link behavior
+    closeCollaboration();
+  });
+
+  // Close collaboration modal when clicking outside the modal
+  document.addEventListener('click', function (event) {
+    if (
+      collaborationModal.style.display === 'flex' && // Check if modal is open
+      !event.target.closest('.bg-white') && // Check if click is outside the modal content
+      !event.target.closest('button[onclick="openCollaboration()"]') // Ensure the "Invite" button doesn't close the modal
+    ) {
+      closeCollaboration();
+    }
+  });
+
+  // Send invite functionality
+  sendInviteButton.addEventListener('click', function () {
+    const email = emailInput.value;
+
+    // Check if the email input is not empty
+    if (email) {
+      // Send the email to the backend
+      fetch('https://your-backend-endpoint.com/api/invite', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email: email }),
+      })
+        .then(response => {
+          if (response.ok) {
+            alert('Invite sent successfully!');
+            emailInput.value = ''; // Clear the input field
+          } else {
+            alert('Failed to send invite. Please try again.');
+          }
+        })
+        .catch(error => {
+          console.error('Error:', error);
+          alert('An error occurred. Please try again later.');
+        });
+    } else {
+      alert('Please enter a valid email address.');
+    }
+  });
 });

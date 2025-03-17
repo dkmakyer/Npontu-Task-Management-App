@@ -151,7 +151,7 @@
             <div class="flex flex-col items-center">
                 <div class="relative w-24 h-24 mb-4">
                     <img src="https://storage.googleapis.com/a1aa/image/rUXZDbcIOfUN6UNKIx9JV_yYtjGio_UQcHrU_9LlOOg.jpg"
-                        alt="User Profile" class="rounded-full border-4 border-gray-200 w-full h-full">
+                        alt="User  Profile" class="rounded-full border-4 border-gray-200 w-full h-full">
                 </div>
                 <p class="text-lg font-semibold">Amanuel</p>
                 <p class="text-sm text-gray-400">amanuel@gmail.com</p>
@@ -188,9 +188,12 @@
         <!-- Main Content -->
         <div class="flex-1 p-6 ml-72">
             <!-- Add Task Button -->
-            <div class="mb-6">
+            <div class="flex flex-row items-center justify-between mb-4">
                 <button class="bg-red-500 text-white px-4 py-2 rounded-md" onclick="openModal()">
                     + Add Task
+                </button>
+                <button id="mainInviteButton" class="bg-red-500 text-white px-4 py-2 rounded-md" onclick="openCollaboration()">
+                    <i class="fas fa-user-plus mr-2"></i>Invite
                 </button>
             </div>
 
@@ -362,7 +365,7 @@
     </div>
 
     <!-- Add Task Modal -->
-    <div class="modal fixed inset-0 bg-gray-800 bg-opacity-50 items-center justify-center display: none top-20"
+    <div class="modal fixed inset-0 bg-gray-800 bg-opacity-50 items-center justify-center display: none top-20 translate-x-[7rem] hidden"
         id="addTaskModal">
         <div class="bg-white p-6 rounded shadow-lg w-1/2 max-h-[80vh] overflow-y-auto">
             <div class="header flex justify-between items-center mb-4">
@@ -444,6 +447,70 @@
                 <button type="submit"
                     class="done-btn bg-red-500 text-white rounded px-6 py-2 mt-4 hover:bg-red-600">Done</button>
             </form>
+        </div>
+    </div>
+
+    <div class="collaboration fixed inset-0 bg-gray-800 bg-opacity-50 items-center justify-center top-20 hidden"
+        id="addCollaboration">
+        <div class="bg-white p-8 rounded-lg shadow-md w-full max-w-lg translate-x-[7rem] z-50">
+            <div class="flex justify-between items-center mb-6">
+                <h1 class="text-2xl font-semibold">
+                    Send an invite to a new member
+                </h1>
+                <a id="collaboBackButton" class="text-gray-600" href="#">
+                    Go Back
+                </a>
+            </div>
+            <div class="border-b-2 border-red-500 mb-6"></div>
+            <div class="mb-6">
+                <label class="block text-gray-700 font-semibold mb-2" for="email">
+                    Email
+                </label>
+                <div class="flex">
+                    <input class="flex-1 p-2 border border-gray-300 rounded-l-md" id="email" type="email"
+                        placeholder="email" />
+                    <button id="sendInviteButton" class="bg-red-500 text-white px-4 py-2 rounded-r-md">
+                        Send Invite
+                    </button>
+                </div>
+            </div>
+            <div class="mb-6">
+                <h2 class="text-lg font-semibold mb-4">
+                    Members
+                </h2>
+                <div class="space-y-4">
+                    <div class="flex items-center">
+                        <img alt="Profile picture of Amanuel" class="w-10 h-10 rounded-full mr-4" height="40"
+                            src="https://storage.googleapis.com/a1aa/image/k2rIxYXOp9TMFQB3GFLqFYLEQzwdgzTKy5jUVTeDZAc.jpg"
+                            width="40" />
+                        <div>
+                            <p class="font-semibold">Amanuel</p>
+                            <p class="text-gray-600">amanuel@gmail.com</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center">
+                        <img alt="Profile picture of Amanuel" class="w-10 h-10 rounded-full mr-4" height="40"
+                            src="https://storage.googleapis.com/a1aa/image/k2rIxYXOp9TMFQB3GFLqFYLEQzwdgzTKy5jUVTeDZAc.jpg"
+                            width="40" />
+                        <div>
+                            <p class="font-semibold">Amanuel</p>
+                            <p class="text-gray-600">amanuel@gmail.com</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <label class="block text-gray-700 font-semibold mb-2" for="invite-link">
+                    Invite Link
+                </label>
+                <div class="flex">
+                    <input class="flex-1 p-2 border border-gray-300 rounded-l-md" id="invite-link" type="text"
+                        placeholder="Invite link" />
+                    <button class="bg-red-500 text-white px-4 py-2 rounded-r-md">
+                        Copy Link
+                    </button>
+                </div>
+            </div>
         </div>
     </div>
 
