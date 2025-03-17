@@ -6,6 +6,52 @@
     <title>Settings Page</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
+    <style>
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 40px;
+            height: 20px;
+        }
+
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 20px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 16px;
+            width: 16px;
+            left: 2px;
+            bottom: 2px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .slider {
+            background-color: #2196F3;
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(20px);
+        }
+    </style>
 </head>
 
 <body class="bg-gray-100 overflow-x-hidden">
@@ -14,7 +60,7 @@
         <header class="flex justify-between items-center shadow-md bg-gray-50 fixed w-full p-4 z-10">
             <div class="flex items-center">
                 <h1 class="text-2xl font-bold text-red-500">
-                    Settings
+                    Notifications
                 </h1>
             </div>
             <div class="flex items-center">
@@ -38,6 +84,7 @@
                     </button>
                 </div>
                 <div class="p-4 space-y-4">
+                    <!-- Notification Items -->
                     <div class="flex items-center space-x-4">
                         <div class="flex-shrink-0">
                             <img alt="Thumbnail of Juice Slider" class="w-12 h-12 rounded" height="50"
@@ -181,6 +228,7 @@
                                 <p class="text-gray-500">amanuell@gmail.com</p>
                             </div>
                         </div>
+<<<<<<< HEAD
                         <div class="space-y-2">
                             <div class="notif-container" onclick="toggleNotification(this)">
                                 <a href="#" class="flex flex-row items-center w-[15rem]">
@@ -201,12 +249,34 @@
                             <a href="#" class="block translate-y-[-0.4rem]">
                                 <button class="w-full text-left bg-gray-200 p-2 text-sm rounded">Reminder</button>
                             </a>
+=======
+                        <div class="space-y-4">
+                            <div class="flex justify-between items-center">
+                                <span>Enable or disable</span>
+                                <label class="toggle-switch">
+                                    <input type="checkbox" id="toggleEnable">
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span>Notification type</span>
+                                <button class="bg-gray-200 p-2 text-sm rounded">Change</button>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span>Notification sound</span>
+                                <label class="toggle-switch">
+                                    <input type="checkbox" id="toggleSound">
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
+>>>>>>> 053291731c1822743e8473985749611199ddde90
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+    <audio id="notificationSound" src="https://www.soundjay.com/button/beep-07.wav" preload="auto"></audio>
     <script src="notifications.js"></script>
     <script>
         function toggleNotification(container) {
