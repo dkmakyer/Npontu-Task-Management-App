@@ -75,8 +75,16 @@ Route::get('help', [HelpController::class, 'index'])->name('help');
 // Route for sending an invite request to a user
 Route::post('/send/invite', [CollaborationController::class, 'send'])->name('send.invite');
 Route::get('/collaboration', [CollaborationController::class, 'showCollaborators'])->name('collaboration');
+
 // Route for accepting a collaboration logic
 Route::get('/collaboration/{id}/accept', [CollaborationController::class, 'acceptCollaboration'])->name('accept.collaboration');
+// leave collaboration route
+Route::get('collaboration/{id}/leave', [CollaborationController::class, 'leaveCollaboration'])->name('leave.collaboration');
+
+// Route to show notification settings page
+Route::get('notifications/settings', function () {
+    return view('settings.notifications');
+})->name('notification.settings');
 
 // route for logging a user out 
 // this route is only available to authenticated users

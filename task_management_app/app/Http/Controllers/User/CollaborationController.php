@@ -9,6 +9,7 @@ use App\Models\Collaborator;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Exception;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 
 class CollaborationController extends Controller
@@ -67,13 +68,33 @@ class CollaborationController extends Controller
 
     public function getOwners($id)
     {
-        $collaborator = Collaborator::where('user_id', $id)->first();
-        if ($collaborator) {
-            $owners = $collaborator->users;
-            if ($owners->count()) {
-                return $owners;
+        $owners = collect();
+        $collaborators = Collaborator::where('user_id', $id)->get();
+
+        if ($collaborators->count()) {
+            foreach ($collaborators as $collaborator) {
+                $owner = $collaborator->users;
+                foreach ($owner as $manager) {
+                    $owners->push($manager);
+                }
             }
         }
+        if ($owners->count()) {
+            return $owners;
+        }
         return null;
+    }
+
+    public function leaveCollaboration(int $ownerId)
+    {
+        $owner = User::find($ownerId);
+        $collaborators = $owner->collaborators;
+        foreach ($collaborators as $collaborator) {
+            if ($collaborator->user_id === Auth::user()->id) {
+                Collaborator::destroy($collaborator->id);
+                break;
+            }
+        }
+        return back();
     }
 }

@@ -14,7 +14,7 @@ return new class extends Migration
     {
         Schema::create('tasks', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(User::class);
+            $table->foreignIdFor(User::class)->constrained()->onDelete('cascade');
             $table->string('title')->nullable(false);
             $table->text('description')->nullable(false);
             $table->enum('category', ['Educational', 'Health and Fitness']);

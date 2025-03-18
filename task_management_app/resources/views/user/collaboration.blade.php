@@ -13,6 +13,8 @@
     @foreach ($owners as $owner)
         <div class="">
             <p class="">You are now collaborating with {{ $owner->username }}</p>
+            <button onclick="leaveCollab(this)" data-url="{{ route('leave.collaboration', $owner->id) }}">leave
+                collaboration</button>
         </div>
     @endforeach
 
@@ -20,6 +22,11 @@
 
 <script>
     function accept(event) {
+        const url = event.dataset.url;
+        window.location.href = url;
+    }
+
+    function leaveCollab(event) {
         const url = event.dataset.url;
         window.location.href = url;
     }

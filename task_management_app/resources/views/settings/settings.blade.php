@@ -42,7 +42,7 @@
                                     <button class="w-full text-left bg-gray-200 p-2 text-sm rounded">Security
                                         Options</button>
                                 </a>
-                                <a href="../Notifications/notifications.html" class="block">
+                                <a href="{{ route('notification.settings') }}" class="block">
                                     <button class="w-full text-left bg-gray-200 p-2 text-sm rounded">Notifications</button>
                                 </a>
                                 <a href="{{ route('help') }}" class="block">

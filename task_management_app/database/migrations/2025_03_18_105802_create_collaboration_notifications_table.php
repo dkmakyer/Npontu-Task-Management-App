@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('collaboration_notifications', function (Blueprint $table) {
             $table->id();
             $table->text('body')->nullable(false);
-            $table->foreignIdFor(User::class); // this field refers to the one who sent the email 
+            $table->foreignIdFor(User::class)->constrained()->onDelete('cascade'); // this field refers to the one who sent the email 
             $table->string('receiver_email')->nullable(false);
             $table->timestamps();
         });
