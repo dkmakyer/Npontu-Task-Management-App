@@ -78,4 +78,9 @@ class User extends Authenticatable
         // or missed a due task for a task completion.
         return $this->hasManyThrough(Notification::class, Task::class);
     }
+
+    public function collaborators()
+    {
+        return $this->belongsToMany(Collaborator::class);
+    }
 }

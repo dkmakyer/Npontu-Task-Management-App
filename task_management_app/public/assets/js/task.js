@@ -33,3 +33,37 @@ function closeAddTaskModal(event) {
         document.getElementById("addTaskModal").classList.add("hidden");
     }
 }
+
+// Collaboration Modal Functions
+const collaborationModal = document.getElementById("addCollaboration");
+function openCollaboration() {
+    collaborationModal.style.display = "flex"; // Show the modal
+}
+
+function closeCollaboration() {
+    const collaborationModal = document.getElementById("addCollaboration");
+    collaborationModal.style.display = "none"; // Hide the modal
+}
+
+// Open collaboration modal when "Invite" button is clicked
+document
+    .querySelector("#mainInviteButton")
+    .addEventListener("click", openCollaboration);
+
+// Close collaboration modal when "Go Back" button is clicked
+const goBackButton = document.querySelector("#collaboBackButton");
+goBackButton.addEventListener("click", function (event) {
+    event.preventDefault(); // Prevent default link behavior
+    closeCollaboration();
+});
+
+// Close collaboration modal when clicking outside the modal
+document.addEventListener("click", function (event) {
+    if (
+        collaborationModal.style.display === "flex" && // Check if modal is open
+        !event.target.closest(".bg-white") && // Check if click is outside the modal content
+        !event.target.closest('button[onclick="openCollaboration()"]') // Ensure the "Invite" button doesn't close the modal
+    ) {
+        closeCollaboration();
+    }
+});

@@ -6,6 +6,7 @@ use App\Http\Controllers\Auth\SocialiteController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\User\TaskController;
+use App\Http\Controllers\User\CollaborationController;
 use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\HelpController;
 use App\Http\Controllers\UserController;
@@ -70,6 +71,12 @@ Route::get('task/{id}/completed', [TaskController::class, 'taskCompleted'])->nam
 // and also route for displaying the help page
 Route::get('settings', [SettingsController::class, 'index'])->name('settings');
 Route::get('help', [HelpController::class, 'index'])->name('help');
+
+// Route for sending an invite request to a user
+Route::post('/send/invite', [CollaborationController::class, 'send'])->name('send.invite');
+Route::get('/collaboration', [CollaborationController::class, 'showCollaborators'])->name('collaboration');
+// Route for accepting a collaboration logic
+Route::get('/collaboration/{id}/accept', [CollaborationController::class, 'acceptCollaboration'])->name('accept.collaboration');
 
 // route for logging a user out 
 // this route is only available to authenticated users

@@ -19,6 +19,10 @@
             <i class="fa fa-clipboard-check mr-3"></i> Recently Completed
         </a>
 
+        <a href="{{ route('collaboration') }}" class="flex items-center text-gray-400 hover:text-red-400">
+            <i class="fas fa-user-friends mr-3"></i> Collaboration
+        </a>
+
         <a href="{{ route('settings') }}" class="flex items-center text-gray-400 hover:text-red-400">
             <i class="fas fa-cog mr-3"></i> Settings
         </a>

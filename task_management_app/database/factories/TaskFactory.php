@@ -20,12 +20,12 @@ class TaskFactory extends Factory
     public function definition(): array
     {
         return [
-            'title' => $this->faker->sentence(4),
+            'title' => $this->faker->sentence(9),
             'description' => $this->faker->sentence(50),
-            'user_id' => 1,
+            'user_id' => $this->faker->randomElement([1, 2]),
             'due_date' => Carbon::tomorrow(),
-            'category' => 'Educational',
-            'priority' => 'medium',
+            'category' => $this->faker->randomElement(['Educational', 'Health and Fitness']),
+            'priority' => $this->faker->randomElement(['medium', 'low', 'high'])
         ];
     }
 }

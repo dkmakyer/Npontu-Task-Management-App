@@ -5,6 +5,7 @@ namespace App\Http\Controllers\User;
 use App\Events\CalendarEvent;
 use App\Events\TaskEvent;
 use App\Http\Controllers\Controller;
+use App\Models\Collaborator;
 use App\Models\User;
 use App\Models\Task;
 use Carbon\Carbon;
@@ -25,14 +26,22 @@ class TaskController extends Controller
     {
         $id = Auth::user()->id;
         $user = User::find($id);
-        // send a reminder to the user about tasks that are to be completed
-        // calling the send reminder function here for testing purposes
-        // in production, it will be called by the scheduler
-        $this->sendReminder();
-        // get the authenticated user's tasks that are not completed 
         $tasks = $user->tasks()->latest()->where('completed', false)->get();
-        // return them to the view
-        return view('user.my-task', ['tasks' => $tasks]);
+        $completedTasks = $user->tasks()->latest()->where('completed', true)->get();
+        $allUsersTasks = $user->tasks()->latest()->get();
+        $uncompletedPercentage = $this->calculatePercentage($allUsersTasks->count(), $tasks->count());
+        $completedPercentage = $this->calculatePercentage($allUsersTasks->count(), $completedTasks->count());
+
+        $this->ifCollaboratorAddOwnerTasks($tasks, 7);
+
+        // $this->sendReminder();
+        $collaborators = $user->collaborators;
+
+        if ($collaborators->count()) {
+            return view('user.my-task', ['tasks' => $tasks, 'collaborators' => $collaborators, 'completed' => $completedPercentage, 'uncompleted' => $uncompletedPercentage]);
+        }
+
+        return view('user.my-task', ['tasks' => $tasks, 'collaborators' => null,  'completed' => $completedPercentage, 'uncompleted' => $uncompletedPercentage]);
     }
 
     public function store(Request $request, int $id)
@@ -43,7 +52,7 @@ class TaskController extends Controller
             'priority' => 'required',
             'description' => 'required',
             'image' => 'image',
-            'category' => 'required|in:Educational, Health and Fitness'
+            'category' => 'required|not_in:0'
         ]);
 
         // if the request has a file property, then we store the file in the path storage/app/public/profile
@@ -59,7 +68,7 @@ class TaskController extends Controller
                 'category' => $request->category
             ]);
             // dispatch a calendar event once a user creates a new task for the reminders to be able to work
-            event(new CalendarEvent($task));
+            // event(new CalendarEvent($task));
         } catch (Exception $e) {
             return back()->with(['error' => 'Unexpected error occurred']);
         }
@@ -217,5 +226,25 @@ class TaskController extends Controller
                 }
             }
         }
+    }
+
+    public function ifCollaboratorAddOwnerTasks($tasks, $id)
+    {
+        $collaborator = Collaborator::find($id);
+        if ($collaborator) {
+            $owners = $collaborator->users;
+            foreach ($owners as $owner) {
+                $task = $owner->tasks()->latest()->where('completed', false)->get();
+                foreach ($task as $ownerTask) {
+                    $tasks->push($ownerTask);
+                }
+            }
+        }
+    }
+
+    public function calculatePercentage(int $total, int $count)
+    {
+        $percentage = ($count / $total) * 100;
+        return number_format($percentage, 1);
     }
 }

@@ -32,11 +32,9 @@
                     </div>
                     <form method="Post">
                         <div class="grid grid-cols-1 gap-4 mb-4">
-                            <input class="border rounded-lg px-4 py-2" placeholder="{{ $user->first_name }}"
-                                type="text" />
-                            <input class="border rounded-lg px-4 py-2" placeholder="{{ $user->last_name }}"
-                                type="text" />
-                            <input class="border rounded-lg px-4 py-2" placeholder="{{ $user->email }}" type="email" />
+                            <input class="border rounded-lg px-4 py-2" value="{{ $user->first_name }}" type="text" />
+                            <input class="border rounded-lg px-4 py-2" value="{{ $user->last_name }}" type="text" />
+                            <input class="border rounded-lg px-4 py-2" value="{{ $user->email }}" type="email" />
 
                         </div>
                         <div class="flex space-x-4">
