@@ -31,7 +31,7 @@ class SocialiteController extends Controller
         $filePath = 'google-calendar\oauth-token.json';
 
         $providerUser = Socialite::driver('google')->user();
-        $user = User::where('social_id', $providerUser->id)->first();
+        $user = User::with(relations: ['notifications', 'collaborators', 'tasks', 'completedTasks'])->where('social_id', $providerUser->id)->first();
 
         // making sure a user isn't created multiple times
         if ($user) {

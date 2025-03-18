@@ -20,7 +20,7 @@ class NotificationComponent extends Component
     public function __construct(int $id)
     {
         $this->id = $id;
-        $user = User::find($this->id);
+        $user = User::with(relations: ['notifications', 'collaborators', 'tasks', 'completedTasks'])->find($this->id);
         $this->notifications = $user->notifications()->latest()->get();
     }
 

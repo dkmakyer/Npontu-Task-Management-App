@@ -33,7 +33,7 @@ class RegisterController extends Controller
         ]);
 
         try {
-            User::create([
+            User::with(relations: ['notifications', 'collaborators', 'tasks', 'completedTasks'])->create([
                 'first_name' => $request->firstName,
                 'last_name' => $request->lastName,
                 'username' => $request->username,

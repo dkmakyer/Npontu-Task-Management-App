@@ -26,7 +26,7 @@ class TaskController extends Controller
     public function index()
     {
         $id = Auth::user()->id;
-        $user = User::find($id);
+        $user = User::with(relations: ['notifications', 'collaborators', 'tasks', 'completedTasks'])->find($id);
         $tasks = $user->tasks()->latest()->where('completed', false)->get();
         $completedTasks = $user->tasks()->latest()->where('completed', true)->get();
         $allUsersTasks = $user->tasks()->latest()->get();
@@ -58,7 +58,7 @@ class TaskController extends Controller
 
         // if the request has a file property, then we store the file in the path storage/app/public/profile
         $imagePath = $request->hasFile('image') ? $request->file('image')->store('profile', 'public') : '';
-        $user = User::where('id', $id)->with('tasks')->first();
+        $user = User::with(relations: ['notifications', 'collaborators', 'tasks', 'completedTasks'])->where('id', $id)->with('tasks')->first();
         try {
             $task = $user->tasks()->create([
                 'title' => $request->title,
@@ -87,7 +87,7 @@ class TaskController extends Controller
             return back()->with(['error' => 'Please fill in this field']);
         }
 
-        $user = User::find(Auth::user()->id);
+        $user = User::with(relations: ['notifications', 'collaborators', 'tasks', 'completedTasks'])->find(Auth::user()->id);
 
         // search through the users tasks to find the one that looks like the search field's value
         $result = $user->tasks()->latest()->where(column: 'title', operator: 'LIKE', value: "%$request->search%")->get();
@@ -101,13 +101,13 @@ class TaskController extends Controller
 
     public function showTaskDetails(int $id)
     {
-        $task = Task::find($id);
+        $task = Task::with(['user', 'notifications'])->find($id);
         return back()->with(['selectedTask' => $task]);
     }
 
     public function destroy(int $id)
     {
-        Task::destroy($id);
+        Task::with(['user', 'notifications'])->destroy($id);
         return back();
     }
 
@@ -118,7 +118,7 @@ class TaskController extends Controller
 
     public function storeUpdatedTask(Request $request, int $id)
     {
-        $task = Task::find($id);
+        $task = Task::with(['user', 'notifications'])->find($id);
         $message = null;
         switch ($request) {
             case $request->title != null:
@@ -176,7 +176,7 @@ class TaskController extends Controller
     public function showRecentlyCompletedTasks()
     {
         // to get the currently authenticated user
-        $user = User::find(Auth::user()->id);
+        $user = User::with(relations: ['notifications', 'collaborators', 'tasks', 'completedTasks'])->find(Auth::user()->id);
         // getting tasks that belongs to the authenticated user and have the status completed from the database
         $tasks = $user->completedTasks()->where('completed', true)->with('user')->get();
         return view('user.completed-tasks', ['tasks' => $tasks]);
@@ -184,7 +184,7 @@ class TaskController extends Controller
 
     public function filterTasks($filter)
     {
-        $user = User::find(Auth::user()->id);
+        $user = User::with(relations: ['notifications', 'collaborators', 'tasks', 'completedTasks'])->find(Auth::user()->id);
         switch ($filter) {
             case 'educational':
                 $tasks = $user->completedTasks()->where('completed', true)->where('category', 'Educational')->get();
@@ -206,7 +206,7 @@ class TaskController extends Controller
     {
         // when the task is marked as completed, 
         // we update it by marking the completed column for the particular task as true
-        $task = Task::find($id);
+        $task = Task::with(['user', 'notifications'])->find($id);
         $task->update(['completed' => true, 'date_completed' => Carbon::now()]);
         return back();
     }
@@ -214,7 +214,7 @@ class TaskController extends Controller
     public function sendReminder()
     {
         if (Auth::user()) {
-            $user = User::find(Auth::user()->id);
+            $user = User::with(relations: ['notifications', 'collaborators', 'tasks', 'completedTasks'])->find(Auth::user()->id);
             $tasks = $user->tasks()->with(['user', 'notifications'])->latest()->where('completed', false)->get();
             foreach ($tasks as $task) {
                 // the reminders will be sent based on the priority level set by the user
@@ -231,7 +231,7 @@ class TaskController extends Controller
 
     public function ifCollaboratorAddOwnerTasks($tasks, $id)
     {
-        $collaborator = Collaborator::where('user_id', $id)->first();
+        $collaborator = Collaborator::with(['users', 'user'])->where('user_id', $id)->first();
         if ($collaborator) {
             $owners = $collaborator->users;
             foreach ($owners as $owner) {
@@ -247,6 +247,9 @@ class TaskController extends Controller
     {
         try {
             $percentage = ($count / $total) * 100;
+            if ($percentage === 100) {
+                return $percentage;
+            }
             return number_format($percentage, 1);
         } catch (DivisionByZeroError $e) {
             return 0;

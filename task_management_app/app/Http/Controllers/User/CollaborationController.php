@@ -25,9 +25,9 @@ class CollaborationController extends Controller
         ]);
 
         try {
-            $receipient = User::where('email', $request->email)->first();
+            $receipient = User::where('email', $request->email)->with(['notifications', 'collaborators', 'tasks', 'completedTasks'])->first();
             if ($receipient) {
-                $sender = User::find(Auth::user()->id);
+                $sender = User::with(relations: ['notifications', 'collaborators', 'tasks', 'completedTasks'])->find(Auth::user()->id);
                 event(new CollaborationEvent($sender, $request->email));
             } else {
                 dd('user not found');
@@ -40,7 +40,7 @@ class CollaborationController extends Controller
 
     public function showCollaborators()
     {
-        $authUser = User::find(Auth::user()->id);
+        $authUser = User::with(['collaborators', 'tasks', 'notifications', 'completedTasks'])->find(Auth::user()->id);
         $receipientOfCollaborationRequest = CollaborationNotification::where('receiver_email', $authUser->email)->get();
 
         $owners = $this->getOwners($authUser->id);
@@ -55,7 +55,7 @@ class CollaborationController extends Controller
     {
         $request = CollaborationNotification::find($id);
         $sender = $request->user_id;
-        $receipient = User::where('email', $request->receiver_email)->first();
+        $receipient = User::where('email', $request->receiver_email)->with(['tasks', 'completedTasks', 'notifications', 'collaborators'])->first();
         $collaborator = Collaborator::create(['user_id' => $receipient->id]);
         try {
             $collaborator->users()->attach($sender);
@@ -68,8 +68,9 @@ class CollaborationController extends Controller
 
     public function getOwners($id)
     {
+        // creating a collection instance representing the owners of a collaboration
         $owners = collect();
-        $collaborators = Collaborator::where('user_id', $id)->get();
+        $collaborators = Collaborator::where('user_id', $id)->with(['user', 'users'])->get();
 
         if ($collaborators->count()) {
             foreach ($collaborators as $collaborator) {

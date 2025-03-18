@@ -81,7 +81,7 @@ class UserController extends Controller
         ]);
 
         // go through the users table and get the user with an id of the authenticated users id
-        $user = User::find($user->id);
+        $user = User::with(relations: ['notifications', 'collaborators', 'tasks', 'completedTasks'])->find($user->id);
 
         try {
             // check to see if the old password the user input is valid

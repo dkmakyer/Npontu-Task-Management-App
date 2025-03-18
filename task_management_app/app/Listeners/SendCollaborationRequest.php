@@ -23,7 +23,7 @@ class SendCollaborationRequest
      */
     public function handle(CollaborationEvent $event): void
     {
-        $sender = User::find($event->sender->id);
+        $sender = User::with(relations: ['notifications', 'collaborators', 'tasks', 'completedTasks'])->find($event->sender->id);
         CollaborationNotification::create([
             'body' => "$sender->username just sent you a collaboration request",
             'user_id' => $sender->id,
