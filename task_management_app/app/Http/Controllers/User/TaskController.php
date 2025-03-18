@@ -9,6 +9,7 @@ use App\Models\Collaborator;
 use App\Models\User;
 use App\Models\Task;
 use Carbon\Carbon;
+use DivisionByZeroError;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -32,7 +33,7 @@ class TaskController extends Controller
         $uncompletedPercentage = $this->calculatePercentage($allUsersTasks->count(), $tasks->count());
         $completedPercentage = $this->calculatePercentage($allUsersTasks->count(), $completedTasks->count());
 
-        $this->ifCollaboratorAddOwnerTasks($tasks, 7);
+        $this->ifCollaboratorAddOwnerTasks($tasks, $id);
 
         // $this->sendReminder();
         $collaborators = $user->collaborators;
@@ -230,7 +231,7 @@ class TaskController extends Controller
 
     public function ifCollaboratorAddOwnerTasks($tasks, $id)
     {
-        $collaborator = Collaborator::find($id);
+        $collaborator = Collaborator::where('user_id', $id)->first();
         if ($collaborator) {
             $owners = $collaborator->users;
             foreach ($owners as $owner) {
@@ -244,7 +245,11 @@ class TaskController extends Controller
 
     public function calculatePercentage(int $total, int $count)
     {
-        $percentage = ($count / $total) * 100;
-        return number_format($percentage, 1);
+        try {
+            $percentage = ($count / $total) * 100;
+            return number_format($percentage, 1);
+        } catch (DivisionByZeroError $e) {
+            return 0;
+        }
     }
 }

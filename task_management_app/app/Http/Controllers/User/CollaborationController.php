@@ -42,7 +42,8 @@ class CollaborationController extends Controller
         $authUser = User::find(Auth::user()->id);
         $receipientOfCollaborationRequest = CollaborationNotification::where('receiver_email', $authUser->email)->get();
 
-        $owners = $this->getOwners(7);
+        $owners = $this->getOwners($authUser->id);
+
         if ($owners) {
             return view('user.collaboration', ['collaborationNotifications' => $receipientOfCollaborationRequest, 'owners' => $owners]);
         }
@@ -66,7 +67,7 @@ class CollaborationController extends Controller
 
     public function getOwners($id)
     {
-        $collaborator = Collaborator::find($id);
+        $collaborator = Collaborator::where('user_id', $id)->first();
         if ($collaborator) {
             $owners = $collaborator->users;
             if ($owners->count()) {
