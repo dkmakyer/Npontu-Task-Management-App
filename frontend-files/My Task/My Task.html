@@ -32,6 +32,10 @@
         </div>
         <div class="flex items-center">
             <div class="bg-red-400 p-2 rounded h-[2rem] flex items-center justify-center mr-4 cursor-pointer"
+                id="collaboNotificationButton">
+                <i class="fas fa-users text-white text-xl"></i>
+            </div>
+            <div class="bg-red-400 p-2 rounded h-[2rem] flex items-center justify-center mr-4 cursor-pointer"
                 id="notificationButton">
                 <i class="fas fa-bell text-white text-xl"></i>
             </div>
@@ -145,6 +149,50 @@
         </div>
     </div>
 
+    <!--Collaboration Notification Pop-up -->
+    <div class="fixed hidden inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center z-20" id="collaboNotificationPopup">
+        <div class="bg-white rounded-lg shadow-lg w-full max-w-md relative">
+            <div class="p-4 border-b border-gray-200 flex justify-between items-center">
+                <h2 class="text-xl font-semibold">Collaboration Notification</h2>
+                <button class="text-gray-500 hover:text-gray-700" id="closeCollaboPopup">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="p-4 space-y-4">
+                <div class="flex items-center space-x-4">
+                    <div class="flex-shrink-0">
+                        <img alt="Thumbnail of Juice Slider" class="w-12 h-12 rounded-full" src="https://storage.googleapis.com/a1aa/image/t0n560aaRmjPTxTzIw1sTLi0mcmTR9T18TaeGowluao.jpg" />
+                    </div>
+                    <div class="w-[100%]">
+                        <p class="text-gray-700">
+                            David requests a collaboration on
+                            <span class="font-semibold">task 1.0</span>.
+                        </p>
+                        <div class="flex items-center gap-[1rem]">
+                            <button class="bg-green-400 w-[5rem] h-[2rem] rounded border border-black-500 hover:bg-green-300">Accept</button>
+                            <button class="bg-red-400 w-[5rem] h-[2rem] rounded border border-black-500 hover:bg-red-300">Reject</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <div class="flex-shrink-0">
+                        <img alt="Thumbnail of Pet Warden" class="w-12 h-12 rounded-full" src="https://storage.googleapis.com/a1aa/image/nbXuoql5zJtaLlZye-1e7pT0L7H47lqcUrr9oFkmElk.jpg" />
+                    </div>
+                    <div class="w-[100%]">
+                        <p class="text-gray-700">
+                            Manager requests a collaboration on
+                            <span class="font-semibold">task 2.0</span>.
+                        </p>
+                        <div class="flex items-center gap-[1rem]">
+                            <button class="bg-green-400 w-[5rem] h-[2rem] rounded border border-black-500 hover:bg-green-300">Accept</button>
+                            <button class="bg-red-400 w-[5rem] h-[2rem] rounded border border-black-500 hover:bg-red-300">Reject</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="flex h-screen pt-16">
         <!-- Sidebar -->
         <aside class="w-72 bg-black text-white fixed h-full top-16 left-0 py-8 px-6">
@@ -192,7 +240,8 @@
                 <button class="bg-red-500 text-white px-4 py-2 rounded-md" onclick="openModal()">
                     + Add Task
                 </button>
-                <button id="mainInviteButton" class="bg-red-500 text-white px-4 py-2 rounded-md" onclick="openCollaboration()">
+                <button id="mainInviteButton" class="bg-red-500 text-white px-4 py-2 rounded-md"
+                    onclick="openCollaboration()">
                     <i class="fas fa-user-plus mr-2"></i>Invite
                 </button>
             </div>
@@ -238,7 +287,8 @@
                     <div class="bg-white p-6 rounded-lg shadow-md w-full md:w-1/2">
                         <h2 class="text-xl font-bold mb-4">To-Do</h2>
                         <div id="task-list" class="space-y-4">
-                            <div class="dynamicTask p-4 border rounded-lg flex items-center justify-between" data-task-id="1">
+                            <div class="dynamicTask p-4 border rounded-lg flex items-center justify-between"
+                                data-task-id="1">
                                 <div>
                                     <h3 class="text-lg font-bold text-red-500">Submit Documents</h3>
                                     <p class="text-gray-500">Make sure to submit all the necessary documents...</p>
@@ -259,7 +309,8 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="dynamicTask p-4 border rounded-lg flex items-center justify-between" data-task-id="2">
+                            <div class="dynamicTask p-4 border rounded-lg flex items-center justify-between"
+                                data-task-id="2">
                                 <div>
                                     <h3 class="text-lg font-bold text-blue-500">Complete assignments</h3>
                                     <p class="text-gray-500">The assignments must be completed to pass this year...</p>
@@ -283,7 +334,8 @@
                         </div>
                     </div>
                     <!-- Task Details -->
-                    <div class="task-details translate-y-[-14rem] h-[39rem] bg-white p-6 rounded-lg shadow-md w-full md:w-1/2">
+                    <div
+                        class="task-details translate-y-[-14rem] h-[39rem] bg-white p-6 rounded-lg shadow-md w-full md:w-1/2">
                         <div class="flex items-center space-x-4 mb-4">
                             <img alt="Document submission illustration" class="rounded-lg" height="100"
                                 src="https://storage.googleapis.com/a1aa/image/t5yut9X4TtbC7SWBkiVsyxlbuWEwr9awoTNlapc04rc.jpg"

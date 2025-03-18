@@ -44,6 +44,32 @@ document.getElementById("closePopup").addEventListener("click", function () {
   notificationPopup.classList.add("hidden");
 });
 
+// Toggle Collaboration Notification Popup
+document.getElementById("collaboNotificationButton").addEventListener("click", function () {
+  const collaboNotificationPopup = document.getElementById("collaboNotificationPopup");
+  collaboNotificationPopup.classList.toggle("hidden");
+});
+
+// Close Collaboration notification popup when clicking outside
+document.addEventListener("click", function (event) {
+  const collaboNotificationPopup = document.getElementById("collaboNotificationPopup");
+  if (
+    collaboNotificationPopup &&
+    !event.target.closest("#collaboNotificationButton") &&
+    !event.target.closest("#collaboNotificationPopup")
+  ) {
+    collaboNotificationPopup.classList.add("hidden");
+  }
+});
+
+// Close Collaboration notification Popup
+document.getElementById("closeCollaboPopup").addEventListener("click", function () {
+  const collaboNotificationPopup = document.getElementById("collaboNotificationPopup");
+  collaboNotificationPopup.classList.add("hidden");
+});
+
+
+
 // Collaboration Modal Functions
 function openCollaboration() {
   const collaborationModal = document.getElementById("addCollaboration");
