@@ -816,8 +816,8 @@
                     <div class="flex">
                         <form action="{{ route('send.invite') }}" method="post">
                             @csrf
-                            <input class="flex-1 p-2 border border-gray-300 rounded-l-md" id="email" type="text"
-                                placeholder="username" name="username" />
+                            <input class="flex-1 p-2 border border-gray-300 rounded-l-md" id="email" type="email"
+                                placeholder="username" name="email" />
                             <button class="bg-red-500 text-white px-4 py-2 rounded-r-md" type="submit">
                                 Send Invite
                             </button>

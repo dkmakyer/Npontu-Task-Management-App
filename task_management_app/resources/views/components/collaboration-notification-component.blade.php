@@ -26,7 +26,8 @@
                                             href="{{ route('accept.collaboration', $notification->id) }}"
                                             class="">Accept</a></button>
                                     <button
-                                        class="bg-red-300 w-[5rem] h-[2rem] rounded border border-black-500 hover:bg-red-300">Reject</button>
+                                        class="bg-red-300 w-[5rem] h-[2rem] rounded border border-black-500 hover:bg-red-300"><a
+                                            href="{{ route('reject.collaboration', $notification->id) }}">Reject</a></button>
                                 </div>
                             </div>
                         </div>

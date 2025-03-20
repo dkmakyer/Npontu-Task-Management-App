@@ -22,11 +22,11 @@ class CollaborationController extends Controller
     public function send(Request $request)
     {
         $request->validate([
-            'username' => 'required|max:255'
+            'email' => 'required|email'
         ]);
 
         try {
-            $receipient = User::where('username', $request->username)->with(['notifications', 'collaborators', 'tasks', 'completedTasks'])->firstOrFail();
+            $receipient = User::where('email', $request->email)->with(['notifications', 'collaborators', 'tasks', 'completedTasks'])->firstOrFail();
             if ($receipient) {
                 if ($receipient->id != Auth::user()->id) {
                     $sender = User::with(relations: ['notifications', 'collaborators', 'tasks', 'completedTasks'])->find(Auth::user()->id);
@@ -64,6 +64,12 @@ class CollaborationController extends Controller
         } catch (Exception $e) {
             dd($e->getMessage());
         }
+    }
+
+    public function rejectCollaboration(int $id)
+    {
+        CollaborationNotification::destroy($id);
+        return back();
     }
 
     public function getOwners($id)

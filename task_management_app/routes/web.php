@@ -77,9 +77,10 @@ Route::post('/send/invite', [CollaborationController::class, 'send'])->name('sen
 
 // Route for accepting a collaboration logic
 Route::get('/collaboration/{id}/accept', [CollaborationController::class, 'acceptCollaboration'])->name('accept.collaboration');
+Route::get('collaboration/{id}/reject', [CollaborationController::class, 'rejectCollaboration'])->name('reject.collaboration');
+
 // leave collaboration route
 Route::get('collaboration/{id}/leave', [CollaborationController::class, 'leaveCollaboration'])->name('leave.collaboration');
-
 // Route to show notification settings page
 Route::get('notifications/settings', function () {
     return view('settings.notifications');
