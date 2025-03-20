@@ -74,6 +74,8 @@
             </div>
         </div>
     </div>
+    <script src="{{ asset('assets/js/task.js') }}"></script>
+
 </body>
 
 </html>

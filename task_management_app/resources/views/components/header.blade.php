@@ -14,9 +14,9 @@
                     <input class="p-2 border rounded w-full h-[2rem] text-[12px] shadow-md bg-gray-50"
                         placeholder="Search your task here..." type="text" name="search" />
                     <div
-                        class="absolute right-0 top-0 bg-red-200 p-2 rounded h-[2rem] flex items-center justify-center">
+                        class="absolute right-0 top-0 bg-red-400 p-2 rounded h-[2rem] flex items-center justify-center">
                         <button type="submit">
-                            <i class="fas fa-search text-black"></i>
+                            <i class="fas fa-search text-white"></i>
                         </button>
                     </div>
                 </form>
@@ -24,17 +24,21 @@
         </div>
     </div>
     <div class="flex items-center">
-        @if ($pageName == 'Settings' || $pageName == 'My Tasks' || $pageName == 'Update Task' || $pageName == 'Completed Tasks')
-            <div class="bg-red-200 p-2 rounded h-[2rem] flex items-center justify-center mr-4 cursor-pointer"
+        <div class="bg-red-400 p-2 rounded h-[2rem] flex items-center justify-center mr-4 cursor-pointer"
+            id="collaboNotificationButton">
+            <i class="fas fa-users text-white text-xl"></i>
+        </div>
+        {{-- @if ($pageName == 'Settings' || $pageName == 'My Tasks' || $pageName == 'Update Task' || $pageName == 'Completed Tasks')
+            <div class="bg-red-400 p-2 rounded h-[2rem] flex items-center justify-center mr-4 cursor-pointer"
                 id="notificationButton">
-                <i class="fas fa-bell text-black text-xl"></i>
+                <i class="fas fa-bell text-white text-xl"></i>
             </div>
-        @endif
-        {{-- <a href="../Settings/Settings.html">
-            <div class="bg-red-400 p-2 rounded h-[2rem] flex items-center justify-center mr-4">
-                <i class="fas fa-cog text-white text-xl"></i>
-            </div>
-        </a> --}}
+        @endif --}}
+        <div class="bg-red-400 p-2 rounded h-[2rem] flex items-center justify-center mr-4 cursor-pointer"
+            id="notificationButton">
+            <i class="fas fa-bell text-white text-xl"></i>
+        </div>
+
         <p class="text-gray-500 flex flex-col items-center">
             {{ date('l') }} <span class="text-[15px] text-black-400">{{ date('d/m/Y') }}</span>
         </p>

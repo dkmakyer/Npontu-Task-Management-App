@@ -26,6 +26,7 @@ class User extends Authenticatable
         'password',
         'social_id',
         'json_token',
+        'image_url'
     ];
 
     // casting the token_json field to an array format when its being fetched

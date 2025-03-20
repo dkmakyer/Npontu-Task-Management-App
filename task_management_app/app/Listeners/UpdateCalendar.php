@@ -3,10 +3,12 @@
 namespace App\Listeners;
 
 use App\Events\CalendarEvent;
+use App\Models\User;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Spatie\GoogleCalendar\Event;
 use Exception;
+use Illuminate\Support\Facades\Auth;
 
 class UpdateCalendar
 {
@@ -23,15 +25,17 @@ class UpdateCalendar
      */
     public function handle(CalendarEvent $event): void
     {
-
-        try {
-            $calendarEvent = new Event;
-            $calendarEvent->name = $event->task->title;
-            $calendarEvent->startDateTime = $event->task->created_at;
-            $calendarEvent->endDateTime = $event->task->due_date;
-            $calendarEvent->save();
-        } catch (Exception $e) {
-            dd($e->getMessage());
+        $user = User::find(Auth::user()->id);
+        if ($user->social_id != null) {
+            try {
+                $calendarEvent = new Event;
+                $calendarEvent->name = $event->task->title;
+                $calendarEvent->startDateTime = $event->task->created_at;
+                $calendarEvent->endDateTime = $event->task->due_date;
+                $calendarEvent->save();
+            } catch (Exception $e) {
+                dd($e->getMessage());
+            }
         }
     }
 }

@@ -28,7 +28,7 @@
                             Update Task
                         </h2>
                     </div>
-                    <form class="flex flex-col justify-between h-full" action="{{ route('update.task', $id) }}" method="post"
+                    <form class="flex flex-col justify-around h-[70%]" action="{{ route('update.task', $id) }}" method="post"
                         enctype="multipart/form-data">
                         @csrf
                         <div>
@@ -69,7 +69,7 @@
                             <div class="grid grid-cols-2 gap-4 mb-4">
                                 <div>
                                     <label class="block text-gray-700" for="task-description">Task Description</label>
-                                    <textarea class="w-full p-2 border rounded h-32" id="task-description" placeholder="Start writing here..."
+                                    <textarea class="w-full p-2 border rounded h-[10rem]" id="task-description" placeholder="Start writing here..."
                                         name="description"></textarea>
                                 </div>
                                 <div>

@@ -45,10 +45,7 @@ class CollaborationController extends Controller
 
         $owners = $this->getOwners($authUser->id);
 
-        if ($owners) {
-            return view('user.collaboration', ['collaborationNotifications' => $receipientOfCollaborationRequest, 'owners' => $owners]);
-        }
-        return view('user.collaboration', ['collaborationNotifications' => $receipientOfCollaborationRequest, 'owners' => null]);
+        return [$receipientOfCollaborationRequest, $owners];
     }
 
     public function acceptCollaboration(int $id)
@@ -56,7 +53,7 @@ class CollaborationController extends Controller
         $request = CollaborationNotification::find($id);
         $sender = $request->user_id;
         $receipient = User::where('email', $request->receiver_email)->with(['tasks', 'completedTasks', 'notifications', 'collaborators'])->first();
-        $collaborator = Collaborator::create(['user_id' => $receipient->id]);
+        $collaborator = Collaborator::create(['collaborated_by' => $receipient->id]);
         try {
             $collaborator->users()->attach($sender);
             $request->delete();
@@ -70,7 +67,7 @@ class CollaborationController extends Controller
     {
         // creating a collection instance representing the owners of a collaboration
         $owners = collect();
-        $collaborators = Collaborator::where('user_id', $id)->with(['user', 'users'])->get();
+        $collaborators = Collaborator::where('collaborated_by', $id)->with(['user', 'users'])->get();
 
         if ($collaborators->count()) {
             foreach ($collaborators as $collaborator) {
@@ -90,8 +87,9 @@ class CollaborationController extends Controller
     {
         $owner = User::find($ownerId);
         $collaborators = $owner->collaborators;
+
         foreach ($collaborators as $collaborator) {
-            if ($collaborator->user_id === Auth::user()->id) {
+            if ($collaborator->collaborated_by === Auth::user()->id) {
                 Collaborator::destroy($collaborator->id);
                 break;
             }

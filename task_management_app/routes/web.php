@@ -60,7 +60,7 @@ Route::get('task/{id}/update', [TaskController::class, 'updateTask'])->name('upd
 // route for storing the updated task and also 
 // route for displaying the recently completed tasks page
 Route::post('task/{id}/update', [TaskController::class, 'storeUpdatedTask']);
-Route::get('tasks/completed', [TaskController::class, 'showRecentlyCompletedTasks'])->name('completed.tasks');
+Route::get('all-tasks', [TaskController::class, 'showRecentlyCompletedTasks'])->name('all.tasks');
 
 // route for filtering the tasks that are being shown in the completed tasks page 
 // and also route providing the logic for marking a task as completed in the tasks page
@@ -74,7 +74,6 @@ Route::get('help', [HelpController::class, 'index'])->name('help');
 
 // Route for sending an invite request to a user
 Route::post('/send/invite', [CollaborationController::class, 'send'])->name('send.invite');
-Route::get('/collaboration', [CollaborationController::class, 'showCollaborators'])->name('collaboration');
 
 // Route for accepting a collaboration logic
 Route::get('/collaboration/{id}/accept', [CollaborationController::class, 'acceptCollaboration'])->name('accept.collaboration');

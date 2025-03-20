@@ -27,22 +27,30 @@ class TaskController extends Controller
     {
         $id = Auth::user()->id;
         $user = User::with(relations: ['notifications', 'collaborators', 'tasks', 'completedTasks'])->find($id);
-        $tasks = $user->tasks()->latest()->where('completed', false)->get();
-        $completedTasks = $user->tasks()->latest()->where('completed', true)->get();
-        $allUsersTasks = $user->tasks()->latest()->get();
-        $uncompletedPercentage = $this->calculatePercentage($allUsersTasks->count(), $tasks->count());
-        $completedPercentage = $this->calculatePercentage($allUsersTasks->count(), $completedTasks->count());
 
-        $this->ifCollaboratorAddOwnerTasks($tasks, $id);
+        $tasks = $user->tasks()->latest()->where('due_date', '>', Carbon::now())->limit(5)->get();
+        $completedTasks = $user->tasks()->latest()->where('completed', true)->get();
+
+        $uncompletedTasks = $user->tasks()->latest()->where('completed', false)->where('due_date', '<=', Carbon::now())->get();
+        $inProgress = $user->tasks()->latest()->where('due_date', '>', Carbon::now())->get();
+
+        $allUsersTasks = $user->tasks()->latest()->get();
+        $uncompletedPercentage = $this->calculatePercentage($allUsersTasks->count(), $uncompletedTasks->count());
+
+        $completedPercentage = $this->calculatePercentage($allUsersTasks->count(), $completedTasks->count());
+        $inProgressPercentage = $this->calculatePercentage($allUsersTasks->count(), $inProgress->count());
+
+        $ownerTasks = $this->getOwnerTasks($id);
 
         // $this->sendReminder();
         $collaborators = $user->collaborators;
 
+
         if ($collaborators->count()) {
-            return view('user.my-task', ['tasks' => $tasks, 'collaborators' => $collaborators, 'completed' => $completedPercentage, 'uncompleted' => $uncompletedPercentage]);
+            return view('user.my-task', ['tasks' => $tasks, 'collaborators' => $collaborators, 'ownerTasks' => $ownerTasks, 'completed' => $completedPercentage, 'uncompleted' => $uncompletedPercentage, 'inProgress' => $inProgressPercentage]);
         }
 
-        return view('user.my-task', ['tasks' => $tasks, 'collaborators' => null,  'completed' => $completedPercentage, 'uncompleted' => $uncompletedPercentage]);
+        return view('user.my-task', ['tasks' => $tasks, 'collaborators' => null, 'ownerTasks' => $ownerTasks, 'completed' => $completedPercentage, 'uncompleted' => $uncompletedPercentage, 'inProgress' => $inProgressPercentage]);
     }
 
     public function store(Request $request, int $id)
@@ -69,7 +77,7 @@ class TaskController extends Controller
                 'category' => $request->category
             ]);
             // dispatch a calendar event once a user creates a new task for the reminders to be able to work
-            // event(new CalendarEvent($task));
+            event(new CalendarEvent($task));
         } catch (Exception $e) {
             return back()->with(['error' => 'Unexpected error occurred']);
         }
@@ -125,19 +133,19 @@ class TaskController extends Controller
                 try {
                     $task->update($request->only('title'));
                 } catch (Exception $e) {
-                    $message = "Failed to update task and unexpected error occured";
+                    $message = "Failed to update task an unexpected error occured";
                 }
             case $request->priority != null:
                 try {
                     $task->update($request->only('priority'));
                 } catch (Exception $e) {
-                    $message = "Failed to update task and unexpected error occured";
+                    $message = "Failed to update task an unexpected error occured";
                 }
             case $request->description != null:
                 try {
                     $task->update($request->only('description'));
                 } catch (Exception $e) {
-                    $message = "Failed to update task and unexpected error occured";
+                    $message = "Failed to update task an unexpected error occured";
                 }
             case $request->category != null:
                 $request->validate([
@@ -146,7 +154,7 @@ class TaskController extends Controller
                 try {
                     $task->update($request->only('category'));
                 } catch (Exception $e) {
-                    $message = "Failed to update task and unexpected error occured";
+                    $message = "Failed to update task an unexpected error occured";
                 }
             case $request->date != null:
                 $request->validate([
@@ -155,7 +163,7 @@ class TaskController extends Controller
                 try {
                     $task->update($request->only('date'));
                 } catch (Exception $e) {
-                    $message = "Failed to update task and unexpected error occured";
+                    $message = "Failed to update task an unexpected error occured";
                 }
             case $request->image != null:
                 $request->validate([
@@ -166,7 +174,7 @@ class TaskController extends Controller
                     $task->image_url ? Storage::disk('public')->delete($task->image_url) : '';
                     $task->update(['image_url' => $imagePath]);
                 } catch (Exception $e) {
-                    $message = "Failed to update task and unexpected error occured";
+                    $message = "Failed to update task an unexpected error occured";
                 }
         }
         $message ?? "Task updated successfully";
@@ -178,8 +186,9 @@ class TaskController extends Controller
         // to get the currently authenticated user
         $user = User::with(relations: ['notifications', 'collaborators', 'tasks', 'completedTasks'])->find(Auth::user()->id);
         // getting tasks that belongs to the authenticated user and have the status completed from the database
-        $tasks = $user->completedTasks()->where('completed', true)->with('user')->get();
-        return view('user.completed-tasks', ['tasks' => $tasks]);
+        $completedTasks = $user->completedTasks()->where('completed', true)->get();
+        $allTasks = $user->tasks()->where('completed', false)->latest()->get();
+        return view('user.all-tasks', ['completedTasks' => $completedTasks, 'tasks' => $allTasks]);
     }
 
     public function filterTasks($filter)
@@ -188,18 +197,21 @@ class TaskController extends Controller
         switch ($filter) {
             case 'educational':
                 $tasks = $user->completedTasks()->where('completed', true)->where('category', 'Educational')->get();
+                $allTasksFilter = $user->tasks()->where('completed', false)->where('category', 'Educational')->latest()->get();
                 break;
             case 'health':
                 $tasks = $user->completedTasks()->where('completed', true)->where('category', 'Health and Fitness')->get();
+                $allTasksFilter = $user->tasks()->where('completed', false)->where('category', 'Health and Fitness')->latest()->get();
                 break;
             case 'all':
                 $tasks = $user->completedTasks()->where('completed', true)->get();
+                $allTasksFilter = $user->tasks()->where('completed', false)->latest()->get();
                 break;
             default:
                 $tasks = null;
         }
 
-        if ($tasks) return back()->with(['filtered' => $tasks]);
+        if ($tasks && $allTasksFilter) return back()->with(['filtered' => $allTasksFilter, 'filterCompletedTasks' => $tasks]);
     }
 
     public function taskCompleted(int $id)
@@ -229,18 +241,23 @@ class TaskController extends Controller
         }
     }
 
-    public function ifCollaboratorAddOwnerTasks($tasks, $id)
+    public function getOwnerTasks($id)
     {
-        $collaborator = Collaborator::with(['users', 'user'])->where('user_id', $id)->first();
-        if ($collaborator) {
-            $owners = $collaborator->users;
-            foreach ($owners as $owner) {
-                $task = $owner->tasks()->latest()->where('completed', false)->get();
-                foreach ($task as $ownerTask) {
-                    $tasks->push($ownerTask);
+        $ownerTasks = collect();
+        $collaborators = Collaborator::with(['users', 'user'])->where('collaborated_by', $id)->get();
+        if ($collaborators->count()) {
+            foreach ($collaborators as $collaborator) {
+                $owners = $collaborator->users;
+                foreach ($owners as $owner) {
+                    $task = $owner->tasks()->latest()->where('completed', false)->get();
+                    foreach ($task as $ownerTask) {
+                        $ownerTasks->push($ownerTask);
+                    }
                 }
             }
         }
+        if ($ownerTasks) return $ownerTasks;
+        return null;
     }
 
     public function calculatePercentage(int $total, int $count)

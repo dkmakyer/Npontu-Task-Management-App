@@ -40,8 +40,13 @@
                             </p>
                         </div>
                     </div>
-                    <form action="{{ route('store.update') }}" method="post">
+                    <form action="{{ route('store.update') }}" method="post" enctype="multipart/form-data">
                         @csrf
+                        <div class="mb-4">
+                            <label class="block text-gray-700" for="profilePicture">Update Profile Picture</label>
+                            <input class="border rounded p-2 w-full" id="profilePicture" type="file"
+                                name="image" />
+                        </div>
                         <div class="grid grid-cols-1 gap-4">
                             <input class="border rounded p-2" placeholder="First Name" type="text"
                                 name="first_name" />
@@ -64,6 +69,8 @@
             </div>
         </div>
     </div>
+    <script src="{{ asset('assets/js/task.js') }}"></script>
+
 </body>
 
 </html>

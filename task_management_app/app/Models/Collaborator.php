@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Collaborator extends Model
 {
-    protected $fillable = ['user_id'];
+    protected $fillable = ['collaborated_by'];
 
     public function users()
     {
@@ -15,6 +15,6 @@ class Collaborator extends Model
 
     public function user()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'collaborated_by');
     }
 }

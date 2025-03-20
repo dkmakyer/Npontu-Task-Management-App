@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('password');
             $table->text('token_json')->nullable();
             $table->string('social_id')->nullable();
+            $table->text('image_url')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

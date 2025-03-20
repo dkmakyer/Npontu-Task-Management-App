@@ -6,6 +6,8 @@
     @yield('pageTitle')
     @yield('script')
     @yield('stylesheet')
+
+    @yield('hello')
 </head>
 
 @yield('body')

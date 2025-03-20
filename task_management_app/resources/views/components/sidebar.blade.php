@@ -12,15 +12,11 @@
     <nav class="mt-8 space-y-3">
 
         <a href="{{ route('tasks') }}" class="flex items-center text-gray-400 hover:text-red-400">
-            <i class="fas fa-list mr-3"></i> My Tasks
+            <i class="fa-solid fa-layer-group mr-3"></i> My Tasks
         </a>
 
-        <a href="{{ route('completed.tasks') }}" class="flex items-center text-gray-400 hover:text-red-400">
-            <i class="fa fa-clipboard-check mr-3"></i> Recently Completed
-        </a>
-
-        <a href="{{ route('collaboration') }}" class="flex items-center text-gray-400 hover:text-red-400">
-            <i class="fas fa-user-friends mr-3"></i> Collaboration
+        <a href="{{ route('all.tasks') }}" class="flex items-center text-gray-400 hover:text-red-400">
+            <i class="fa fa-tasks mr-3"></i> All Tasks
         </a>
 
         <a href="{{ route('settings') }}" class="flex items-center text-gray-400 hover:text-red-400">

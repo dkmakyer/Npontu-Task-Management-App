@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
 {
@@ -59,6 +60,14 @@ class UserController extends Controller
                     $currentUser->update($request->only('email'));
                 } catch (Exception $e) {
                     $message = "Failed to update profile and unexpected error occured";
+                }
+            case $request->image != null:
+                try {
+                    $imagePath = $request->hasFile('image') ? $request->file('image')->store('profile', 'public') : '';
+                    $currentUser->image_url ? Storage::disk('public')->delete($currentUser->image_url) : '';
+                    $currentUser->update(['image_url' => $imagePath]);
+                } catch (Exception $e) {
+                    $message = "Failed to update profile an unexpected error occured";
                 }
         }
         $message ?? "Profile updated successfully";

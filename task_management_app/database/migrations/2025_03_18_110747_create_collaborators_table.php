@@ -14,7 +14,7 @@ return new class extends Migration
     {
         Schema::create('collaborators', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(User::class)->constrained()->cascadeOnDelete();
+            $table->foreignId('collaborated_by')->references('id')->on('users')->constrained()->cascadeOnDelete();
             $table->timestamps();
         });
     }
