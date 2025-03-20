@@ -283,11 +283,11 @@
                     </div>
                 </div>
 
-                <!-- Collaboration tasks -->
+                <!--task lists -->
                 <div class="flex h-[25rem] flex-col md:flex-row space-y-6 md:space-y-0 md:space-x-6">
                     <div class="flex flex-row gap-2">
-                        <div class="bg-white p-6 rounded-lg shadow-md h-[110%] w-full md:w-1/2">
-                            <h2 class="text-xl font-bold mb-4">Collaboration Tasks</h2>
+                        <div class="bg-white p-6 relative overflow-y-auto rounded-lg shadow-md h-[110%] w-full md:w-1/2">
+                            <h2 class="text-xl font-bold sticky top-[-1.5rem] bg-white z-8 mb-4">Collaboration Tasks</h2>
                             <div id="task-list" class="space-y-4">
                                 <div class="dynamicTask p-4 border rounded-lg flex items-center justify-between"
                                     data-task-id="1">
@@ -312,8 +312,8 @@
                             </div>
                         </div>
     
-                        <div class="bg-white p-6 rounded-lg shadow-md w-full h-[110%] md:w-1/2">
-                            <h2 class="text-xl font-bold mb-4">To-Do</h2>
+                        <div class="bg-white p-6 relative overflow-y-auto rounded-lg shadow-md w-full h-[110%] md:w-1/2">
+                            <h2 class="text-xl font-bold sticky top-[-1.5rem] bg-white z-8 h-[3rem] mb-4">To-Do</h2>
                             <div id="task-list" class="space-y-4">
                                 <div class="dynamicTask p-4 border rounded-lg flex items-center justify-between"
                                     data-task-id="1">
@@ -338,6 +338,51 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div class="dynamicTask p-4 border rounded-lg flex items-center justify-between"
+                                    data-task-id="1">
+                                    <div>
+                                        <p class="w-4 h-4 rounded-full bg-yellow-500"></p>
+                                        <h3 class="text-lg font-bold text-red-500">Submit Documents</h3>
+                                        <p class="text-gray-500">Make sure to submit all the necessary documents...</p>
+                                        <div class="text-sm text-gray-400">Priority: Extreme | Status: <span
+                                                class="task-status">Not Started</span></div>
+                                    </div>
+                                    <div class="flex mt-2 flex-col gap-4 items-center">
+                                        <img alt="Document submission illustration" class="rounded-lg" height="50"
+                                            src="https://storage.googleapis.com/a1aa/image/t5yut9X4TtbC7SWBkiVsyxlbuWEwr9awoTNlapc04rc.jpg"
+                                            width="50" />
+                                        <div class="flex flex-row">
+                                            <button class="bg-red-500 text-white px-4 py-2 rounded mr-2 edit-task">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+                                            <button class="bg-red-500 text-white px-4 py-2 rounded delete-task">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div><div class="dynamicTask p-4 border rounded-lg flex items-center justify-between"
+                                data-task-id="1">
+                                <div>
+                                    <p class="w-4 h-4 rounded-full bg-yellow-500"></p>
+                                    <h3 class="text-lg font-bold text-red-500">Submit Documents</h3>
+                                    <p class="text-gray-500">Make sure to submit all the necessary documents...</p>
+                                    <div class="text-sm text-gray-400">Priority: Extreme | Status: <span
+                                            class="task-status">Not Started</span></div>
+                                </div>
+                                <div class="flex mt-2 flex-col gap-4 items-center">
+                                    <img alt="Document submission illustration" class="rounded-lg" height="50"
+                                        src="https://storage.googleapis.com/a1aa/image/t5yut9X4TtbC7SWBkiVsyxlbuWEwr9awoTNlapc04rc.jpg"
+                                        width="50" />
+                                    <div class="flex flex-row">
+                                        <button class="bg-red-500 text-white px-4 py-2 rounded mr-2 edit-task">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                        <button class="bg-red-500 text-white px-4 py-2 rounded delete-task">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
                                 <div class="dynamicTask p-4 border rounded-lg flex items-center justify-between"
                                     data-task-id="2">
                                     <div>
