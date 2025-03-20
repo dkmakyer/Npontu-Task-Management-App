@@ -24,7 +24,7 @@
                 <div class="bg-white p-6 rounded-lg shadow-lg">
                     <div class="flex items-center mb-6">
                         <img alt="User profile picture" class="rounded-full w-12 h-12 mr-4" height="50"
-                            src="https://placehold.co/50x50" width="50" />
+                            src="{{ $user->getImgUrl() }}" width="50" />
                         <div>
                             <h3 class="text-lg font-semibold">{{ $user->first_name }}</h3>
                             <p class="text-sm text-gray-500">{{ $user->email }}</p>

@@ -17,7 +17,7 @@
                         <div class="flex items-center space-x-4">
                             <div class="flex-shrink-0">
                                 <img class="w-12 h-12 rounded" height="50"
-                                    src="{{ $notification->task->getImgUrl() }}" width="50" />
+                                    src="{{ $notification->task->user->getImgUrl() }}" width="50" />
                             </div>
                             <div class="flex-1">
                                 <p class="text-gray-700">

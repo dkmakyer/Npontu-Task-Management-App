@@ -84,4 +84,16 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Collaborator::class);
     }
+
+    public function getImgUrl()
+    {
+        // getting the image url in the table
+        // since it is nullable, 
+        // we return a default picture when null
+        if ($this->image_url) {
+            return url("storage/$this->image_url");
+        } else {
+            return url("https://static.vecteezy.com/system/resources/previews/021/548/095/original/default-profile-picture-avatar-user-avatar-icon-person-icon-head-icon-profile-picture-icons-default-anonymous-user-male-and-female-businessman-photo-placeholder-social-network-avatar-portrait-free-vector.jpg");
+        }
+    }
 }

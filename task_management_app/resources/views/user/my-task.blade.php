@@ -816,8 +816,8 @@
                     <div class="flex">
                         <form action="{{ route('send.invite') }}" method="post">
                             @csrf
-                            <input class="flex-1 p-2 border border-gray-300 rounded-l-md" id="email" type="email"
-                                placeholder="email" name="email" />
+                            <input class="flex-1 p-2 border border-gray-300 rounded-l-md" id="email" type="text"
+                                placeholder="username" name="username" />
                             <button class="bg-red-500 text-white px-4 py-2 rounded-r-md" type="submit">
                                 Send Invite
                             </button>
@@ -835,8 +835,7 @@
                                 <div class="flex items-center">
                                     <img alt="{{ 'Profile picture of ' . $collaborator->user->username }}"
                                         class="w-10 h-10 rounded-full mr-4" height="40"
-                                        src="https://storage.googleapis.com/a1aa/image/k2rIxYXOp9TMFQB3GFLqFYLEQzwdgzTKy5jUVTeDZAc.jpg"
-                                        width="40" />
+                                        src="{{ $collaborator->user->getImgUrl() }}" width="40" />
                                     <div>
                                         <p class="font-semibold">{{ $collaborator->user->username }}</p>
                                         <p class="text-gray-600">{{ $collaborator->user->email }}</p>

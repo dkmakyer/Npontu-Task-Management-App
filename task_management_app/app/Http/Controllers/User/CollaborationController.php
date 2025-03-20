@@ -10,6 +10,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Exception;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 
 class CollaborationController extends Controller
@@ -21,19 +22,21 @@ class CollaborationController extends Controller
     public function send(Request $request)
     {
         $request->validate([
-            'email' => 'required|email'
+            'username' => 'required|max:255'
         ]);
 
         try {
-            $receipient = User::where('email', $request->email)->with(['notifications', 'collaborators', 'tasks', 'completedTasks'])->first();
+            $receipient = User::where('username', $request->username)->with(['notifications', 'collaborators', 'tasks', 'completedTasks'])->firstOrFail();
             if ($receipient) {
-                $sender = User::with(relations: ['notifications', 'collaborators', 'tasks', 'completedTasks'])->find(Auth::user()->id);
-                event(new CollaborationEvent($sender, $request->email));
+                if ($receipient->id != Auth::user()->id) {
+                    $sender = User::with(relations: ['notifications', 'collaborators', 'tasks', 'completedTasks'])->find(Auth::user()->id);
+                    event(new CollaborationEvent($sender, $request->email));
+                }
             } else {
                 dd('user not found');
             }
             return back();
-        } catch (Exception $e) {
+        } catch (ModelNotFoundException $e) {
             dd($e->getMessage());
         }
     }

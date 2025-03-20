@@ -38,9 +38,7 @@ class UserController extends Controller
 
     public function storeUpdatedProfile(Request $request)
     {
-        $user = Auth::user();
-
-        $currentUser = User::where('email', $user->email);
+        $currentUser = User::find(Auth::user()->id);
         $message = null;
         switch ($request) {
             case $request->first_name != null:
@@ -68,6 +66,7 @@ class UserController extends Controller
                     $currentUser->update(['image_url' => $imagePath]);
                 } catch (Exception $e) {
                     $message = "Failed to update profile an unexpected error occured";
+                    dd($e->getMessage());
                 }
         }
         $message ?? "Profile updated successfully";

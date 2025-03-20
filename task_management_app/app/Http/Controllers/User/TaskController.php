@@ -211,7 +211,7 @@ class TaskController extends Controller
                 $tasks = null;
         }
 
-        if ($tasks && $allTasksFilter) return back()->with(['filtered' => $allTasksFilter, 'filterCompletedTasks' => $tasks]);
+        if ($tasks && $allTasksFilter) return back()->with(['filtered' => $allTasksFilter, 'filteredCompletedTasks' => $tasks]);
     }
 
     public function taskCompleted(int $id)

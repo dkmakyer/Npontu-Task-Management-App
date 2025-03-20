@@ -27,8 +27,7 @@
                         <div class="w-1/2">
                             <div class="flex items-center mb-6">
                                 <img alt="Profile picture of the user" class="rounded-full w-24 h-24" height="100"
-                                    src="https://storage.googleapis.com/a1aa/image/NKqPE6qrEmDQ96jGKZeM8CHERalOCM9dq8ryW55U3aY.jpg"
-                                    width="100" />
+                                    src="{{ auth()->user()->getImgUrl() }}" width="100" />
                                 <div class="ml-4">
                                     <h2 class="text-xl font-semibold">{{ auth()->user()->first_name }}</h2>
                                     <p class="text-gray-500">{{ auth()->user()->email }}</p>

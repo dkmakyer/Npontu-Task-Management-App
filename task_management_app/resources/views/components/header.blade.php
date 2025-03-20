@@ -9,10 +9,10 @@
     </div>
     <div class="flex-1 flex justify-center">
         <div class="relative w-[35rem]">
-            @if ($pageName === 'My Tasks')
+            @if ($pageName === 'All Tasks')
                 <form action="{{ route('search.task') }}" method="get">
                     <input class="p-2 border rounded w-full h-[2rem] text-[12px] shadow-md bg-gray-50"
-                        placeholder="Search your task here..." type="text" name="search" />
+                        placeholder="Search your task by its title..." type="text" name="search" />
                     <div
                         class="absolute right-0 top-0 bg-red-400 p-2 rounded h-[2rem] flex items-center justify-center">
                         <button type="submit">

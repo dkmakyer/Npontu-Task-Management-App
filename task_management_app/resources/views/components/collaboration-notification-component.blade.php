@@ -14,7 +14,7 @@
                         <div class="flex items-center space-x-4">
                             <div class="flex-shrink-0">
                                 <img alt="Thumbnail of Juice Slider" class="w-12 h-12 rounded-full"
-                                    src="https://storage.googleapis.com/a1aa/image/t0n560aaRmjPTxTzIw1sTLi0mcmTR9T18TaeGowluao.jpg" />
+                                    src="{{ $notification->user->getImgUrl() }}" />
                             </div>
                             <div class="w-[100%]">
                                 <p class="text-gray-700">
