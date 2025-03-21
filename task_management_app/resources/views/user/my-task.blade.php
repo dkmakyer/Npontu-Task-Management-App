@@ -6,7 +6,7 @@
 
 @section('script')
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
 @endsection
 
 @section('stylesheet')
@@ -411,10 +411,25 @@
 
                 <!-- Tasks Properties -->
                 <div class="flex space-x-6">
-                    <div class="space-y-6 flex flex-col space-y-4 w-[100%]">
-                        <div class="bg-transparent rounded-lg w-[100%] flex justify-between ">
+                    <div class="flex flex-col w-[100%] space-y-6">
+                        <div class="bg-white rounded-lg w-[100%] flex justify-evenly space-x-4">
                             <!-- Task Status -->
-                            <div
+
+
+                            @if ($ownerTasks)
+                                <div>
+                                    <canvas id="myTasksStats" style="height: 270px !important;"></canvas>
+                                </div>
+                                <div class="">
+                                    <canvas id="collaboratedTasksStats" style="height: 270px !important;"></canvas>
+                                </div>
+                            @else
+                                <div class="w-[80%]">
+                                    <canvas id="myTasksStats" style="height: 150px !important;"></canvas>
+                                </div>
+                            @endif
+
+                            {{-- <div
                                 class="flex justify-center space-x-[2rem] items-center w-[100%] bg-white p-6 rounded-lg hover:shadow-lg transform hover:-translate-y-2 transition-all duration-300 cursor-pointer">
                                 <div class="text-center">
                                     <p class="text-xl font-bold text-gray-500 mb-2">Completed</p>
@@ -457,12 +472,12 @@
                                     </div>
                                 </div>
 
-                            </div>
+                            </div> --}}
                         </div>
 
                         <!-- All Tasks -->
                         @if ($ownerTasks)
-                            <div class="flex h-[30rem] flex-col md:flex-row space-y-6 md:space-y-0 md:space-x-6 w-[100%]">
+                            <div class="flex h-[26rem] flex-col md:flex-row space-y-6 md:space-y-0 md:space-x-6 w-[100%]">
                                 <div class="flex flex-row gap-2">
                                     <!-- User Tasks -->
                                     <div class="bg-white p-6 rounded-lg shadow-md w-full h-[110%] md:w-1/2 overflow-y-auto">
@@ -491,7 +506,8 @@
                                                                     {{ " $task->priority" }}
                                                                     |
                                                                     Status:
-                                                                    <span class="task-status">In progress</span>
+                                                                    <span
+                                                                        class="task-status">{{ $task->due_date < now() ? 'Uncompleted' : 'In progress' }}</span>
                                                                 </div>
                                                                 @can('edit', $task)
                                                                     <div class="flex justify-end">
@@ -586,7 +602,8 @@
                                                             {{ " $task->priority" }}
                                                             |
                                                             Status:
-                                                            <span class="task-status">In progress</span>
+                                                            <span
+                                                                class="task-status">{{ $task->due_date < now() ? 'Uncompleted' : 'In progress' }}</span>
                                                         </div>
                                                         @can('edit', $task)
                                                             <div class="flex justify-end">
@@ -618,9 +635,10 @@
                             </div>
                         @endif
                     </div>
+
                     <!-- Task details -->
                     <div
-                        class="task-details overflow-y-auto bg-white h-[47.5rem] p-6 rounded-lg shadow-lg w-[45%] space-y-[3rem]">
+                        class="task-details overflow-y-auto bg-white h-[47rem] p-6 rounded-lg shadow-lg w-[45%] space-y-[3rem]">
                         @if (session('selectedTask'))
                             <div class="flex items-center space-x-4 mb-4">
                                 <img alt="Document submission illustration" class="rounded-lg" height="100"
@@ -629,7 +647,9 @@
                                     <h2 class="text-xl font-bold">{{ session('selectedTask')->user->username }}</h2>
                                     <div class="flex flex-col text-sm text-gray-400">
                                         <p>Priority: {{ ' ' . session('selectedTask')->priority }}</p>
-                                        <p>Status: {{ 'In progress' }}</p>
+                                        <p>Status:
+                                            {{ session('selectedTask')->due_date < now() ? 'Uncompleted' : 'In progress' }}
+                                        </p>
                                     </div>
                                 </div>
                             </div>
@@ -674,7 +694,8 @@
                                         <h2 class="text-xl font-bold">{{ $tasks[0]->user->username }}</h2>
                                         <div class="flex flex-col text-sm text-gray-400">
                                             <span>Priority: {{ ' ' . $tasks[0]->priority }}</span>
-                                            <span>Status: In progress</span>
+                                            <span>Status:
+                                                {{ $tasks[0]->due_date < now() ? 'Uncompleted' : 'In progress' }}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -857,9 +878,51 @@
                     window.location.href = url;
                 }
             }
+
+            const xValuesForMyTasks = ["In progress", "Completed", "Uncompleted"];
+            const yValuesForMyTasks = [{{ $inProgress }}, {{ $completed }}, {{ $uncompleted }}, ];
+
+            const xValuesForCollabTasks = ["In progress", "Uncompleted"];
+            const yValuesForCollabTasks = [{{ $ownerTasks ? $ownerTasks->count() : 0 }}, {{ $uncompletedCollabTasks }}, ];
+
+            const myTasksStat = document.getElementById('myTasksStats');
+            const collaboratedTasksStat = document.getElementById('collaboratedTasksStats');
+
+            createChart(xValuesForMyTasks, yValuesForMyTasks, myTasksStat, "bar", "My Tasks Statistics");
+            createChart(xValuesForCollabTasks, yValuesForCollabTasks, collaboratedTasksStat, 'bar',
+                "Collaborated Tasks Statistics");
+
+
+            function createChart(xValues, yValues, chartFor, type, title) {
+                new Chart(chartFor, {
+                    type: type,
+                    data: {
+                        labels: xValues,
+                        datasets: [{
+                            data: yValues,
+                        }]
+                    },
+                    options: {
+                        legend: {
+                            display: false
+                        },
+                        title: {
+                            display: true,
+                            text: title
+                        },
+                        scales: {
+                            yAxes: [{
+                                ticks: {
+                                    beginAtZero: true
+                                }
+                            }],
+                        }
+                    }
+                });
+
+            }
         </script>
         <script src="{{ asset('assets/js/task.js') }}"></script>
-        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 
     </body>

@@ -27,19 +27,16 @@ class CollaborationController extends Controller
 
         try {
             $receipient = User::where('email', $request->email)->with(['notifications', 'collaborators', 'tasks', 'completedTasks'])->firstOrFail();
-            if ($receipient) {
-                if ($receipient->id != Auth::user()->id) {
-                    $sender = User::with(relations: ['notifications', 'collaborators', 'tasks', 'completedTasks'])->find(Auth::user()->id);
-                    event(new CollaborationEvent($sender, $request->email));
-                } else {
-                    dd('cannot send a collaboration request to yourself');
-                }
+
+            if ($receipient->id != Auth::user()->id) {
+                $sender = User::with(relations: ['notifications', 'collaborators', 'tasks', 'completedTasks'])->find(Auth::user()->id);
+                event(new CollaborationEvent($sender, $request->email));
             } else {
-                dd('user not found');
+                dd('cannot send a collaboration request to yourself');
             }
             return back();
         } catch (ModelNotFoundException $e) {
-            dd($e->getMessage());
+            dd('user not found');
         }
     }
 

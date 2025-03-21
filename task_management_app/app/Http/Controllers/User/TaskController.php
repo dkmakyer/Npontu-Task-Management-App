@@ -27,32 +27,30 @@ class TaskController extends Controller
 
     public function index()
     {
-        $id = Auth::user()->id;
-        $user = User::with(relations: ['notifications', 'collaborators', 'tasks', 'completedTasks'])->find($id);
+        $user = $this->getAuthUser();
+        $tasks = $this->getMyTasks(user: $user, columnForCondition: 'completed', value: false, limit: 5);
+        $completedTasks = $this->getMyTasks(user: $user, columnForCondition: 'completed', value: true, limit: null);
 
-        $tasks = $user->tasks()->latest()->where('due_date', '>', Carbon::now())->limit(5)->get();
-        $completedTasks = $user->tasks()->latest()->where('completed', true)->get();
+        $uncompletedTasks = $user->tasks()->where('completed', false)->where('due_date', '<', Carbon::now())->with(['user', 'notifications'])->latest()->get();
+        $inProgress = $user->tasks()->where('completed', false)->where('due_date', '>', Carbon::now())->with(['user', 'notifications'])->latest()->get();
 
-        $uncompletedTasks = $user->tasks()->latest()->where('completed', false)->where('due_date', '<=', Carbon::now())->get();
-        $inProgress = $user->tasks()->latest()->where('due_date', '>', Carbon::now())->get();
-
-        $allUsersTasks = $user->tasks()->latest()->get();
-        $uncompletedPercentage = $this->calculatePercentage($allUsersTasks->count(), $uncompletedTasks->count());
-
-        $completedPercentage = $this->calculatePercentage($allUsersTasks->count(), $completedTasks->count());
-        $inProgressPercentage = $this->calculatePercentage($allUsersTasks->count(), $inProgress->count());
-
-        $ownerTasks = $this->getOwnerTasks($id);
+        $array = $this->getOwnerTasks($user->id);
+        $ownerTasks = null;
+        $uncompletedOwnerTasks = 0;
+        if ($array) {
+            $ownerTasks = $array[0];
+            $uncompletedOwnerTasks = $array[1];
+        }
 
         // $this->sendReminder();
         $collaborators = $user->collaborators;
 
 
         if ($collaborators->count()) {
-            return view('user.my-task', ['tasks' => $tasks, 'collaborators' => $collaborators, 'ownerTasks' => $ownerTasks, 'completed' => $completedPercentage, 'uncompleted' => $uncompletedPercentage, 'inProgress' => $inProgressPercentage]);
+            return view('user.my-task', ['tasks' => $tasks, 'collaborators' => $collaborators, 'ownerTasks' => $ownerTasks, 'completed' => $completedTasks->count(), 'uncompleted' => $uncompletedTasks->count(), 'inProgress' => $inProgress->count(), 'uncompletedCollabTasks' => $uncompletedOwnerTasks]);
         }
 
-        return view('user.my-task', ['tasks' => $tasks, 'collaborators' => null, 'ownerTasks' => $ownerTasks, 'completed' => $completedPercentage, 'uncompleted' => $uncompletedPercentage, 'inProgress' => $inProgressPercentage]);
+        return view('user.my-task', ['tasks' => $tasks, 'collaborators' => null, 'ownerTasks' => $ownerTasks, 'completed' => $completedTasks->count(), 'uncompleted' => $uncompletedTasks->count(), 'inProgress' => $inProgress->count(), 'uncompletedCollabTasks' => $uncompletedOwnerTasks]);
     }
 
     public function store(Request $request, int $id)
@@ -97,7 +95,7 @@ class TaskController extends Controller
             return back()->with(['error' => 'Please fill in this field']);
         }
 
-        $user = User::with(relations: ['notifications', 'collaborators', 'tasks', 'completedTasks'])->find(Auth::user()->id);
+        $user = $this->getAuthUser();
 
         // search through the users tasks to find the one that looks like the search field's value
         $result = $user->tasks()->latest()->where(column: 'title', operator: 'LIKE', value: "%$request->search%")->get();
@@ -185,28 +183,29 @@ class TaskController extends Controller
     public function showRecentlyCompletedTasks()
     {
         // to get the currently authenticated user
-        $user = User::with(relations: ['notifications', 'collaborators', 'tasks', 'completedTasks'])->find(Auth::user()->id);
+        $user = $this->getAuthUser();
         // getting tasks that belongs to the authenticated user and have the status completed from the database
         $completedTasks = $user->completedTasks()->where('completed', true)->get();
-        $allTasks = $user->tasks()->where('completed', false)->latest()->get();
+        $allTasks = $this->getMyTasks($user, 'completed', value: false, limit: null);
         return view('user.all-tasks', ['completedTasks' => $completedTasks, 'tasks' => $allTasks]);
     }
 
     public function filterTasks($filter)
     {
-        $user = User::with(relations: ['notifications', 'collaborators', 'tasks', 'completedTasks'])->find(Auth::user()->id);
+        $user = $this->getAuthUser();
         switch ($filter) {
             case 'educational':
                 $tasks = $user->completedTasks()->where('completed', true)->where('category', 'Educational')->get();
-                $allTasksFilter = $user->tasks()->where('completed', false)->where('category', 'Educational')->latest()->get();
+                $allTasksFilter = $this->getMyTasks($user, 'completed', value: 'Educational', limit: null);
                 break;
             case 'health':
                 $tasks = $user->completedTasks()->where('completed', true)->where('category', 'Health and Fitness')->get();
-                $allTasksFilter = $user->tasks()->where('completed', false)->where('category', 'Health and Fitness')->latest()->get();
+                $allTasksFilter = $this->getMyTasks($user, 'completed', value: 'Health and Fitness', limit: null);
                 break;
             case 'all':
                 $tasks = $user->completedTasks()->where('completed', true)->get();
-                $allTasksFilter = $user->tasks()->where('completed', false)->latest()->get();
+                $allTasksFilter = $this->getMyTasks($user, 'completed', value: false, limit: null);
+
                 break;
             default:
                 $tasks = null;
@@ -245,19 +244,22 @@ class TaskController extends Controller
     public function getOwnerTasks($id)
     {
         $ownerTasks = collect();
+
         try {
             $collaborator = Collaborator::with(['users', 'user'])->where('collaborated_by', $id)->firstOrFail();
             $owners = $collaborator->users;
             if ($owners->count()) {
                 foreach ($owners as $owner) {
-                    $task = $owner->tasks()->latest()->where('completed', false)->get();
+                    $task = $owner->tasks()->latest()->where('completed', false)->where('due_date', '>', Carbon::now())->get();
+                    global $uncompletedTask;
+                    $uncompletedTask = $owner->tasks()->latest()->where('due_date', '<', Carbon::now())->where('completed', false)->get()->count();
                     foreach ($task as $ownerTask) {
                         $ownerTasks->push($ownerTask);
                     }
                 }
             }
 
-            if ($ownerTasks->count()) return $ownerTasks;
+            if ($ownerTasks->count()) return [$ownerTasks, $uncompletedTask];
             return null;
         } catch (ModelNotFoundException $e) {
             return null;
@@ -275,5 +277,24 @@ class TaskController extends Controller
         } catch (DivisionByZeroError $e) {
             return 0;
         }
+    }
+
+    public function getMyTasks($user, ?string $columnForCondition, null|bool|string|object $value, ?int $limit, string $operator = '=',)
+    {
+
+        if ($columnForCondition) {
+            return $user->tasks()->where($columnForCondition, $operator, $value)->with(['user', 'notifications'])->latest()->get();
+        } else if ($columnForCondition && $limit) {
+            return $user->tasks()->where($columnForCondition, $operator, $value)->with(['user', 'notifications'])->latest()->limit($limit)->get();
+        } else if ($limit) {
+            return $user->tasks()->with(['user', 'notifications'])->latest()->limit($limit)->get();
+        }
+
+        return $user->tasks()->with(['user', 'notifications'])->latest()->get();
+    }
+
+    public function getAuthUser()
+    {
+        return User::with(['notifications', 'collaborators', 'tasks', 'completedTasks'])->find(Auth::user()->id);
     }
 }
