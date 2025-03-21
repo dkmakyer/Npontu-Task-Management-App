@@ -230,9 +230,9 @@
                                             </div>
                                         @endforeach
                                     @else
-                                        <div class="flex justify-center items-center mb-4">
-                                            <h2 class="text-[13px] flex flex-row items-center gap-4">
-                                                <span class="text-red-400 text-[20px]">No record found
+                                        <div class="flex justify-center items-center mb-4 w-[100%]">
+                                            <h2 class="text-[20px] flex flex-row items-center gap-4">
+                                                <span class="text-gray-400 text-[20px]">No record found
                                                 </span>
                                             </h2>
                                         </div>

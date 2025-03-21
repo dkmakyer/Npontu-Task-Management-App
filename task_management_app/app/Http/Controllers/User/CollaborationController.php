@@ -31,6 +31,8 @@ class CollaborationController extends Controller
                 if ($receipient->id != Auth::user()->id) {
                     $sender = User::with(relations: ['notifications', 'collaborators', 'tasks', 'completedTasks'])->find(Auth::user()->id);
                     event(new CollaborationEvent($sender, $request->email));
+                } else {
+                    dd('cannot send a collaboration request to yourself');
                 }
             } else {
                 dd('user not found');
@@ -56,13 +58,17 @@ class CollaborationController extends Controller
         $request = CollaborationNotification::find($id);
         $sender = $request->user_id;
         $receipient = User::where('email', $request->receiver_email)->with(['tasks', 'completedTasks', 'notifications', 'collaborators'])->first();
-        $collaborator = Collaborator::create(['collaborated_by' => $receipient->id]);
+
         try {
+            $collaborator = Collaborator::where(['collaborated_by' => $receipient->id])->firstOrFail();
             $collaborator->users()->attach($sender);
             $request->delete();
             return back();
-        } catch (Exception $e) {
-            dd($e->getMessage());
+        } catch (ModelNotFoundException $e) {
+            $collaborator = Collaborator::create(['collaborated_by' => $receipient->id]);
+            $collaborator->users()->attach($sender);
+            $request->delete();
+            return back();
         }
     }
 
@@ -74,35 +80,25 @@ class CollaborationController extends Controller
 
     public function getOwners($id)
     {
-        // creating a collection instance representing the owners of a collaboration
-        $owners = collect();
-        $collaborators = Collaborator::where('collaborated_by', $id)->with(['user', 'users'])->get();
+        $collaborator = Collaborator::with(['users', 'user'])->where('collaborated_by', $id)->with(['user', 'users'])->first();
 
-        if ($collaborators->count()) {
-            foreach ($collaborators as $collaborator) {
-                $owner = $collaborator->users;
-                foreach ($owner as $manager) {
-                    $owners->push($manager);
-                }
+        if ($collaborator) {
+            $owners = $collaborator->users;
+            if ($owners->count()) {
+                return $owners;
             }
-        }
-        if ($owners->count()) {
-            return $owners;
         }
         return null;
     }
-
     public function leaveCollaboration(int $ownerId)
     {
         $owner = User::find($ownerId);
-        $collaborators = $owner->collaborators;
-
-        foreach ($collaborators as $collaborator) {
-            if ($collaborator->collaborated_by === Auth::user()->id) {
-                Collaborator::destroy($collaborator->id);
-                break;
-            }
+        try {
+            $collaborator = Collaborator::with(['users', 'user'])->where('collaborated_by', Auth::user()->id)->firstOrFail();
+            $owner->collaborators()->detach($collaborator->id);
+            return back();
+        } catch (MOdelNotFoundException $e) {
+            return back()->with(['error' => 'Something unexpected happened']);
         }
-        return back();
     }
 }

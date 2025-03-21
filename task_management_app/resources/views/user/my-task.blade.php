@@ -461,7 +461,7 @@
                         </div>
 
                         <!-- All Tasks -->
-                        @if ($ownerTasks->count())
+                        @if ($ownerTasks)
                             <div class="flex h-[30rem] flex-col md:flex-row space-y-6 md:space-y-0 md:space-x-6 w-[100%]">
                                 <div class="flex flex-row gap-2">
                                     <!-- User Tasks -->

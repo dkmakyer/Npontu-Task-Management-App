@@ -11,9 +11,11 @@ use App\Models\Task;
 use Carbon\Carbon;
 use DivisionByZeroError;
 use Exception;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Validation\ValidationException;
 
 class TaskController extends Controller
 {
@@ -91,7 +93,7 @@ class TaskController extends Controller
             $request->validate([
                 'search' => 'required'
             ]);
-        } catch (Exception $e) {
+        } catch (ValidationException $e) {
             return back()->with(['error' => 'Please fill in this field']);
         }
 
@@ -101,10 +103,9 @@ class TaskController extends Controller
         $result = $user->tasks()->latest()->where(column: 'title', operator: 'LIKE', value: "%$request->search%")->get();
         $response = $result->count() ? true : false;
 
-        if ($response) {
-            // return back with result which will be a session key
-            return back()->with(['result' => $result]);
-        }
+
+        // return back with result which will be a session key
+        return back()->with(['result' => $result]);
     }
 
     public function showTaskDetails(int $id)
@@ -244,10 +245,10 @@ class TaskController extends Controller
     public function getOwnerTasks($id)
     {
         $ownerTasks = collect();
-        $collaborators = Collaborator::with(['users', 'user'])->where('collaborated_by', $id)->get();
-        if ($collaborators->count()) {
-            foreach ($collaborators as $collaborator) {
-                $owners = $collaborator->users;
+        try {
+            $collaborator = Collaborator::with(['users', 'user'])->where('collaborated_by', $id)->firstOrFail();
+            $owners = $collaborator->users;
+            if ($owners->count()) {
                 foreach ($owners as $owner) {
                     $task = $owner->tasks()->latest()->where('completed', false)->get();
                     foreach ($task as $ownerTask) {
@@ -255,9 +256,12 @@ class TaskController extends Controller
                     }
                 }
             }
+
+            if ($ownerTasks->count()) return $ownerTasks;
+            return null;
+        } catch (ModelNotFoundException $e) {
+            return null;
         }
-        if ($ownerTasks) return $ownerTasks;
-        return null;
     }
 
     public function calculatePercentage(int $total, int $count)
